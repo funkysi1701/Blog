@@ -1,5 +1,5 @@
 ﻿@page "/"
-
+@using System.Globalization
 @using WebBlog.Data
 @using WebBlog.Shared
 @inject BlogService BlogService
@@ -17,17 +17,15 @@ else
                 <th>Date</th>
                 <th>Title</th>
                 <th>Description</th>
-                @*<th>Author</th>*@
             </tr>
         </thead>
         <tbody>
             @foreach (var post in blogs)
             {
                 <tr>
-                    <td>@post.Published_At.ToString("dd/MM/yyyy")</td>
+                    <td>@post.Published_At.ToString("dd/MM/yyyy", CultureInfo.CurrentCulture)</td>
                     <td><a href="/posts/@post.Slug">@post.Title</a></td>
                     <td>@post.Description</td>
-                    @*<td><a href="https://twitter.com/@post.User.Twitter_Username">@post.User.Twitter_Username</a></td>*@
                 </tr>
             }
         </tbody>
