@@ -1,0 +1,33 @@
+﻿@page "/posts/{slug}"
+
+@using WebBlog.Data
+@inject BlogService BlogService
+
+@if (blogs == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>@thisblog.Title</h1>
+
+    @((MarkupString)thisblog.Body_Html)
+
+    <div id="disqus_thread"></div>
+}
+
+@code {
+    private List<BlogPosts> blogs;
+    private int thisid;
+    private BlogPosts thisblog;
+    [Parameter]
+    public string Slug { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        blogs = await BlogService.GetBlogsAsync();
+
+        thisid = blogs.Where(x => x.Slug == Slug).FirstOrDefault().Id;
+        thisblog = await BlogService.GetBlogPostAsync(thisid);
+    }
+}
