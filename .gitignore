@@ -1,4 +1,6 @@
-/.vs
-/WebBlog/bin
-/WebBlog/obj
+.vs
+bin
+obj
 .vscode
+NDependOut
+*.user
