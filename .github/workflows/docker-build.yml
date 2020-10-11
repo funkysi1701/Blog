@@ -19,6 +19,7 @@ jobs:
       env:
         DEVTOAPI: ${{ secrets.DEVTOAPI }}
         DEVTOURL: ${{ secrets.DEVTOURL }}
+      run: ls
     - name: Build
       run: dotnet build -c Release --no-cache ./src/WebBlog.sln
         
