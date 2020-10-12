@@ -14,7 +14,7 @@ namespace WebBlog.Test
     public class UnitTest
     {
         private BlogService BlogService;
-        
+
         public UnitTest()
         {
             var config = Config.GetIConfiguration(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
@@ -34,9 +34,17 @@ namespace WebBlog.Test
         }
 
         [Fact]
-        public async Task BlogServiceTest()
+        public async Task GetBlogsAsync()
         {
             var blogs = await BlogService.GetBlogsAsync();
+            Assert.NotEmpty(blogs);
+        }
+
+        [Fact]
+        public async Task GetBlogPostAsync()
+        {
+            var blogs = await BlogService.GetBlogsAsync();
+            var post = await BlogService.GetBlogPostAsync(blogs[0].Id);
             Assert.NotEmpty(blogs);
         }
 
