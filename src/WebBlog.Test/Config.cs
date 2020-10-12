@@ -8,7 +8,6 @@ namespace WebBlog.Test
         {
             return new ConfigurationBuilder()
                 .SetBasePath(outputPath)
-                .AddEnvironmentVariables()
                 .AddJsonFile("appsettings.json", optional: true)
                 .Build();
         }

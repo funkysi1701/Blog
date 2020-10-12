@@ -11,10 +11,11 @@ using Xunit;
 
 namespace WebBlog.Test
 {
-    public class UnitTest1
+    public class UnitTest
     {
-        BlogService BlogService;
-        public UnitTest1()
+        private BlogService BlogService;
+        
+        public UnitTest()
         {
             var config = Config.GetIConfiguration(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
             var mockFactory = new Mock<IHttpClientFactory>();
