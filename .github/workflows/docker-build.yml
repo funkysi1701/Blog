@@ -15,7 +15,13 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.100-rc.1.20452.10
-        
+    - name: App Settings Variable Substitution
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: './src/WebBlog/appsettings.json, ./src/WebBlog.Test/appsettings.json'
+      env:
+        DEVTOAPI: ${{ secrets.DEVTOAPI }}
+        DEVTOURL: ${{ secrets.DEVTOURL }}
     - name: Build
       run: dotnet build -c Release --no-cache ./src/WebBlog.sln
         

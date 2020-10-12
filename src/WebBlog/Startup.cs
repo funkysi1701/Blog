@@ -24,7 +24,7 @@ namespace WebBlog
         {
             services.AddHttpClient("BlogClient", client =>
             {
-                client.BaseAddress = new Uri("https://dev.to/api/");
+                client.BaseAddress = new Uri(Configuration.GetValue<string>("DEVTOURL"));
             });
             services.AddRazorPages();
             services.AddServerSideBlazor()
