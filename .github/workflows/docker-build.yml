@@ -20,8 +20,8 @@ jobs:
       with:
         files: '/home/runner/work/Blog/Blog/src/WebBlog/appsettings.json'
       env:
-        AppSettings.DEVTOAPI: ${{ secrets.DEVTOAPI }}
-        AppSettings.DEVTOURL: ${{ secrets.DEVTOURL }}
+        DEVTOAPI: ${{ secrets.DEVTOAPI }}
+        DEVTOURL: ${{ secrets.DEVTOURL }}
     - name: Build
       run: dotnet build -c Release --no-cache ./src/WebBlog.sln
         
