@@ -4,10 +4,13 @@
     <TargetFramework>net5.0</TargetFramework>
     <ApplicationInsightsResourceId>/subscriptions/aa403fbf-410c-4158-9746-9c5f82cfa2dc/resourceGroups/Blog/providers/microsoft.insights/components/FSiBlog</ApplicationInsightsResourceId>
     <UserSecretsId>de9eaf7b-325b-4049-a5dd-3aa877b5c692</UserSecretsId>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
