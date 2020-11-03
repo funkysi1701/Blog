@@ -17,6 +17,8 @@ steps:
     azureContainerRegistry: '{"loginServer":"funkysi1701.azurecr.io", "id" : "/subscriptions/aa403fbf-410c-4158-9746-9c5f82cfa2dc/resourceGroups/Containers/providers/Microsoft.ContainerRegistry/registries/funkysi1701"}'
     dockerComposeFile: 'src/docker-compose.yml'
     action: 'Build services'
+    additionalImageTags: '$(Build.BuildId)'
+    includeSourceTags: true
 - task: DockerCompose@0
   inputs:
     containerregistrytype: 'Azure Container Registry'
@@ -24,3 +26,5 @@ steps:
     azureContainerRegistry: '{"loginServer":"funkysi1701.azurecr.io", "id" : "/subscriptions/aa403fbf-410c-4158-9746-9c5f82cfa2dc/resourceGroups/Containers/providers/Microsoft.ContainerRegistry/registries/funkysi1701"}'
     dockerComposeFile: 'src/docker-compose.yml'
     action: 'Push services'
+    additionalImageTags: '$(Build.BuildId)'
+    includeSourceTags: true
