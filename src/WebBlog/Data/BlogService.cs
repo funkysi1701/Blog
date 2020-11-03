@@ -20,9 +20,9 @@ namespace WebBlog.Data
         public async Task<List<BlogPosts>> GetBlogsAsync()
         {
             var call = Client.GetAsync(new Uri(Client.BaseAddress + "articles/me?per_page=100"));
-            HttpResponseMessage httpResponse = await call.ConfigureAwait(false);
+            HttpResponseMessage httpResponse = await call;
 
-            string result = httpResponse.Content.ReadAsStringAsync().Result;
+            string result = await httpResponse.Content.ReadAsStringAsync();
             List<BlogPosts> posts = JsonConvert.DeserializeObject<List<BlogPosts>>(result);
             httpResponse.Dispose();
 
@@ -32,9 +32,9 @@ namespace WebBlog.Data
         public async Task<BlogPosts> GetBlogPostAsync(int id)
         {
             var call = Client.GetAsync(new Uri(Client.BaseAddress + "articles/" + id.ToString()));
-            HttpResponseMessage httpResponse = await call.ConfigureAwait(false);
+            HttpResponseMessage httpResponse = await call;
 
-            string result = httpResponse.Content.ReadAsStringAsync().Result;
+            string result = await httpResponse.Content.ReadAsStringAsync();
             BlogPosts posts = JsonConvert.DeserializeObject<BlogPosts>(result);
             httpResponse.Dispose();
 
