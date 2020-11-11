@@ -33,10 +33,10 @@ namespace WebBlog.Data
 
         public async Task<List<BlogPosts>> GetBlogsAsync(int start, int count, CancellationToken token)
         {
-            var call = Client.GetAsync(new Uri(Client.BaseAddress + "articles/me?per_page=100"));
+            var call = Client.GetAsync(new Uri(Client.BaseAddress + "articles/me?per_page=100"), token);
             HttpResponseMessage httpResponse = await call;
 
-            string result = await httpResponse.Content.ReadAsStringAsync();
+            string result = await httpResponse.Content.ReadAsStringAsync(token);
             List<BlogPosts> posts = JsonConvert.DeserializeObject<List<BlogPosts>>(result);
             httpResponse.Dispose();
 
