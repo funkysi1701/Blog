@@ -2,7 +2,9 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebBlog.Data
@@ -27,6 +29,18 @@ namespace WebBlog.Data
             httpResponse.Dispose();
 
             return posts;
+        }
+
+        public async Task<List<BlogPosts>> GetBlogsAsync(int start, int count, CancellationToken token)
+        {
+            var call = Client.GetAsync(new Uri(Client.BaseAddress + "articles/me?per_page=100"));
+            HttpResponseMessage httpResponse = await call;
+
+            string result = await httpResponse.Content.ReadAsStringAsync();
+            List<BlogPosts> posts = JsonConvert.DeserializeObject<List<BlogPosts>>(result);
+            httpResponse.Dispose();
+
+            return posts.OrderByDescending(x => x.Published_At).Where(y => y.Published_At <= posts[start].Published_At).Take(count).ToList();
         }
 
         public async Task<BlogPosts> GetBlogPostAsync(int id)

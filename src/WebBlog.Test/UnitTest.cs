@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using System;
@@ -47,6 +46,5 @@ namespace WebBlog.Test
             var post = await BlogService.GetBlogPostAsync(blogs[0].Id);
             Assert.NotEmpty(blogs);
         }
-
     }
 }

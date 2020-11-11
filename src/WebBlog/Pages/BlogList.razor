@@ -2,41 +2,54 @@
 @using System.Globalization
 @using WebBlog.Data
 @using WebBlog.Shared
+@using Microsoft.AspNetCore.Components.Web.Virtualization
 @inject BlogService BlogService
 
-@if (blogs == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <Tag></Tag>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Title</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var post in blogs)
-            {
+<Tag></Tag>
+<table class="table" style="height:500px;overflow-y:scroll">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Title</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <Virtualize ItemsProvider="@LoadData">
+            <ItemContent Context="post">
                 <tr>
                     <td>@post.Published_At.ToString("dd/MM/yyyy", CultureInfo.CurrentCulture)</td>
                     <td><a href="/posts/@post.Slug">@post.Title</a></td>
                     <td>@post.Description</td>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </ItemContent>
+            <Placeholder>
+                <tr>
+                    <td>Loading&hellip;</td>
+                    <td>Loading&hellip;</td>
+                    <td>Loading&hellip;</td>
+                </tr>
+            </Placeholder>
+        </Virtualize>
+    </tbody>
+</table>
 
 @code {
-    private List<BlogPosts> blogs;
+    private int postcount = 120;
 
     protected override async Task OnInitializedAsync()
     {
-        blogs = await BlogService.GetBlogsAsync();
+        var posts = await BlogService.GetBlogsAsync();
+        postcount = posts.Count;
+        StateHasChanged();
+    }
+
+    private async ValueTask<ItemsProviderResult<BlogPosts>> LoadData(ItemsProviderRequest request)
+    {
+        var num = Math.Min(request.Count, postcount - request.StartIndex);
+        var posts = await BlogService.GetBlogsAsync(request.StartIndex,
+            num, request.CancellationToken);
+        return new ItemsProviderResult<BlogPosts>(posts, postcount);
     }
 }
