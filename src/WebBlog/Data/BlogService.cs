@@ -31,16 +31,23 @@ namespace WebBlog.Data
             return posts;
         }
 
-        public async Task<List<BlogPosts>> GetBlogsAsync(int start, int count, CancellationToken token)
+        public async Task<List<BlogPosts>> GetBlogsAsync(int start, int count)
         {
-            var call = Client.GetAsync(new Uri(Client.BaseAddress + "articles/me?per_page=100"), token);
+            var call = Client.GetAsync(new Uri(Client.BaseAddress + "articles/me?per_page=100"));
             HttpResponseMessage httpResponse = await call;
 
-            string result = await httpResponse.Content.ReadAsStringAsync(token);
+            string result = await httpResponse.Content.ReadAsStringAsync();
             List<BlogPosts> posts = JsonConvert.DeserializeObject<List<BlogPosts>>(result);
             httpResponse.Dispose();
-
-            return posts.OrderByDescending(x => x.Published_At).Where(y => y.Published_At <= posts[start].Published_At).Take(count).ToList();
+            if (posts[start] == null)
+            {
+                return posts.OrderByDescending(x => x.Published_At).ToList();
+            }
+            else if(posts.OrderByDescending(x => x.Published_At).Where(y => y.Published_At <= posts[start].Published_At).Count() > count)
+            {
+                return posts.OrderByDescending(x => x.Published_At).Where(y => y.Published_At <= posts[start].Published_At).Take(count).ToList();
+            }
+            else return posts.OrderByDescending(x => x.Published_At).Where(y => y.Published_At <= posts[start].Published_At).ToList();
         }
 
         public async Task<BlogPosts> GetBlogPostAsync(int id)

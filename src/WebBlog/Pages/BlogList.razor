@@ -6,7 +6,7 @@
 @inject BlogService BlogService
 
 <Tag></Tag>
-<table class="table" style="height:500px;overflow-y:scroll">
+<table class="table" style="">
     <thead>
         <tr>
             <th>Date</th>
@@ -15,7 +15,6 @@
         </tr>
     </thead>
     <tbody>
-
         <Virtualize ItemsProvider="@LoadData">
             <ItemContent Context="post">
                 <tr>
@@ -36,20 +35,25 @@
 </table>
 
 @code {
-    private int postcount = 120;
+    private int postcount = 60;
 
     protected override async Task OnInitializedAsync()
     {
         var posts = await BlogService.GetBlogsAsync();
         postcount = posts.Count;
-        StateHasChanged();
     }
 
     private async ValueTask<ItemsProviderResult<BlogPosts>> LoadData(ItemsProviderRequest request)
     {
-        var num = Math.Min(request.Count, postcount - request.StartIndex);
-        var posts = await BlogService.GetBlogsAsync(request.StartIndex,
-            num, request.CancellationToken);
-        return new ItemsProviderResult<BlogPosts>(posts, postcount);
+        try
+        {
+            var num = Math.Min(request.Count, postcount - request.StartIndex);
+            var posts = await BlogService.GetBlogsAsync(request.StartIndex, num);
+            return new ItemsProviderResult<BlogPosts>(posts, postcount);
+        }
+        catch(Exception e)
+        {
+            return new ItemsProviderResult<BlogPosts>(null, 0);
+        }
     }
 }
