@@ -15,6 +15,10 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- script: '(echo $(Build.BuildNumber) && echo $(Build.BuildId)) > .buildinfo.json'
+  displayName: "Emit build number"
+  workingDirectory: '$(Build.SourcesDirectory)/src/WebBlog'
+  failOnStderr: true
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
