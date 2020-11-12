@@ -15,6 +15,10 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- script: '(echo $(Build.BuildNumber) && echo $(Build.BuildId)) > .buildinfo.json'
+  displayName: "Emit build number"
+  workingDirectory: '$(Build.SourcesDirectory)/src/WebBlog'
+  failOnStderr: true
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
@@ -39,7 +43,7 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: true
-    arguments: '--output $(Build.ArtifactStagingDirectory)'
+    arguments: '--output $(Build.ArtifactStagingDirectory) /p:SourceRevisionId=$(Build.SourceVersion)'
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Pipeline.Workspace)/a/WebBlog.zip'

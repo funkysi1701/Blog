@@ -1,0 +1,34 @@
+﻿@page "/config"
+
+@inject WebBlog.AppVersionInfo appInfo
+
+<h1>Config</h1>
+
+<div class="post-content">
+    <table>
+        <tr>
+            <td>
+                .Net Version
+            </td>
+            <td>
+                @System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Commit
+            </td>
+            <td>
+                <a href="https://github.com/funkysi1701/Blog/commit/@appInfo.GitHash">@appInfo.ShortGitHash</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Build
+            </td>
+            <td>
+                <a href="https://dev.azure.com/funkysi1701/Blog/_build/results?buildId=@appInfo.BuildId&view=results">@appInfo.BuildNumber</a>
+            </td>
+        </tr>
+    </table>
+</div>

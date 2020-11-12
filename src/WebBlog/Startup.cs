@@ -32,6 +32,7 @@ namespace WebBlog
             services.AddSingleton<BlogService>();
             services.AddHttpContextAccessor();
             services.AddApplicationInsightsTelemetry(Configuration.GetSection("ApplicationInsights").GetValue<string>("InstrumentationKey"));
+            services.AddSingleton<AppVersionInfo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
