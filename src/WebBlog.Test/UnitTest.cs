@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Moq;
 using System;
 using System.IO;
@@ -45,6 +46,18 @@ namespace WebBlog.Test
             var blogs = await BlogService.GetBlogsAsync();
             var post = await BlogService.GetBlogPostAsync(blogs[0].Id);
             Assert.NotEmpty(blogs);
+        }
+
+        [Fact]
+        public void AppVersionInfoTest()
+        {
+            var mockEnvironment = new Mock<IHostEnvironment>();
+            mockEnvironment.Setup(m => m.ContentRootPath).Returns("");
+            var t = new AppVersionInfo(mockEnvironment.Object);
+            Assert.Equal("123456", t.BuildId);
+            Assert.Equal(DateTime.UtcNow.ToString("yyyyMMdd") + ".0", t.BuildNumber);
+            Assert.Equal("LOCALBUILD", t.GitHash);
+            Assert.Equal("LBUILD", t.ShortGitHash);
         }
     }
 }
