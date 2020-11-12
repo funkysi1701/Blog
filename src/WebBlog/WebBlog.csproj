@@ -6,6 +6,9 @@
     <UserSecretsId>de9eaf7b-325b-4049-a5dd-3aa877b5c692</UserSecretsId>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <Company>funkysi1701</Company>
+    <Product>WebBlog</Product>
+    <Authors>funkysi1701</Authors>
   </PropertyGroup>
 
   <ItemGroup>
