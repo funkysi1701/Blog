@@ -6,7 +6,7 @@
 @inject BlogService BlogService
 
 <Tag></Tag>
-<table class="table" style="">
+<table class="table">
     <thead>
         <tr>
             <th>Date</th>
@@ -14,46 +14,35 @@
             <th>Description</th>
         </tr>
     </thead>
-    <tbody>
-        <Virtualize ItemsProvider="@LoadData">
-            <ItemContent Context="post">
-                <tr>
-                    <td>@post.Published_At.ToString("dd/MM/yyyy", CultureInfo.CurrentCulture)</td>
-                    <td><a href="/posts/@post.Slug">@post.Title</a></td>
-                    <td>@post.Description</td>
-                </tr>
-            </ItemContent>
-            <Placeholder>
-                <tr>
-                    <td>Loading&hellip;</td>
-                    <td>Loading&hellip;</td>
-                    <td>Loading&hellip;</td>
-                </tr>
-            </Placeholder>
-        </Virtualize>
-    </tbody>
+    @if (BlogPosts != null)
+    {
+        <tbody>
+            <Virtualize Items="@BlogPosts" Context="post">
+                <ItemContent>
+                    <tr>
+                        <td>@post.Published_At.ToString("dd/MM/yyyy", CultureInfo.CurrentCulture)</td>
+                        <td><a href="/posts/@post.Slug">@post.Title</a></td>
+                        <td>@post.Description</td>
+                    </tr>
+                </ItemContent>
+                <Placeholder>
+                    <tr>
+                        <td>Loading&hellip;</td>
+                        <td>Loading&hellip;</td>
+                        <td>Loading&hellip;</td>
+                    </tr>
+                </Placeholder>
+            </Virtualize>
+        </tbody>
+
+    }
 </table>
 
 @code {
-    private int postcount = 60;
+    private List<BlogPosts> BlogPosts;
 
     protected override async Task OnInitializedAsync()
     {
-        var posts = await BlogService.GetBlogsAsync();
-        postcount = posts.Count;
-    }
-
-    private async ValueTask<ItemsProviderResult<BlogPosts>> LoadData(ItemsProviderRequest request)
-    {
-        try
-        {
-            var num = Math.Min(request.Count, postcount - request.StartIndex);
-            var posts = await BlogService.GetBlogsAsync(request.StartIndex, num);
-            return new ItemsProviderResult<BlogPosts>(posts, postcount);
-        }
-        catch(Exception e)
-        {
-            return new ItemsProviderResult<BlogPosts>(null, 0);
-        }
+        BlogPosts = await BlogService.GetBlogsAsync();
     }
 }
