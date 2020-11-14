@@ -77,6 +77,19 @@ namespace WebBlog.Test
                 }
             };
             Assert.Equal("html", bp.Body_Html);
+            Assert.Equal("url", bp.Canonical_Url);
+            Assert.Equal(0, bp.Comments_Count);
+            Assert.Equal("", bp.Cover_Image);
+            Assert.Equal("", bp.Description);
+            Assert.Equal(1, bp.Id);
+            Assert.Equal(0, bp.Page_Views_Count);
+            Assert.True(bp.Published);
+            Assert.Equal(DateTime.UtcNow, bp.Published_At);
+            Assert.Equal(DateTime.UtcNow, bp.Published_Timestamp);
+            Assert.Equal("", bp.Slug);
+            Assert.Equal("", bp.Title);
+            Assert.Equal("", bp.Type_of);
+            Assert.Equal("url", bp.Url);
         }
 
         [Fact]
