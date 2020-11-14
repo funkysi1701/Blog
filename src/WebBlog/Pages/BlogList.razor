@@ -2,46 +2,36 @@
 @using System.Globalization
 @using WebBlog.Data
 @using WebBlog.Shared
-@using Microsoft.AspNetCore.Components.Web.Virtualization
 @inject BlogService BlogService
 
-<Tag></Tag>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Title</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    @if (BlogPosts != null)
-    {
-        <tbody>
-            <Virtualize Items="@BlogPosts" Context="post">
-                <ItemContent>
-                    <tr>
-                        <td>@post.Published_At.ToString("dd/MM/yyyy", CultureInfo.CurrentCulture)</td>
-                        <td><a href="/posts/@post.Slug">@post.Title</a></td>
-                        <td>@post.Description</td>
-                    </tr>
-                </ItemContent>
-                <Placeholder>
-                    <tr>
-                        <td>Loading&hellip;</td>
-                        <td>Loading&hellip;</td>
-                        <td>Loading&hellip;</td>
-                    </tr>
-                </Placeholder>
-            </Virtualize>
-        </tbody>
-    }
-</table>
+@if (blogs == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <Tag></Tag>
+    <Virtualize Items="@blogs" Context="post">
+        <ItemContent>
+            <div>
+                <h4><a href="/posts/@post.Slug">@post.Title</a></h4>
+                <p><span>@post.Published_At.ToString("dd MMMM yyyy", CultureInfo.CurrentCulture)</span>&nbsp;@post.Description</p>
+            </div>
+        </ItemContent>
+        <Placeholder>
+            <div>
+                <h4>Loading&hellip;</h4>
+            </div>
+        </Placeholder>
+    </Virtualize>
+
+}
 
 @code {
-    private List<BlogPosts> BlogPosts;
+    private List<BlogPosts> blogs;
 
     protected override async Task OnInitializedAsync()
     {
-        BlogPosts = await BlogService.GetBlogsAsync();
+        blogs = await BlogService.GetBlogsAsync();
     }
 }
