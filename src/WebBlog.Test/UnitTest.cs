@@ -49,6 +49,37 @@ namespace WebBlog.Test
         }
 
         [Fact]
+        public void BlogPostsTest()
+        {
+            var bp = new BlogPosts
+            {
+                Body_Html = "html",
+                Canonical_Url = "url",
+                Comments_Count = 0,
+                Cover_Image = "",
+                Description = "",
+                Id = 1,
+                Page_Views_Count = 0,
+                Path = "",
+                Positive_Reactions_Count = 0,
+                Published =true,
+                Published_At = DateTime.UtcNow,
+                Published_Timestamp = DateTime.UtcNow,
+                Slug = "",
+                Title = "",
+                Type_of = "",
+                Url = "url",
+                User = new User
+                {
+                    Username = "simon",
+                    Name ="Simon",
+                    Twitter_Username ="funkysi1701"
+                }
+            };
+            Assert.Equal("html", bp.Body_Html);
+        }
+
+        [Fact]
         public void AppVersionInfoTest()
         {
             var mockEnvironment = new Mock<IHostEnvironment>();
