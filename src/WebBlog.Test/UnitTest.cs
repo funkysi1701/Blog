@@ -51,6 +51,7 @@ namespace WebBlog.Test
         [Fact]
         public void BlogPostsTest()
         {
+            var dt = DateTime.UtcNow;
             var bp = new BlogPosts
             {
                 Body_Html = "html",
@@ -63,8 +64,8 @@ namespace WebBlog.Test
                 Path = "",
                 Positive_Reactions_Count = 0,
                 Published =true,
-                Published_At = DateTime.UtcNow,
-                Published_Timestamp = DateTime.UtcNow,
+                Published_At = dt,
+                Published_Timestamp = dt,
                 Slug = "",
                 Title = "",
                 Type_of = "",
@@ -84,8 +85,8 @@ namespace WebBlog.Test
             Assert.Equal(1, bp.Id);
             Assert.Equal(0, bp.Page_Views_Count);
             Assert.True(bp.Published);
-            Assert.Equal(DateTime.UtcNow, bp.Published_At);
-            Assert.Equal(DateTime.UtcNow, bp.Published_Timestamp);
+            Assert.Equal(dt, bp.Published_At);
+            Assert.Equal(dt, bp.Published_Timestamp);
             Assert.Equal("", bp.Slug);
             Assert.Equal("", bp.Title);
             Assert.Equal("", bp.Type_of);
