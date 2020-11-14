@@ -49,6 +49,51 @@ namespace WebBlog.Test
         }
 
         [Fact]
+        public void BlogPostsTest()
+        {
+            var dt = DateTime.UtcNow;
+            var bp = new BlogPosts
+            {
+                Body_Html = "html",
+                Canonical_Url = "url",
+                Comments_Count = 0,
+                Cover_Image = "",
+                Description = "",
+                Id = 1,
+                Page_Views_Count = 0,
+                Path = "",
+                Positive_Reactions_Count = 0,
+                Published =true,
+                Published_At = dt,
+                Published_Timestamp = dt,
+                Slug = "",
+                Title = "",
+                Type_of = "",
+                Url = "url",
+                User = new User
+                {
+                    Username = "simon",
+                    Name ="Simon",
+                    Twitter_Username ="funkysi1701"
+                }
+            };
+            Assert.Equal("html", bp.Body_Html);
+            Assert.Equal("url", bp.Canonical_Url);
+            Assert.Equal(0, bp.Comments_Count);
+            Assert.Equal("", bp.Cover_Image);
+            Assert.Equal("", bp.Description);
+            Assert.Equal(1, bp.Id);
+            Assert.Equal(0, bp.Page_Views_Count);
+            Assert.True(bp.Published);
+            Assert.Equal(dt, bp.Published_At);
+            Assert.Equal(dt, bp.Published_Timestamp);
+            Assert.Equal("", bp.Slug);
+            Assert.Equal("", bp.Title);
+            Assert.Equal("", bp.Type_of);
+            Assert.Equal("url", bp.Url);
+        }
+
+        [Fact]
         public void AppVersionInfoTest()
         {
             var mockEnvironment = new Mock<IHostEnvironment>();
