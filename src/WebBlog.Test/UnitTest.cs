@@ -46,6 +46,7 @@ namespace WebBlog.Test
             var blogs = await BlogService.GetBlogsAsync();
             var post = await BlogService.GetBlogPostAsync(blogs[0].Id);
             Assert.NotEmpty(blogs);
+            Assert.NotNull(post);
         }
 
         [Fact]
