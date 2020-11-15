@@ -340,3 +340,6 @@ blockquote.ltag__twitter-tweet .ltag__twitter-tweet__actions {
         min-height: 20px
     }
 
+.highlight__panel.js-actions-panel{
+    display: none
+}
