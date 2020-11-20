@@ -12027,7 +12027,6 @@ body.open-dyslexic-article-body {
         line-height: 1.35em;
         border-radius: 5px;
         margin: 1.6em auto;
-        padding: 60px 10px 18px;
         color: white;
         min-height: 60px;
         padding: 33px 15px 8px
@@ -12941,7 +12940,7 @@ body.open-dyslexic-article-body {
         box-shadow: 1px 1px 0 var(--form-border-focus)
     }
 
-    .crayons-select--disabled, .crayons-select[disabled], .crayons-checkbox--checked--disabled, .crayons-checkbox--checked[disabled], .crayons-checkbox:checked--disabled, .crayons-radio--checked--disabled, .crayons-radio--checked[disabled], .crayons-radio:checked--disabled, .crayons-checkbox--disabled, .crayons-checkbox[disabled], .crayons-radio--disabled, .crayons-radio[disabled], .crayons-textfield--disabled, .crayons-textfield[disabled] {
+    .crayons-select--disabled, .crayons-select[disabled], .crayons-checkbox--checked--disabled, .crayons-checkbox--checked[disabled], .crayons-checkbox--checked--disabled, .crayons-radio--checked--disabled, .crayons-radio--checked[disabled], .crayons-radio--checked--disabled, .crayons-checkbox--disabled, .crayons-checkbox[disabled], .crayons-radio--disabled, .crayons-radio[disabled], .crayons-textfield--disabled, .crayons-textfield[disabled] {
         opacity: 0.6
     }
 
