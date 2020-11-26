@@ -30,6 +30,7 @@ namespace WebBlog
             services.AddServerSideBlazor()
                 .AddCircuitOptions(opt => { opt.DetailedErrors = true; });
             services.AddSingleton<BlogService>();
+            services.AddScoped<DisqusState>();
             services.AddHttpContextAccessor();
             services.AddApplicationInsightsTelemetry(Configuration.GetSection("ApplicationInsights").GetValue<string>("InstrumentationKey"));
             services.AddSingleton<AppVersionInfo>();

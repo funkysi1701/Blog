@@ -2,6 +2,9 @@
 
 @using WebBlog.Data
 @inject BlogService BlogService
+@inject DisqusState DisqusState
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
 @if (blogs == null)
 {
@@ -29,5 +32,18 @@ else
 
         thisid = blogs.Where(x => x.Slug == Slug).FirstOrDefault().Id;
         thisblog = await BlogService.GetBlogPostAsync(thisid);
+        string url = NavigationManager.ToAbsoluteUri($"posts/{Slug}").AbsoluteUri;
+
+        try
+        {
+            await DisqusInterop.ResetDisqus(
+                JSRuntime,
+                thisblog.Slug,
+                url,
+                thisblog.Title);
+
+            DisqusState.SetDisplayDisqus(true);
+        }
+        catch { }
     }
 }
