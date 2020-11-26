@@ -23,7 +23,8 @@
     <app>
         <component type="typeof(App)" render-mode="ServerPrerendered" />
     </app>
-
+    <div id="disqus_thread"></div>
+    <script type="text/javascript" async="" src="https://funkysi1701.disqus.com/embed.js"></script>
     <div id="blazor-error-ui">
         <environment include="Staging,Production">
             An error has occurred. This application may no longer respond until reloaded.
@@ -36,34 +37,5 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
-    <script>
-        (function () {
-            window.DisqusFunctions = {
-                createDisqus: function (disqusThreadElement, disqusSrc) {
-                    var dsq = document.createElement('script');
-                    dsq.type = 'text/javascript';
-                    dsq.async = true;
-                    dsq.src = disqusSrc;
-                    dsq.disqus_container_id = 'disqus_thread';
-                    disqusThreadElement.appendChild(dsq);
-                },
-                resetDisqus: function (newIdentifier, newUrl, newTitle) {
-                    try {
-                        DISQUS.reset({
-                            reload: true,
-                            config: function () {
-                                this.page.identifier = newIdentifier;
-                                this.page.url = newUrl;
-                                this.page.title = newTitle;
-                            }
-                        });
-                    }
-                    catch (err) {
-                        // do nothing
-                    }
-                }
-            };
-        })();
-    </script>
 </body>
 </html>
