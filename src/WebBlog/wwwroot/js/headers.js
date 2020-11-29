@@ -13,7 +13,7 @@ JsFunctions = {
         document.getElementsByTagName('head')[0].appendChild(meta);
         var meta = document.createElement('meta');
         meta.name = "twitter:description";
-        meta.content = "";
+        meta.content = title.trim();
         document.getElementsByTagName('head')[0].appendChild(meta);
         var meta = document.createElement('meta');
         meta.name = "twitter:url";
