@@ -1,27 +1,17 @@
 ﻿@inherits LayoutComponentBase
-
-<div class="main">
-    <div class="top-row px-4">
-        <h1>Simon&nbsp;Foster</h1>
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/config">Config</a>
-        <a href="https://facebook.com/funkysi1701">
-            <i class="fab fa-facebook" title="funkysi1701's facebook Profile"></i>
-        </a>
-        <a href="https://twitter.com/funkysi1701">
-            <i class="fab fa-twitter" title="funkysi1701's twitter Profile"></i>
-        </a>
-        <a href="https://github.com/funkysi1701">
-            <i class="fab fa-github" title="funkysi1701's github Profile"></i>
-        </a>
-        <a href="https://dev.to/funkysi1701">
-            <i class="fab fa-dev" title="funkysi1701's DEV Profile"></i>
-        </a>
+@using WebBlog.Components
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
     </div>
+    <div class="main">
+        <div class="top-row px-4">
+            <h1>Simon&nbsp;Foster</h1>
+        </div>
 
-    <div class="content px-4">
-        @Body
+        <div class="content px-4">
+            @Body
+        </div>
     </div>
 </div>
 
