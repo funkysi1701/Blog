@@ -29,5 +29,6 @@ else
 
         thisid = blogs.Where(x => x.Slug == Slug).FirstOrDefault().Id;
         thisblog = await BlogService.GetBlogPostAsync(thisid);
+        this.StateHasChanged();
     }
 }
