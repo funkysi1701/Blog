@@ -4,6 +4,10 @@ JsFunctions = {
     setDocumentTitle: function (title, description) {
         document.title = title;
         var meta = document.createElement('meta');
+        meta.name = "og:type";
+        meta.content = "website";
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        var meta = document.createElement('meta');
         meta.name = "twitter:card";
         meta.content = "summary";
         document.getElementsByTagName('head')[0].appendChild(meta);
