@@ -12,6 +12,8 @@ else
     <h2>@thisblog.Title</h2>
 
     @((MarkupString)thisblog.Body_Html)
+
+    <Document Description="@thisblog.Description"></Document>
 }
 
 @code {

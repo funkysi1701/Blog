@@ -11,6 +11,9 @@ namespace WebBlog.Components
     /// </summary>
     public class Document : ComponentBase, IDisposable
     {
+        [Parameter]
+        public string Description { get; set; }
+
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
 
@@ -45,22 +48,22 @@ namespace WebBlog.Components
             if (!firstRender) return;
             if (NavigationManager != null)
             {
-                await SetTitle(new Uri(NavigationManager.Uri)).ConfigureAwait(false);
+                await SetTitle(new Uri(NavigationManager.Uri), Description).ConfigureAwait(false);
             }
         }
 
-        private async Task SetTitle(Uri uri)
+        private async Task SetTitle(Uri uri, string description)
         {
             var pageName = uri.AbsolutePath.Replace("/", "-", StringComparison.CurrentCultureIgnoreCase);
             if (JsRuntime != null && pageName != "-")
             {
-                await JsRuntime.InvokeVoidAsync("JsFunctions.setDocumentTitle", PageTitleGenerator.Create(pageName)).ConfigureAwait(false);
+                await JsRuntime.InvokeVoidAsync("JsFunctions.setDocumentTitle", PageTitleGenerator.Create(pageName), description).ConfigureAwait(false);
             }
         }
 
         private async void LocationChanged(object sender, LocationChangedEventArgs e)
         {
-            await SetTitle(new Uri(e.Location));
+            await SetTitle(new Uri(e.Location), Description);
         }
     }
 }

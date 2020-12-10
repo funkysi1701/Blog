@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebBlog.Components
 {
@@ -17,7 +13,6 @@ namespace WebBlog.Components
         {
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(title));
-            
 
             title = title.Replace('-', ' ');
             if (title.Contains("posts"))
