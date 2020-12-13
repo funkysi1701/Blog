@@ -18,7 +18,7 @@ namespace WebBlog.Components
             if (title.Contains("posts"))
             {
                 title = title.Replace("posts", "");
-                title = title.Substring(0, title.Length - 4);
+                title = title[0..^4];
             }
 
             string pageTitle = title switch
