@@ -12,6 +12,17 @@ else
     <h2>@thisblog.Title</h2>
 
     @((MarkupString)thisblog.Body_Html)
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="@thisblog.Title" />
+    <meta name="twitter:description" content="@thisblog.Description" />
+    <meta name="twitter:image" content="https://www.funkysi1701.com/wp-content/uploads/2014/09/1922276.jpg" />
+    <meta name="twitter:url" content="@thisblog.Canonical_Url" />
+    <meta name="twitter:site" content="@@funkysi1701" />
+    <meta property="og:url" content="@thisblog.Canonical_Url" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="@thisblog.Description" />
+    <meta property="og:title" content="@thisblog.Title" />
+    <meta property="og:image" content="https://www.funkysi1701.com/wp-content/uploads/2014/09/1922276.jpg" />
 }
 
 @code {
@@ -27,5 +38,6 @@ else
 
         thisid = blogs.Where(x => x.Slug == Slug).FirstOrDefault().Id;
         thisblog = await BlogService.GetBlogPostAsync(thisid);
+        this.StateHasChanged();
     }
 }
