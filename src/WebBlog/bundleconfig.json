@@ -10,9 +10,7 @@
   {
     "outputFileName": "wwwroot/js/bundles.min.js",
     "inputFiles": [
-      "wwwroot/js/site.js",
-      "wwwroot/lib/jquery/dist/jquery.js",
-      "wwwroot/lib/jquery-validation/dist/jquery.validate.js"
+      "wwwroot/js/headers.js"
     ],
     // Optionally specify minification options
     "minify": {
