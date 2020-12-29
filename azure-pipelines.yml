@@ -44,7 +44,7 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: true
-    arguments: '--output $(Build.ArtifactStagingDirectory) /p:SourceRevisionId=$(Build.SourceVersion)'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) /p:SourceRevisionId=$(Build.SourceVersion)'
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Pipeline.Workspace)/a/WebBlog.zip'
