@@ -13,17 +13,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Funky Si's Tech Talk</title>
     <base href="~/" />
-    <link href="WebBlog.styles.css" rel="stylesheet" />
     <environment include="Development">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
         <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
         <link href="css/site.css" rel="stylesheet" />
         <link href="css/crayons.css" rel="stylesheet" />
+        <link href="WebBlog.styles.css" rel="stylesheet" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
         <link rel="stylesheet" href="~/css/bootstrap/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link href="WebBlog.styles.css" rel="stylesheet" asp-append-version="true" />
     </environment>
     @Html.Raw(JavaScriptSnippet.FullScript)
     <!-- Global site tag (gtag.js) - Google Analytics -->
