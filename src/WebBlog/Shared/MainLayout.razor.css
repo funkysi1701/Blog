@@ -26,10 +26,10 @@
         margin-left: 1.5rem;
     }
 
-    .top-row a:first-child {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+        .top-row a:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
 @media (max-width: 2000.98px) {
     .top-row:not(.auth) {

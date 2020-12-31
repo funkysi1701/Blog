@@ -11396,30 +11396,30 @@ sup {
     }
 }
 
-    body.hidden-shell {
-        padding-top: 0 !important
+body.hidden-shell {
+    padding-top: 0 !important
+}
+
+    body.hidden-shell .crayons-header, body.hidden-shell .crayons-footer {
+        display: none
     }
 
-        body.hidden-shell .crayons-header, body.hidden-shell .crayons-footer {
-            display: none
-        }
+body.user-tags-followed-0 #sidebar-nav-followed-tags, body.user-tags-followed-1 #sidebar-nav-followed-tags, body.user-tags-followed-2 #sidebar-nav-followed-tags {
+    height: 90px
+}
 
-    body.user-tags-followed-0 #sidebar-nav-followed-tags, body.user-tags-followed-1 #sidebar-nav-followed-tags, body.user-tags-followed-2 #sidebar-nav-followed-tags {
-        height: 90px
-    }
+body.user-tags-followed-3 #sidebar-nav-followed-tags, body.user-tags-followed-4 #sidebar-nav-followed-tags, body.user-tags-followed-5 #sidebar-nav-followed-tags {
+    height: 205px
+}
 
-    body.user-tags-followed-3 #sidebar-nav-followed-tags, body.user-tags-followed-4 #sidebar-nav-followed-tags, body.user-tags-followed-5 #sidebar-nav-followed-tags {
-        height: 205px
-    }
+body.user-tags-followed-max #sidebar-nav-followed-tags {
+    height: 42vh
+}
 
-    body.user-tags-followed-max #sidebar-nav-followed-tags {
-        height: 42vh
-    }
-
-    body.default-header {
-        padding-top: var(--header-height);
-        min-height: calc(100vh - var(--header-height))
-    }
+body.default-header {
+    padding-top: var(--header-height);
+    min-height: calc(100vh - var(--header-height))
+}
 
 .wrapper {
     flex: 1 auto;

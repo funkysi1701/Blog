@@ -64,7 +64,7 @@ namespace WebBlog.Test
                 Page_Views_Count = 0,
                 Path = "",
                 Positive_Reactions_Count = 0,
-                Published =true,
+                Published = true,
                 Published_At = dt,
                 Published_Timestamp = dt,
                 Slug = "",
@@ -74,8 +74,8 @@ namespace WebBlog.Test
                 User = new User
                 {
                     Username = "simon",
-                    Name ="Simon",
-                    Twitter_Username ="funkysi1701"
+                    Name = "Simon",
+                    Twitter_Username = "funkysi1701"
                 }
             };
             Assert.Equal("html", bp.Body_Html);
