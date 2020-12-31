@@ -83,6 +83,7 @@ namespace WebBlog
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+            app.UseSitemapMiddleware();
         }
     }
 }
