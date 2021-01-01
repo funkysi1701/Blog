@@ -9,8 +9,8 @@ namespace WebBlog
 {
     public class SitemapMiddleware
     {
-        private RequestDelegate _next;
-        private BlogService _blogService;
+        private readonly RequestDelegate _next;
+        private readonly BlogService _blogService;
 
         public SitemapMiddleware(RequestDelegate next, BlogService BlogService)
         {
@@ -32,7 +32,7 @@ namespace WebBlog
                 {
                     sitemapContent += "<url>";
                     sitemapContent += string.Format("<loc>{0}</loc>", blog.Canonical_Url);
-                    sitemapContent += string.Format("<lastmod>{0}</lastmod>", blog.Published_At.ToString("yyyy-MM-dd"));
+                    sitemapContent += string.Format("<lastmod>{0}</lastmod>", blog.Published_At.Value.ToString("yyyy-MM-dd"));
                     sitemapContent += "</url>";
                 }
                 sitemapContent += "<url>";

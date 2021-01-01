@@ -19,7 +19,7 @@ namespace WebBlog.Data
 
         public async Task<List<BlogPosts>> GetBlogsAsync()
         {
-            var call = Client.GetAsync(new Uri(Client.BaseAddress + "articles/me?per_page=100"));
+            var call = Client.GetAsync(new Uri(Client.BaseAddress + "articles/me/all?per_page=200"));
             HttpResponseMessage httpResponse = await call;
 
             string result = await httpResponse.Content.ReadAsStringAsync();

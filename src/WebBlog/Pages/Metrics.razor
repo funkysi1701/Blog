@@ -1,0 +1,58 @@
+﻿@page "/metrics"
+@using WebBlog.Data
+@inject BlogService BlogService
+@inject WebBlog.AppVersionInfo appInfo
+
+<h2>Metrics</h2>
+
+<p>A page of metrics about me from various services.</p>
+
+<div class="post-content">
+    <table width="100%">
+        <tr>
+            <td>
+                Dev.To Total post views
+            </td>
+            <td>
+                @views
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Dev.To Total post reactions
+            </td>
+            <td>
+                @reactions
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Dev.To Total post reactions
+            </td>
+            <td>
+                @pubposts / @posts
+            </td>
+        </tr>
+    </table>
+</div>
+
+@code {
+    private int views;
+    private int reactions;
+    private int pubposts;
+    private int posts;
+
+    private List<BlogPosts> blogs;
+
+    protected override async Task OnInitializedAsync()
+    {
+        blogs = await BlogService.GetBlogsAsync();
+        posts = blogs.Count;
+        pubposts = blogs.Where(x => x.Published).Count();
+        foreach (var item in blogs)
+        {
+            views += item.Page_Views_Count;
+            reactions += item.Positive_Reactions_Count;
+        }
+    }
+}

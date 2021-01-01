@@ -13,7 +13,7 @@ namespace WebBlog.Test
 {
     public class UnitTest
     {
-        private BlogService BlogService;
+        private readonly BlogService BlogService;
 
         public UnitTest()
         {

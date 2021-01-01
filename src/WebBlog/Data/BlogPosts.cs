@@ -10,7 +10,7 @@ namespace WebBlog.Data
         public string Description { get; set; }
         public string Cover_Image { get; set; }
         public bool Published { get; set; }
-        public DateTime Published_At { get; set; }
+        public DateTime? Published_At { get; set; }
 
         //public string Tag_List { get; set; }
         public string Slug { get; set; }
@@ -21,7 +21,7 @@ namespace WebBlog.Data
         public int Comments_Count { get; set; }
         public int Positive_Reactions_Count { get; set; }
         public int Page_Views_Count { get; set; }
-        public DateTime Published_Timestamp { get; set; }
+        public DateTime? Published_Timestamp { get; set; }
         public string Body_Html { get; set; }
         public User User { get; set; }
     }
