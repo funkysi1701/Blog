@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebBlog.Data;
@@ -28,7 +29,7 @@ namespace WebBlog
                 string sitemapContent = "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
 
                 var blogs = await _blogService.GetBlogsAsync();
-                foreach (var blog in blogs)
+                foreach (var blog in blogs.Where(x => x.Published))
                 {
                     sitemapContent += "<url>";
                     sitemapContent += string.Format("<loc>{0}</loc>", blog.Canonical_Url);
@@ -49,6 +50,10 @@ namespace WebBlog
                 sitemapContent += "</url>";
                 sitemapContent += "<url>";
                 sitemapContent += string.Format("<loc>{0}</loc>", "https://www.funkysi1701.com/config");
+                sitemapContent += string.Format("<lastmod>{0}</lastmod>", DateTime.UtcNow.ToString("yyyy-MM-dd"));
+                sitemapContent += "</url>";
+                sitemapContent += "<url>";
+                sitemapContent += string.Format("<loc>{0}</loc>", "https://www.funkysi1701.com/metrics");
                 sitemapContent += string.Format("<lastmod>{0}</lastmod>", DateTime.UtcNow.ToString("yyyy-MM-dd"));
                 sitemapContent += "</url>";
                 sitemapContent += "</urlset>";
