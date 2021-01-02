@@ -42,8 +42,11 @@
             </td>
         </tr>
         <tr>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
             <td>
-                <span class="fab fa-twitter" aria-hidden="true"></span> Followers
+                <span class="fab fa-twitter" aria-hidden="true"></span> Number of Followers
             </td>
             <td>
                 @followers
@@ -51,10 +54,69 @@
         </tr>
         <tr>
             <td>
-                <span class="fab fa-twitter" aria-hidden="true"></span> Following
+                <span class="fab fa-twitter" aria-hidden="true"></span> Number Following
             </td>
             <td>
                 @following
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="fab fa-twitter" aria-hidden="true"></span> Number of Favourites
+            </td>
+            <td>
+                @fav
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="fab fa-twitter" aria-hidden="true"></span> Number of Tweets
+            </td>
+            <td>
+                @numtweets
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td>
+                <span class="fab fa-github" aria-hidden="true"></span> Number Following
+            </td>
+            <td>
+                @ghfollowing
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="fab fa-github" aria-hidden="true"></span> Number of Followers
+            </td>
+            <td>
+                @ghfollowers
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="fab fa-github" aria-hidden="true"></span> Number of Repos
+            </td>
+            <td>
+                @ghrepo
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="fab fa-github" aria-hidden="true"></span> Number of Stars
+            </td>
+            <td>
+                @ghstars
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="fab fa-github" aria-hidden="true"></span> Number of Commits
+            </td>
+            <td>
+                @commits
             </td>
         </tr>
     </table>
@@ -63,6 +125,13 @@
 @code {
     private int followers;
     private int following;
+    private int numtweets;
+    private int ghfollowers;
+    private int ghfollowing;
+    private int ghrepo;
+    private int ghstars;
+    private int commits;
+    private int fav;
     private int views;
     private int reactions;
     private int comments;
@@ -84,5 +153,12 @@
         }
         followers = await BlogService.GetTwitterFollowers();
         following = await BlogService.GetTwitterFollowing();
+        numtweets = await BlogService.GetNumberOfTweets();
+        ghfollowers = await BlogService.GetGitHubFollowers();
+        ghfollowing = await BlogService.GetGitHubFollowing();
+        ghrepo = await BlogService.GetGitHubRepo();
+        ghstars = await BlogService.GetGitHubStars();
+        fav = await BlogService.GetTwitterFav();
+        commits = await BlogService.GetCommits();
     }
 }
