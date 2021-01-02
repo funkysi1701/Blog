@@ -11,7 +11,7 @@
     <table width="100%">
         <tr>
             <td>
-                Dev.To Total post views
+                <span class="fab fa-dev" aria-hidden="true"></span> Total post views
             </td>
             <td>
                 @views
@@ -19,7 +19,7 @@
         </tr>
         <tr>
             <td>
-                Dev.To Total post reactions
+                <span class="fab fa-dev" aria-hidden="true"></span> Total post reactions
             </td>
             <td>
                 @reactions
@@ -27,18 +27,45 @@
         </tr>
         <tr>
             <td>
-                Published Posts / Total Posts 
+                <span class="fab fa-dev" aria-hidden="true"></span> Total post comments
+            </td>
+            <td>
+                @comments
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="fab fa-dev" aria-hidden="true"></span> Published Posts / Total Posts
             </td>
             <td>
                 @pubposts / @posts
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="fab fa-twitter" aria-hidden="true"></span> Followers
+            </td>
+            <td>
+                @followers
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="fab fa-twitter" aria-hidden="true"></span> Following
+            </td>
+            <td>
+                @following
             </td>
         </tr>
     </table>
 </div>
 
 @code {
+    private int followers;
+    private int following;
     private int views;
     private int reactions;
+    private int comments;
     private int pubposts;
     private int posts;
 
@@ -53,6 +80,9 @@
         {
             views += item.Page_Views_Count;
             reactions += item.Positive_Reactions_Count;
+            comments += item.Comments_Count;
         }
+        followers = await BlogService.GetTwitterFollowers();
+        following = await BlogService.GetTwitterFollowing();
     }
 }
