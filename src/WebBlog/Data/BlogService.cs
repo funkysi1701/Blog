@@ -51,27 +51,27 @@ namespace WebBlog.Data
         public async Task<int> GetTwitterFollowers()
         {
             var followers = (await UserClient.Users.GetFollowerIdsAsync("funkysi1701")).Length;
-            
+            await SaveData(followers, 0);
             return followers;
         }
         public async Task<int> GetTwitterFollowing()
         {
             var friends = (await UserClient.Users.GetFriendIdsAsync("funkysi1701")).Length;
-            
+            await SaveData(friends, 1);
             return friends;
         }
 
         public async Task<int> GetNumberOfTweets()
         {
             var friends = await UserClient.Users.GetUserAsync("funkysi1701");
-
+            await SaveData(friends.StatusesCount, 2);
             return friends.StatusesCount;
         }
 
         public async Task<int> GetTwitterFav()
         {
             var friends = await UserClient.Users.GetUserAsync("funkysi1701");
-
+            await SaveData(friends.FavoritesCount, 3);
             return friends.FavoritesCount;
         }
 
@@ -79,6 +79,7 @@ namespace WebBlog.Data
         {
             var github = new GitHubClient(new ProductHeaderValue("funkysi1701"));
             var user = await github.User.Get("funkysi1701");
+            await SaveData(user.Followers, 4);
             return user.Followers;
         }
 
@@ -86,6 +87,7 @@ namespace WebBlog.Data
         {
             var github = new GitHubClient(new ProductHeaderValue("funkysi1701"));
             var user = await github.User.Get("funkysi1701");
+            await SaveData(user.Following, 5);
             return user.Following;
         }
 
@@ -93,6 +95,7 @@ namespace WebBlog.Data
         {
             var github = new GitHubClient(new ProductHeaderValue("funkysi1701"));
             var user = await github.User.Get("funkysi1701");
+            await SaveData(user.PublicRepos, 6);
             return user.PublicRepos;
         }
 
@@ -101,8 +104,8 @@ namespace WebBlog.Data
             var github = new GitHubClient(new ProductHeaderValue("funkysi1701"));
             var tokenAuth = new Credentials(Configuration.GetValue<string>("GitHubToken"));
             github.Credentials = tokenAuth;
-            var stars = await github.Activity.Starring.GetAllForCurrent();   
-            
+            var stars = await github.Activity.Starring.GetAllForCurrent();
+            await SaveData(stars.Count, 7);
             return stars.Count;
         }
 
@@ -113,7 +116,24 @@ namespace WebBlog.Data
             github.Credentials = tokenAuth;
             var events = await github.Activity.Events.GetAllUserPerformed("funkysi1701");
             events = events.Where(x => x.Type == "PushEvent").ToList();
+            await SaveData(events.Count, 8);
             return events.Count;
+        }
+
+        public async Task SaveData(int value, int type)
+        {
+            using var context = new MetricsContext(Configuration);
+            await context.Database.EnsureCreatedAsync();
+
+            context.Add(new Metric
+            {
+                Id = DateTime.UtcNow.Ticks,
+                Type = type,
+                Value = value,
+                PartitionKey = "1"
+            });
+
+            await context.SaveChangesAsync();
         }
     }
 }
