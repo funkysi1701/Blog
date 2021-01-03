@@ -128,6 +128,7 @@ namespace WebBlog.Data
             context.Add(new Metric
             {
                 Id = DateTime.UtcNow.Ticks,
+                Date = DateTime.UtcNow,
                 Type = type,
                 Value = value,
                 PartitionKey = "1"
