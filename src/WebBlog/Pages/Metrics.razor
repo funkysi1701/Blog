@@ -1,11 +1,11 @@
 ﻿@page "/metrics"
-@using WebBlog.Data
 @inject BlogService BlogService
 @inject WebBlog.AppVersionInfo appInfo
 
 <h2>Metrics</h2>
 
 <p>A page of metrics about me from various services.</p>
+<button type="button" @onclick="Save">Save</button>
 
 <div class="post-content">
     <table width="100%">
@@ -49,7 +49,7 @@
                 <span class="fab fa-twitter" aria-hidden="true"></span> Number of Followers
             </td>
             <td>
-                @followers
+                @followers.Value (@followers.Date?.ToString("dd/MM/yy HH:mm"))
             </td>
         </tr>
         <tr>
@@ -57,7 +57,7 @@
                 <span class="fab fa-twitter" aria-hidden="true"></span> Number Following
             </td>
             <td>
-                @following
+                @following.Value (@following.Date?.ToString("dd/MM/yy HH:mm"))
             </td>
         </tr>
         <tr>
@@ -65,7 +65,7 @@
                 <span class="fab fa-twitter" aria-hidden="true"></span> Number of Favourites
             </td>
             <td>
-                @fav
+                @fav.Value (@fav.Date?.ToString("dd/MM/yy HH:mm"))
             </td>
         </tr>
         <tr>
@@ -73,7 +73,7 @@
                 <span class="fab fa-twitter" aria-hidden="true"></span> Number of Tweets
             </td>
             <td>
-                @numtweets
+                @numtweets.Value (@numtweets.Date?.ToString("dd/MM/yy HH:mm"))
             </td>
         </tr>
         <tr>
@@ -84,7 +84,7 @@
                 <span class="fab fa-github" aria-hidden="true"></span> Number Following
             </td>
             <td>
-                @ghfollowing
+                @ghfollowing.Value (@ghfollowing.Date?.ToString("dd/MM/yy HH:mm"))
             </td>
         </tr>
         <tr>
@@ -92,7 +92,7 @@
                 <span class="fab fa-github" aria-hidden="true"></span> Number of Followers
             </td>
             <td>
-                @ghfollowers
+                @ghfollowers.Value (@ghfollowers.Date?.ToString("dd/MM/yy HH:mm"))
             </td>
         </tr>
         <tr>
@@ -100,7 +100,7 @@
                 <span class="fab fa-github" aria-hidden="true"></span> Number of Repos
             </td>
             <td>
-                @ghrepo
+                @ghrepo.Value (@ghrepo.Date?.ToString("dd/MM/yy HH:mm"))
             </td>
         </tr>
         <tr>
@@ -108,7 +108,7 @@
                 <span class="fab fa-github" aria-hidden="true"></span> Number of Stars
             </td>
             <td>
-                @ghstars
+                @ghstars.Value (@ghstars.Date?.ToString("dd/MM/yy HH:mm"))
             </td>
         </tr>
         <tr>
@@ -116,22 +116,22 @@
                 <span class="fab fa-github" aria-hidden="true"></span> Number of Commits
             </td>
             <td>
-                @commits
+                @commits.Value (@commits.Date?.ToString("dd/MM/yy HH:mm"))
             </td>
         </tr>
     </table>
 </div>
 
 @code {
-    private int followers;
-    private int following;
-    private int numtweets;
-    private int ghfollowers;
-    private int ghfollowing;
-    private int ghrepo;
-    private int ghstars;
-    private int commits;
-    private int fav;
+    private Metric followers = new Metric();
+    private Metric following = new Metric();
+    private Metric numtweets = new Metric();
+    private Metric ghfollowers = new Metric();
+    private Metric ghfollowing = new Metric();
+    private Metric ghrepo = new Metric();
+    private Metric ghstars = new Metric();
+    private Metric commits = new Metric();
+    private Metric fav = new Metric();
     private int views;
     private int reactions;
     private int comments;
@@ -151,14 +151,33 @@
             reactions += item.Positive_Reactions_Count;
             comments += item.Comments_Count;
         }
-        followers = await BlogService.GetTwitterFollowers();
-        following = await BlogService.GetTwitterFollowing();
-        numtweets = await BlogService.GetNumberOfTweets();
-        ghfollowers = await BlogService.GetGitHubFollowers();
-        ghfollowing = await BlogService.GetGitHubFollowing();
-        ghrepo = await BlogService.GetGitHubRepo();
-        ghstars = await BlogService.GetGitHubStars();
-        fav = await BlogService.GetTwitterFav();
-        commits = await BlogService.GetCommits();
+        Load();
+    }
+
+    private void Load()
+    {
+        followers = BlogService.LoadData(0);
+        following = BlogService.LoadData(1);
+        numtweets = BlogService.LoadData(2);
+        fav = BlogService.LoadData(3);
+        ghfollowers = BlogService.LoadData(4);
+        ghfollowing = BlogService.LoadData(5);
+        ghrepo = BlogService.LoadData(6);
+        ghstars = BlogService.LoadData(7);
+        commits = BlogService.LoadData(8);
+    }
+
+    private async Task Save()
+    {
+        await BlogService.GetCommits();
+        await BlogService.GetTwitterFav();
+        await BlogService.GetGitHubStars();
+        await BlogService.GetGitHubRepo();
+        await BlogService.GetTwitterFollowers();
+        await BlogService.GetTwitterFollowing();
+        await BlogService.GetNumberOfTweets();
+        await BlogService.GetGitHubFollowers();
+        await BlogService.GetGitHubFollowing();
+        Load();
     }
 }

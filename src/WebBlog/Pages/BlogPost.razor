@@ -1,6 +1,5 @@
 ﻿@page "/posts/{slug}"
 
-@using WebBlog.Data
 @inject BlogService BlogService
 
 @if (blogs == null)
@@ -10,8 +9,31 @@
 else
 {
     <h2>@thisblog.Title</h2>
+    <small>@thisblog.Published_At.Value.ToString("dd MMMM yyyy", CultureInfo.CurrentCulture)</small>
+    <div>
+        &nbsp;
+        @if (thisblog.Positive_Reactions_Count > 0)
+        {
+            <span class="badge bg-success">Reactions: <span class="badge badge-warning">@thisblog.Positive_Reactions_Count</span></span>
+        }
+        &nbsp;
+        @if (thisblog.Page_Views_Count > 0)
+        {
+            <span class="badge bg-success">Views: <span class="badge badge-warning">@thisblog.Page_Views_Count</span></span>
+        }
+        &nbsp;
+        @if (thisblog.Comments_Count > 0)
+        {
+            <span class="badge bg-success">Comments: <span class="badge badge-warning">@thisblog.Comments_Count</span></span>
+        }
 
-    @((MarkupString)thisblog.Body_Html)
+    </div>
+    <p></p>
+    @if (!string.IsNullOrEmpty(thisblog.Cover_Image))
+    {
+        <img src="@thisblog.Cover_Image" style="float:none" />
+    }
+    @((MarkupString)thisblogsingle.Body_Html)
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="@thisblog.Title" />
     <meta name="twitter:description" content="@thisblog.Description" />
@@ -23,12 +45,18 @@ else
     <meta property="og:description" content="@thisblog.Description" />
     <meta property="og:title" content="@thisblog.Title" />
     <meta property="og:image" content="https://www.funkysi1701.com/wp-content/uploads/2014/09/1922276.jpg" />
+    @if (!string.IsNullOrEmpty(thisblog.User.Profile_Image_90))
+    {
+        <img src="@thisblog.User.Profile_Image_90" style="float:none" />
+        <span>Simon Foster</span>
+    }
 }
 
 @code {
     private List<BlogPosts> blogs;
     private int thisid;
     private BlogPosts thisblog;
+    private BlogPostsSingle thisblogsingle;
     [Parameter]
     public string Slug { get; set; }
 
@@ -36,8 +64,10 @@ else
     {
         blogs = await BlogService.GetBlogsAsync();
 
-        thisid = blogs.Where(x => x.Slug == Slug).FirstOrDefault().Id;
-        thisblog = await BlogService.GetBlogPostAsync(thisid);
+        thisblog = blogs.Where(x => x.Slug == Slug && x.Published).FirstOrDefault();
+        thisblogsingle = await BlogService.GetBlogPostAsync(thisblog.Id);
+
+
         this.StateHasChanged();
     }
 }

@@ -36,80 +36,73 @@ namespace WebBlog.Data
             return posts;
         }
 
-        public async Task<BlogPosts> GetBlogPostAsync(int id)
+        public async Task<BlogPostsSingle> GetBlogPostAsync(int id)
         {
             var call = Client.GetAsync(new Uri(Client.BaseAddress + "articles/" + id.ToString()));
             HttpResponseMessage httpResponse = await call;
 
             string result = await httpResponse.Content.ReadAsStringAsync();
-            BlogPosts posts = JsonConvert.DeserializeObject<BlogPosts>(result);
+            BlogPostsSingle post = JsonConvert.DeserializeObject<BlogPostsSingle>(result);
             httpResponse.Dispose();
 
-            return posts;
+            return post;
         }
 
-        public async Task<int> GetTwitterFollowers()
+        public async Task GetTwitterFollowers()
         {
             var followers = (await UserClient.Users.GetFollowerIdsAsync("funkysi1701")).Length;
             await SaveData(followers, 0);
-            return followers;
         }
-        public async Task<int> GetTwitterFollowing()
+
+        public async Task GetTwitterFollowing()
         {
             var friends = (await UserClient.Users.GetFriendIdsAsync("funkysi1701")).Length;
             await SaveData(friends, 1);
-            return friends;
         }
 
-        public async Task<int> GetNumberOfTweets()
+        public async Task GetNumberOfTweets()
         {
             var friends = await UserClient.Users.GetUserAsync("funkysi1701");
             await SaveData(friends.StatusesCount, 2);
-            return friends.StatusesCount;
         }
 
-        public async Task<int> GetTwitterFav()
+        public async Task GetTwitterFav()
         {
             var friends = await UserClient.Users.GetUserAsync("funkysi1701");
             await SaveData(friends.FavoritesCount, 3);
-            return friends.FavoritesCount;
         }
 
-        public async Task<int> GetGitHubFollowers()
+        public async Task GetGitHubFollowers()
         {
             var github = new GitHubClient(new ProductHeaderValue("funkysi1701"));
             var user = await github.User.Get("funkysi1701");
             await SaveData(user.Followers, 4);
-            return user.Followers;
         }
 
-        public async Task<int> GetGitHubFollowing()
+        public async Task GetGitHubFollowing()
         {
             var github = new GitHubClient(new ProductHeaderValue("funkysi1701"));
             var user = await github.User.Get("funkysi1701");
             await SaveData(user.Following, 5);
-            return user.Following;
         }
 
-        public async Task<int> GetGitHubRepo()
+        public async Task GetGitHubRepo()
         {
             var github = new GitHubClient(new ProductHeaderValue("funkysi1701"));
             var user = await github.User.Get("funkysi1701");
             await SaveData(user.PublicRepos, 6);
-            return user.PublicRepos;
         }
 
-        public async Task<int> GetGitHubStars()
+        public async Task GetGitHubStars()
         {
             var github = new GitHubClient(new ProductHeaderValue("funkysi1701"));
             var tokenAuth = new Credentials(Configuration.GetValue<string>("GitHubToken"));
             github.Credentials = tokenAuth;
             var stars = await github.Activity.Starring.GetAllForCurrent();
             await SaveData(stars.Count, 7);
-            return stars.Count;
         }
 
-        public async Task<int> GetCommits()
+        public async Task GetCommits()
         {
             var github = new GitHubClient(new ProductHeaderValue("funkysi1701"));
             var tokenAuth = new Credentials(Configuration.GetValue<string>("GitHubToken"));
@@ -117,13 +110,11 @@ namespace WebBlog.Data
             var events = await github.Activity.Events.GetAllUserPerformed("funkysi1701");
             events = events.Where(x => x.Type == "PushEvent").ToList();
             await SaveData(events.Count, 8);
-            return events.Count;
         }
 
         public async Task SaveData(int value, int type)
         {
             using var context = new MetricsContext(Configuration);
-            await context.Database.EnsureCreatedAsync();
 
             context.Add(new Metric
             {
@@ -135,6 +126,19 @@ namespace WebBlog.Data
             });
 
             await context.SaveChangesAsync();
+        }
+
+        public Metric LoadData(int type)
+        {
+            using var context = new MetricsContext(Configuration);
+            try
+            {
+                return context.Metrics.Where(x => x.Type == type).OrderByDescending(x=>x.Value).First();
+            }
+            catch (Exception e)
+            {
+                return new Metric();
+            }
         }
     }
 }

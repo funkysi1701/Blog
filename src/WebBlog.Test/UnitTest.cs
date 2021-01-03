@@ -55,7 +55,7 @@ namespace WebBlog.Test
             var dt = DateTime.UtcNow;
             var bp = new BlogPosts
             {
-                Body_Html = "html",
+                Body_Mardown = "html",
                 Canonical_Url = "url",
                 Comments_Count = 0,
                 Cover_Image = "",
@@ -78,7 +78,7 @@ namespace WebBlog.Test
                     Twitter_Username = "funkysi1701"
                 }
             };
-            Assert.Equal("html", bp.Body_Html);
+            Assert.Equal("html", bp.Body_Mardown);
             Assert.Equal("url", bp.Canonical_Url);
             Assert.Equal(0, bp.Comments_Count);
             Assert.Equal("", bp.Cover_Image);

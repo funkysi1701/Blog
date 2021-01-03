@@ -1,7 +1,5 @@
 ﻿@page "/"
-@using System.Globalization
-@using WebBlog.Data
-@using WebBlog.Shared
+
 @inject BlogService BlogService
 
 @if (blogs == null)
@@ -18,7 +16,7 @@ else
                 <div>
                     <h4><a href="/posts/@post.Slug">@post.Title</a></h4>
                     <p>
-                        <span>@post.Published_At.Value.ToString("dd MMMM yyyy", CultureInfo.CurrentCulture)</span>
+                        <small>@post.Published_At.Value.ToString("dd MMMM yyyy", CultureInfo.CurrentCulture)</small>
                         &nbsp;@post.Description
                     </p>
                 </div>
