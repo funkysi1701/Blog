@@ -9,23 +9,24 @@
 else
 {
     <Tag></Tag>
-    <Virtualize Items="@blogs" Context="post" >
-        <ItemContent >
-            <div>
-                <h4><a href="/posts/@post.Slug">@post.Title</a></h4>
-                <p>
-                    <small>@post.Published_At.Value.ToString("dd MMMM yyyy", CultureInfo.CurrentCulture)</small>
-                    &nbsp;@post.Description
-                </p>
-            </div>
-        </ItemContent>
-        <Placeholder>
-            <div>
-                <h4>Loading&hellip;</h4>
-            </div>
-        </Placeholder>
-    </Virtualize>
-
+    <div style="column-count:2">
+        <Virtualize Items="@blogs" Context="post" OverscanCount="22">
+            <ItemContent>
+                <div>
+                    <h4><a href="/posts/@post.Slug">@post.Title</a></h4>
+                    <p>
+                        <small>@post.Published_At.Value.ToString("dd MMMM yyyy", CultureInfo.CurrentCulture)</small>
+                        &nbsp;@post.Description
+                    </p>
+                </div>
+            </ItemContent>
+            <Placeholder>
+                <div>
+                    <h4>Loading&hellip;</h4>
+                </div>
+            </Placeholder>
+        </Virtualize>
+    </div>
 }
 
 @code {
