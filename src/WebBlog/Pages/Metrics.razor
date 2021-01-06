@@ -14,7 +14,7 @@
                 <span class="fab fa-dev" aria-hidden="true"></span> Total post views
             </td>
             <td>
-                @views
+                @views.Value
             </td>
         </tr>
         <tr>
@@ -22,7 +22,7 @@
                 <span class="fab fa-dev" aria-hidden="true"></span> Total post reactions
             </td>
             <td>
-                @reactions
+                @reactions.Value
             </td>
         </tr>
         <tr>
@@ -30,7 +30,7 @@
                 <span class="fab fa-dev" aria-hidden="true"></span> Total post comments
             </td>
             <td>
-                @comments
+                @comments.Value
             </td>
         </tr>
         <tr>
@@ -38,7 +38,7 @@
                 <span class="fab fa-dev" aria-hidden="true"></span> Published Posts / Total Posts
             </td>
             <td>
-                @pubposts / @posts
+                @pubposts.Value / @posts.Value
             </td>
         </tr>
         <tr>
@@ -57,7 +57,8 @@
                 <span class="fab fa-twitter" aria-hidden="true"></span> Number Following
             </td>
             <td>
-                @following.Value (@following.Date?.ToString("dd/MM/yy HH:mm"))
+                Max: @following1.Value (@following1.Date?.ToString("dd/MM/yy")) Min: @following2.Value (@following2.Date?.ToString("dd/MM/yy"))
+                Last: @following3.Value (@following3.Date?.ToString("dd/MM/yy")) First: @following4.Value (@following4.Date?.ToString("dd/MM/yy"))
             </td>
         </tr>
         <tr>
@@ -124,7 +125,10 @@
 
 @code {
     private Metric followers = new Metric();
-    private Metric following = new Metric();
+    private Metric following1 = new Metric();
+    private Metric following2 = new Metric();
+    private Metric following3 = new Metric();
+    private Metric following4 = new Metric();
     private Metric numtweets = new Metric();
     private Metric ghfollowers = new Metric();
     private Metric ghfollowing = new Metric();
@@ -132,39 +136,36 @@
     private Metric ghstars = new Metric();
     private Metric commits = new Metric();
     private Metric fav = new Metric();
-    private int views;
-    private int reactions;
-    private int comments;
-    private int pubposts;
-    private int posts;
+    private Metric views = new Metric();
+    private Metric reactions = new Metric();
+    private Metric comments = new Metric();
+    private Metric pubposts = new Metric();
+    private Metric posts = new Metric();
 
-    private List<BlogPosts> blogs;
-
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        blogs = await BlogService.GetBlogsAsync();
-        posts = blogs.Count;
-        pubposts = blogs.Where(x => x.Published).Count();
-        foreach (var item in blogs)
-        {
-            views += item.Page_Views_Count;
-            reactions += item.Positive_Reactions_Count;
-            comments += item.Comments_Count;
-        }
         Load();
     }
 
     private void Load()
     {
-        followers = BlogService.LoadData(0);
-        following = BlogService.LoadData(1);
-        numtweets = BlogService.LoadData(2);
-        fav = BlogService.LoadData(3);
-        ghfollowers = BlogService.LoadData(4);
-        ghfollowing = BlogService.LoadData(5);
-        ghrepo = BlogService.LoadData(6);
-        ghstars = BlogService.LoadData(7);
-        commits = BlogService.LoadData(8);
+        followers = BlogService.LoadData(0,1);
+        following1 = BlogService.LoadData(1,1);
+        following2 = BlogService.LoadData(1, 2);
+        following3 = BlogService.LoadData(1, 3);
+        following4 = BlogService.LoadData(1, 4);
+        numtweets = BlogService.LoadData(2,1);
+        fav = BlogService.LoadData(3,1);
+        ghfollowers = BlogService.LoadData(4,1);
+        ghfollowing = BlogService.LoadData(5,1);
+        ghrepo = BlogService.LoadData(6,1);
+        ghstars = BlogService.LoadData(7,1);
+        commits = BlogService.LoadData(8,1);
+        posts = BlogService.LoadData(9,1);
+        pubposts = BlogService.LoadData(10,1);
+        views = BlogService.LoadData(11,1);
+        reactions = BlogService.LoadData(12,1);
+        comments = BlogService.LoadData(13,1);
     }
 
     private async Task Save()
@@ -178,6 +179,7 @@
         await BlogService.GetNumberOfTweets();
         await BlogService.GetGitHubFollowers();
         await BlogService.GetGitHubFollowing();
+        await BlogService.GetDevTo();
         Load();
     }
 }

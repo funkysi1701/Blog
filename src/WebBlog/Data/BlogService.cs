@@ -112,6 +112,25 @@ namespace WebBlog.Data
             await SaveData(events.Count, 8);
         }
 
+        public async Task GetDevTo()
+        {
+            var blogs = await GetBlogsAsync();
+            await SaveData(blogs.Count, 9);
+            await SaveData(blogs.Where(x => x.Published).Count(), 10);
+            int views= 0;
+            int reactions=0;
+            int comments=0;
+            foreach (var item in blogs)
+            {
+                views += item.Page_Views_Count;
+                reactions += item.Positive_Reactions_Count;
+                comments += item.Comments_Count;
+            }
+            await SaveData(views, 11);
+            await SaveData(reactions, 12);
+            await SaveData(comments, 13);
+        }
+
         public async Task SaveData(int value, int type)
         {
             using var context = new MetricsContext(Configuration);
@@ -128,14 +147,29 @@ namespace WebBlog.Data
             await context.SaveChangesAsync();
         }
 
-        public Metric LoadData(int type)
+        public Metric LoadData(int type, int maxmin)
         {
             using var context = new MetricsContext(Configuration);
             try
             {
-                return context.Metrics.Where(x => x.Type == type).OrderByDescending(x=>x.Value).First();
+                if(maxmin == 1)
+                {
+                    return context.Metrics.Where(x => x.Type == type).OrderByDescending(x => x.Value).First();
+                }
+                else if (maxmin == 2)
+                {
+                    return context.Metrics.Where(x => x.Type == type).OrderBy(x => x.Value).First();
+                }
+                else if(maxmin == 3)
+                {
+                    return context.Metrics.Where(x => x.Type == type).OrderByDescending(x => x.Date).First();
+                }
+                else
+                {
+                    return context.Metrics.Where(x => x.Type == type).OrderBy(x => x.Date).First();
+                }
             }
-            catch (Exception e)
+            catch
             {
                 return new Metric();
             }
