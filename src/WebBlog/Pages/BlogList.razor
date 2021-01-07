@@ -29,6 +29,6 @@ else
     protected override async Task OnInitializedAsync()
     {
         blogs = await BlogService.GetBlogsAsync();
-        blogs = blogs.Where(x => x.Published_At.HasValue).ToList();
+        blogs = blogs.Where(x => x.Published).ToList();
     }
 }

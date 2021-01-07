@@ -2,7 +2,7 @@
 
 @inject BlogService BlogService
 
-@if (blogs == null)
+@if (thisblog == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -70,7 +70,10 @@ else
         blogs = await BlogService.GetBlogsAsync();
 
         thisblog = blogs.Where(x => x.Slug == Slug && x.Published).FirstOrDefault();
-        thisblogsingle = await BlogService.GetBlogPostAsync(thisblog.Id);
+        if (thisblog != null)
+        {
+            thisblogsingle = await BlogService.GetBlogPostAsync(thisblog.Id);
+        }
 
         this.StateHasChanged();
     }
