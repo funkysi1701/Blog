@@ -66,6 +66,7 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: false
+    projects: 'src/WebBlog.Func/WebBlog.Func.csproj'
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) /p:SourceRevisionId=$(Build.SourceVersion)'
 
 - task: PublishPipelineArtifact@1
