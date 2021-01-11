@@ -1,11 +1,9 @@
 ﻿@page "/metrics"
 @inject BlogService BlogService
-@inject WebBlog.AppVersionInfo appInfo
 
 <h2>Metrics</h2>
 
 <p>A page of metrics about me from various services.</p>
-<button type="button" @onclick="Save">Save</button>
 
 <div class="post-content">
     <table width="100%">
@@ -166,20 +164,5 @@
         views = BlogService.LoadData(11,1);
         reactions = BlogService.LoadData(12,1);
         comments = BlogService.LoadData(13,1);
-    }
-
-    private async Task Save()
-    {
-        await BlogService.GetCommits();
-        await BlogService.GetTwitterFav();
-        await BlogService.GetGitHubStars();
-        await BlogService.GetGitHubRepo();
-        await BlogService.GetTwitterFollowers();
-        await BlogService.GetTwitterFollowing();
-        await BlogService.GetNumberOfTweets();
-        await BlogService.GetGitHubFollowers();
-        await BlogService.GetGitHubFollowing();
-        await BlogService.GetDevTo();
-        Load();
     }
 }

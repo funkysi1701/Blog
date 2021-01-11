@@ -1,0 +1,26 @@
+﻿@page "/metrics/save"
+@inject BlogService BlogService
+@inject NavigationManager UriHelper
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Save();
+    }
+
+    private async Task Save()
+    {
+        await BlogService.GetCommits();
+        await BlogService.GetTwitterFav();
+        await BlogService.GetGitHubStars();
+        await BlogService.GetGitHubRepo();
+        await BlogService.GetTwitterFollowers();
+        await BlogService.GetTwitterFollowing();
+        await BlogService.GetNumberOfTweets();
+        await BlogService.GetGitHubFollowers();
+        await BlogService.GetGitHubFollowing();
+        await BlogService.GetDevTo();
+        UriHelper.NavigateTo("/metrics", true);
+    }
+}
