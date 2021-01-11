@@ -39,11 +39,18 @@ steps:
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Build'
+  displayName: 'Build Web'
   inputs:
     command: 'build'
-    projects: '$(solution)'
+    projects: 'src/WebBlog/WebBlog.csproj'
     arguments: '--configuration $(BuildConfiguration)'
+- task: DotNetCoreCLI@2
+  displayName: 'Build Func'
+  inputs:
+    command: 'build'
+    projects: 'src/WebBlog.Func/WebBlog.Func.csproj'
+    arguments: '--configuration $(BuildConfiguration)'
+
 - task: DotNetCoreCLI@2
   displayName: 'Publish'
   inputs:
