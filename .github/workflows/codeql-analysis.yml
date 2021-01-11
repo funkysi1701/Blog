@@ -58,8 +58,10 @@ jobs:
       with:
         dotnet-version: 5.0.100
         
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+    - name: Build
+      run: dotnet build -c Release --no-cache ./src/WebBlog.Test/WebBlog.Test.csproj
+    - name: Build
+      run: dotnet build -c Release --no-cache ./src/WebBlog/WebBlog.csproj
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
