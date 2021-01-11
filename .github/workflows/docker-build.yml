@@ -23,13 +23,13 @@ jobs:
         DEVTOAPI: ${{ secrets.DEVTOAPI }}
         DEVTOURL: ${{ secrets.DEVTOURL }}
     - name: Build
-      run: dotnet build -c Release --no-cache ./src/WebBlog/WebBlog.csproj
+      run: dotnet build -c Release --no-cache ./src/WebBlog.Test/WebBlog.Test.csproj
         
     - name: Run the Unit and Integration Tests
-      run: dotnet test -c Release --no-build ./src/WebBlog/WebBlog.csproj
+      run: dotnet test -c Release --no-build ./src/WebBlog.Test/WebBlog.Test.csproj
       
     - name: Run Code Coverage
-      run: dotnet test -c Release --no-build /p:CollectCoverage=true /p:CoverletOutput="../" /p:ExcludeByFile=\"**/Migrations/**/*%2c**/Models/**/*%2c**/Views/**/*\" /p:MergeWith="../coverage.json" /maxcpucount:1 /p:CoverletOutputFormat=\"json,opencover\" ./src/WebBlog/WebBlog.csproj
+      run: dotnet test -c Release --no-build /p:CollectCoverage=true /p:CoverletOutput="../" /p:ExcludeByFile=\"**/Migrations/**/*%2c**/Models/**/*%2c**/Views/**/*\" /p:MergeWith="../coverage.json" /maxcpucount:1 /p:CoverletOutputFormat=\"json,opencover\" ./src/WebBlog.Test/WebBlog.Test.csproj
     
     - name: Upload coverage to Codecov  
       uses: codecov/codecov-action@v1
