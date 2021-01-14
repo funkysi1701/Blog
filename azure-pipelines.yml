@@ -21,8 +21,8 @@ steps:
     azureSubscription: 'Pay-As-You-Go (aa403fbf-410c-4158-9746-9c5f82cfa2dc)'
     command: 'up'
     args: '--yes'
-    cwd: 'webblog-pulumi'
-    stack: 'funkysi1701/webblog-pulumi/dev'
+    cwd: 'blog-pulumi'
+    stack: 'funkysi1701/blog-pulumi/dev'
 
 - script: '(echo $(Build.BuildNumber) && echo $(Build.BuildId)) > .buildinfo.json'
   displayName: "Emit build number"
