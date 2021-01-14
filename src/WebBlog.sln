@@ -16,9 +16,7 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebBlog.Func", "WebBlog.Func\WebBlog.Func.csproj", "{158E88C6-360B-4EC8-8739-BF79BB543A9D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebBlog.Blazor", "WebBlog.Blazor\WebBlog.Blazor.csproj", "{DA671476-C86F-4B53-8974-67C645190BF7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBlog.Pulumi", "WebBlog.Pulumi\WebBlog.Pulumi.csproj", "{4C310E99-AF02-4A83-A8C6-B7E6201625AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebBlog.Pulumi", "WebBlog.Pulumi\WebBlog.Pulumi.csproj", "{4C310E99-AF02-4A83-A8C6-B7E6201625AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,10 +40,6 @@ Global
 		{158E88C6-360B-4EC8-8739-BF79BB543A9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{158E88C6-360B-4EC8-8739-BF79BB543A9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{158E88C6-360B-4EC8-8739-BF79BB543A9D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA671476-C86F-4B53-8974-67C645190BF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA671476-C86F-4B53-8974-67C645190BF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA671476-C86F-4B53-8974-67C645190BF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA671476-C86F-4B53-8974-67C645190BF7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C310E99-AF02-4A83-A8C6-B7E6201625AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C310E99-AF02-4A83-A8C6-B7E6201625AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C310E99-AF02-4A83-A8C6-B7E6201625AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
