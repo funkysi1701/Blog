@@ -13,7 +13,7 @@ steps:
 - task: DockerCompose@0
   inputs:
     containerregistrytype: 'Azure Container Registry'
-    azureSubscription: 'Pay-As-You-Go (aa403fbf-410c-4158-9746-9c5f82cfa2dc)'
+    azureSubscription: 'Pay-As-You-Go'
     azureContainerRegistry: '{"loginServer":"funkysi1701.azurecr.io", "id" : "/subscriptions/aa403fbf-410c-4158-9746-9c5f82cfa2dc/resourceGroups/Containers/providers/Microsoft.ContainerRegistry/registries/funkysi1701"}'
     dockerComposeFile: 'src/docker-compose.yml'
     action: 'Build services'
