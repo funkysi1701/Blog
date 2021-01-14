@@ -18,7 +18,7 @@ steps:
 
 - task: Pulumi@1
   inputs:
-    azureSubscription: 'Pay-As-You-Go (aa403fbf-410c-4158-9746-9c5f82cfa2dc)'
+    azureSubscription: 'Pay-As-You-Go'
     command: 'up'
     args: '--yes'
     cwd: 'src/WebBlog.pulumi'
