@@ -117,9 +117,9 @@ namespace WebBlog.Data
             var blogs = await GetBlogsAsync();
             await SaveData(blogs.Count, 9);
             await SaveData(blogs.Where(x => x.Published).Count(), 10);
-            int views= 0;
-            int reactions=0;
-            int comments=0;
+            int views = 0;
+            int reactions = 0;
+            int comments = 0;
             foreach (var item in blogs)
             {
                 views += item.Page_Views_Count;
@@ -152,7 +152,7 @@ namespace WebBlog.Data
             using var context = new MetricsContext(Configuration);
             try
             {
-                if(maxmin == 1)
+                if (maxmin == 3)
                 {
                     return context.Metrics.Where(x => x.Type == type).OrderByDescending(x => x.Value).First();
                 }
@@ -160,7 +160,7 @@ namespace WebBlog.Data
                 {
                     return context.Metrics.Where(x => x.Type == type).OrderBy(x => x.Value).First();
                 }
-                else if(maxmin == 3)
+                else if (maxmin == 1)
                 {
                     return context.Metrics.Where(x => x.Type == type).OrderByDescending(x => x.Date).First();
                 }

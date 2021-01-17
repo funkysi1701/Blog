@@ -47,7 +47,7 @@
                 <span class="fab fa-twitter" aria-hidden="true"></span> Number of Followers
             </td>
             <td>
-                @followers.Value (@followers.Date?.ToString("dd/MM/yy HH:mm"))
+                @followers.Value
             </td>
         </tr>
         <tr>
@@ -55,7 +55,7 @@
                 <span class="fab fa-twitter" aria-hidden="true"></span> Number Following
             </td>
             <td>
-                @following.Value (@following.Date?.ToString("dd/MM/yy"))
+                @following.Value
             </td>
         </tr>
         <tr>
@@ -63,7 +63,7 @@
                 <span class="fab fa-twitter" aria-hidden="true"></span> Number of Favourites
             </td>
             <td>
-                @fav.Value (@fav.Date?.ToString("dd/MM/yy HH:mm"))
+                @fav.Value
             </td>
         </tr>
         <tr>
@@ -71,7 +71,7 @@
                 <span class="fab fa-twitter" aria-hidden="true"></span> Number of Tweets
             </td>
             <td>
-                @numtweets.Value (@numtweets.Date?.ToString("dd/MM/yy HH:mm"))
+                @numtweets.Value
             </td>
         </tr>
         <tr>
@@ -82,7 +82,7 @@
                 <span class="fab fa-github" aria-hidden="true"></span> Number Following
             </td>
             <td>
-                @ghfollowing.Value (@ghfollowing.Date?.ToString("dd/MM/yy HH:mm"))
+                @ghfollowing.Value
             </td>
         </tr>
         <tr>
@@ -90,7 +90,7 @@
                 <span class="fab fa-github" aria-hidden="true"></span> Number of Followers
             </td>
             <td>
-                @ghfollowers.Value (@ghfollowers.Date?.ToString("dd/MM/yy HH:mm"))
+                @ghfollowers.Value
             </td>
         </tr>
         <tr>
@@ -98,7 +98,7 @@
                 <span class="fab fa-github" aria-hidden="true"></span> Number of Repos
             </td>
             <td>
-                @ghrepo.Value (@ghrepo.Date?.ToString("dd/MM/yy HH:mm"))
+                @ghrepo.Value
             </td>
         </tr>
         <tr>
@@ -106,7 +106,7 @@
                 <span class="fab fa-github" aria-hidden="true"></span> Number of Stars
             </td>
             <td>
-                @ghstars.Value (@ghstars.Date?.ToString("dd/MM/yy HH:mm"))
+                @ghstars.Value
             </td>
         </tr>
         <tr>
@@ -114,7 +114,7 @@
                 <span class="fab fa-github" aria-hidden="true"></span> Number of Commits
             </td>
             <td>
-                @commits.Value (@commits.Date?.ToString("dd/MM/yy HH:mm"))
+                @commits.Value
             </td>
         </tr>
     </table>
@@ -143,19 +143,19 @@
 
     private void Load()
     {
-        followers = BlogService.LoadData(0,1);
-        following = BlogService.LoadData(1,1);
-        numtweets = BlogService.LoadData(2,1);
-        fav = BlogService.LoadData(3,1);
-        ghfollowers = BlogService.LoadData(4,1);
-        ghfollowing = BlogService.LoadData(5,1);
-        ghrepo = BlogService.LoadData(6,1);
-        ghstars = BlogService.LoadData(7,1);
-        commits = BlogService.LoadData(8,1);
-        posts = BlogService.LoadData(9,1);
-        pubposts = BlogService.LoadData(10,1);
-        views = BlogService.LoadData(11,1);
-        reactions = BlogService.LoadData(12,1);
-        comments = BlogService.LoadData(13,1);
+        followers = BlogService.LoadData(0, 1);
+        following = BlogService.LoadData(1, 1);
+        numtweets = BlogService.LoadData(2, 1);
+        fav = BlogService.LoadData(3, 1);
+        ghfollowers = BlogService.LoadData(4, 1);
+        ghfollowing = BlogService.LoadData(5, 1);
+        ghrepo = BlogService.LoadData(6, 1);
+        ghstars = BlogService.LoadData(7, 1);
+        commits = BlogService.LoadData(8, 1);
+        posts = BlogService.LoadData(9, 1);
+        pubposts = BlogService.LoadData(10, 1);
+        views = BlogService.LoadData(11, 1);
+        reactions = BlogService.LoadData(12, 1);
+        comments = BlogService.LoadData(13, 1);
     }
 }
