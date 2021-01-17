@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Octokit;
 using System;
@@ -173,6 +174,23 @@ namespace WebBlog.Data
             {
                 return new Metric();
             }
+        }
+
+        public async Task<List<ChartView>> GetChart(int type)
+        {
+            using var context = new MetricsContext(Configuration);
+            var res = await context.Metrics.Where(x => x.Type == type).ToListAsync();
+            var result = new List<ChartView>();
+            foreach (var item in res.Where(x => x.Date != null))
+            {
+                var c = new ChartView
+                {
+                    Date = item.Date.Value.Year.ToString("D4") + "-" + item.Date.Value.Month.ToString("D2") + "-" + item.Date.Value.Day.ToString("D2"),
+                    Total = item.Value
+                };
+                result.Add(c);
+            }
+            return result;
         }
     }
 }

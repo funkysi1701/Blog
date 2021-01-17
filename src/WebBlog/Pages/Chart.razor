@@ -1,0 +1,37 @@
+﻿@page "/metrics/chart/{type:int}"
+@inject BlogService BlogService
+@inject IJSRuntime JS
+
+<h2>Chart</h2>
+@if (chart != null && chart.Any())
+{
+    <Line Labels="@label" Data="@data" Title="Chart1"></Line>
+
+}
+
+@code {
+    private IList<ChartView> chart;
+    private List<string> label = new List<string>();
+    private List<decimal> data = new List<decimal>();
+
+    [Parameter]
+    public int type { get; set; } = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Load();
+    }
+
+    private async Task Load()
+    {
+        chart = await BlogService.GetChart(type);
+        foreach (var item in chart.OrderBy(x => x.Date))
+        {
+            if (item.Total.HasValue)
+            {
+                label.Add(item.Date);
+                data.Add(item.Total.Value);
+            }
+        }
+    }
+}
