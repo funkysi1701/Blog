@@ -83,52 +83,52 @@ namespace WebBlog.Data
 
         public async Task GetTwitterFollowers()
         {
-            var followers = (await UserClient.Users.GetFollowerIdsAsync("funkysi1701")).Length;
+            var followers = (await UserClient.Users.GetFollowerIdsAsync(Configuration.GetValue<string>("Username"))).Length;
             await SaveData(followers, 0);
         }
 
         public async Task GetTwitterFollowing()
         {
-            var friends = (await UserClient.Users.GetFriendIdsAsync("funkysi1701")).Length;
+            var friends = (await UserClient.Users.GetFriendIdsAsync(Configuration.GetValue<string>("Username"))).Length;
             await SaveData(friends, 1);
         }
 
         public async Task GetNumberOfTweets()
         {
-            var friends = await UserClient.Users.GetUserAsync("funkysi1701");
+            var friends = await UserClient.Users.GetUserAsync(Configuration.GetValue<string>("Username"));
             await SaveData(friends.StatusesCount, 2);
         }
 
         public async Task GetTwitterFav()
         {
-            var friends = await UserClient.Users.GetUserAsync("funkysi1701");
+            var friends = await UserClient.Users.GetUserAsync(Configuration.GetValue<string>("Username"));
             await SaveData(friends.FavoritesCount, 3);
         }
 
         public async Task GetGitHubFollowers()
         {
-            var github = new GitHubClient(new ProductHeaderValue("funkysi1701"));
-            var user = await github.User.Get("funkysi1701");
+            var github = new GitHubClient(new ProductHeaderValue(Configuration.GetValue<string>("Username")));
+            var user = await github.User.Get(Configuration.GetValue<string>("Username"));
             await SaveData(user.Followers, 4);
         }
 
         public async Task GetGitHubFollowing()
         {
-            var github = new GitHubClient(new ProductHeaderValue("funkysi1701"));
-            var user = await github.User.Get("funkysi1701");
+            var github = new GitHubClient(new ProductHeaderValue(Configuration.GetValue<string>("Username")));
+            var user = await github.User.Get(Configuration.GetValue<string>("Username"));
             await SaveData(user.Following, 5);
         }
 
         public async Task GetGitHubRepo()
         {
-            var github = new GitHubClient(new ProductHeaderValue("funkysi1701"));
-            var user = await github.User.Get("funkysi1701");
+            var github = new GitHubClient(new ProductHeaderValue(Configuration.GetValue<string>("Username")));
+            var user = await github.User.Get(Configuration.GetValue<string>("Username"));
             await SaveData(user.PublicRepos, 6);
         }
 
         public async Task GetGitHubStars()
         {
-            var github = new GitHubClient(new ProductHeaderValue("funkysi1701"));
+            var github = new GitHubClient(new ProductHeaderValue(Configuration.GetValue<string>("Username")));
             var tokenAuth = new Credentials(Configuration.GetValue<string>("GitHubToken"));
             github.Credentials = tokenAuth;
             var stars = await github.Activity.Starring.GetAllForCurrent();
@@ -137,10 +137,10 @@ namespace WebBlog.Data
 
         public async Task GetCommits()
         {
-            var github = new GitHubClient(new ProductHeaderValue("funkysi1701"));
+            var github = new GitHubClient(new ProductHeaderValue(Configuration.GetValue<string>("Username")));
             var tokenAuth = new Credentials(Configuration.GetValue<string>("GitHubToken"));
             github.Credentials = tokenAuth;
-            var events = await github.Activity.Events.GetAllUserPerformed("funkysi1701");
+            var events = await github.Activity.Events.GetAllUserPerformed(Configuration.GetValue<string>("Username"));
             events = events.Where(x => x.Type == "PushEvent").ToList();
             await SaveData(events.Count, 8);
         }
