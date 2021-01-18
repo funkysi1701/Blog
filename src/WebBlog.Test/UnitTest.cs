@@ -13,11 +13,16 @@ namespace WebBlog.Test
 {
     public class UnitTest
     {
+        private readonly MetricService MetricService;
         private readonly BlogService BlogService;
+        private readonly MetricsContext context;
 
         public UnitTest()
         {
+            
             var config = Config.GetIConfiguration(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            var setup = new Setup();
+            context = new MetricsContext(setup.Options);
             var mockFactory = new Mock<IHttpClientFactory>();
             var client = new HttpClient
             {
@@ -25,6 +30,7 @@ namespace WebBlog.Test
             };
             mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
             BlogService = new BlogService(mockFactory.Object, config);
+            MetricService = new MetricService(context, config, BlogService);
         }
 
         [Fact]
@@ -38,6 +44,63 @@ namespace WebBlog.Test
         {
             var blogs = await BlogService.GetBlogsAsync();
             Assert.NotEmpty(blogs);
+        }
+
+        [Fact]
+        public void ChartView()
+        {
+            var view = new ChartView
+            {
+                Date = "2020-01-01",
+                Total = 5
+            };
+            Assert.Equal(5,view.Total);
+            Assert.Equal("2020-01-01", view.Date);
+        }
+
+        [Fact]
+        public void Metric()
+        {
+            var view = new Metric
+            {
+                Id=1,
+                Value=5,
+                Date = DateTime.Parse("2020-01-01"),
+                Type = 1,
+                PartitionKey = "0"
+            };
+
+            Assert.Equal(1, view.Id); 
+            Assert.Equal(5, view.Value);
+            Assert.Equal(DateTime.Parse("2020-01-01"), view.Date);
+            Assert.Equal(1, view.Type);
+            Assert.Equal("0", view.PartitionKey);
+        }
+
+        [Fact]
+        public void AddToContext()
+        {
+            var view = new Metric
+            {
+                Id = 1,
+                Value = 5,
+                Date = DateTime.Parse("2020-01-01"),
+                Type = 1,
+                PartitionKey = "0"
+            };
+            context.Add(view);
+            context.SaveChanges();
+
+            Assert.Single(context.Metrics);
+        }
+
+        [Fact]
+        public async Task CheckSaveData()
+        {
+            await MetricService.SaveData(0,0);
+            var res = MetricService.LoadData(0, 0);
+            Assert.Equal(0, res.Type);
+            Assert.Equal(0, res.Value);
         }
 
         [Fact]

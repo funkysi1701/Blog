@@ -1,5 +1,6 @@
 ﻿@page "/metrics/save"
 @inject BlogService BlogService
+@inject MetricService MetricService
 @inject NavigationManager UriHelper
 
 @code {
@@ -11,16 +12,16 @@
 
     private async Task Save()
     {
-        await BlogService.GetCommits();
-        await BlogService.GetTwitterFav();
-        await BlogService.GetGitHubStars();
-        await BlogService.GetGitHubRepo();
-        await BlogService.GetTwitterFollowers();
-        await BlogService.GetTwitterFollowing();
-        await BlogService.GetNumberOfTweets();
-        await BlogService.GetGitHubFollowers();
-        await BlogService.GetGitHubFollowing();
-        await BlogService.GetDevTo();
+        await MetricService.GetCommits();
+        await MetricService.GetTwitterFav();
+        await MetricService.GetGitHubStars();
+        await MetricService.GetGitHubRepo();
+        await MetricService.GetTwitterFollowers();
+        await MetricService.GetTwitterFollowing();
+        await MetricService.GetNumberOfTweets();
+        await MetricService.GetGitHubFollowers();
+        await MetricService.GetGitHubFollowing();
+        await MetricService.GetDevTo();
         UriHelper.NavigateTo("/metrics", true);
     }
 }
