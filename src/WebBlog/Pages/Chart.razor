@@ -1,5 +1,6 @@
 ﻿@page "/metrics/chart/{type:int}"
 @inject BlogService BlogService
+@inject MetricService MetricService
 @inject IJSRuntime JS
 
 <h2>Chart</h2>
@@ -24,7 +25,7 @@
 
     private async Task Load()
     {
-        chart = await BlogService.GetChart(type);
+        chart = await MetricService.GetChart(type);
         foreach (var item in chart.OrderBy(x => x.Date))
         {
             if (item.Total.HasValue)

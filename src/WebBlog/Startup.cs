@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,6 +31,12 @@ namespace WebBlog
             services.AddServerSideBlazor()
                 .AddCircuitOptions(opt => { opt.DetailedErrors = true; });
             services.AddSingleton<BlogService>();
+            services.AddScoped<MetricService>();
+            services.AddDbContext<MetricsContext>
+                (options => options.UseCosmos(
+                    Configuration.GetValue<string>("CosmosDBURI"),
+                    Configuration.GetValue<string>("CosmosDBKey"),
+                    databaseName: "Metrics"));
             services.AddHttpContextAccessor();
             services.AddApplicationInsightsTelemetry(Configuration.GetSection("ApplicationInsights").GetValue<string>("InstrumentationKey"));
             services.AddSingleton<AppVersionInfo>();
