@@ -95,6 +95,15 @@ namespace WebBlog.Test
         }
 
         [Fact]
+        public async Task CheckSaveData()
+        {
+            await MetricService.SaveData(0,0);
+            var res = MetricService.LoadData(0, 0);
+            Assert.Equal(0, res.Type);
+            Assert.Equal(0, res.Value);
+        }
+
+        [Fact]
         public async Task GetBlogPostAsync()
         {
             var blogs = await BlogService.GetBlogsAsync();
