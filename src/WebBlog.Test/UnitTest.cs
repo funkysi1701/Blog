@@ -41,6 +41,37 @@ namespace WebBlog.Test
         }
 
         [Fact]
+        public void ChartView()
+        {
+            var view = new ChartView
+            {
+                Date = "2020-01-01",
+                Total = 5
+            };
+            Assert.Equal(5,view.Total);
+            Assert.Equal("2020-01-01", view.Date);
+        }
+
+        [Fact]
+        public void Metric()
+        {
+            var view = new Metric
+            {
+                Id=1,
+                Value=5,
+                Date = DateTime.Parse("2020-01-01"),
+                Type = 1,
+                PartitionKey = "0"
+            };
+
+            Assert.Equal(1, view.Id); 
+            Assert.Equal(5, view.Value);
+            Assert.Equal(DateTime.Parse("2020-01-01"), view.Date);
+            Assert.Equal(1, view.Type);
+            Assert.Equal("0", view.PartitionKey);
+        }
+
+        [Fact]
         public async Task GetBlogPostAsync()
         {
             var blogs = await BlogService.GetBlogsAsync();
