@@ -3,15 +3,17 @@
 @inject MetricService MetricService
 @inject IJSRuntime JS
 
-<h2>Chart</h2>
+
 @if (chart != null && chart.Any())
 {
-    <Line Labels="@label" Data="@data" Title="Chart1"></Line>
+    <h2>Chart of @title</h2>
+    <Line Labels="@label" Data="@data" Title="@title"></Line>
 
 }
 
 @code {
     private IList<ChartView> chart;
+    private string title;
     private List<string> label = new List<string>();
     private List<decimal> data = new List<decimal>();
 
@@ -33,6 +35,54 @@
                 label.Add(item.Date);
                 data.Add(item.Total.Value);
             }
+        }
+        switch (type)
+        {
+            case 0:
+                title = "Twitter Followers";
+                break;
+            case 1:
+                title = "Twitter Following";
+                break;
+            case 2:
+                title = "Number Of Tweets";
+                break;
+            case 3:
+                title = "Twitter Favourites";
+                break;
+            case 4:
+                title = "GitHub Followers";
+                break;
+            case 5:
+                title = "GitHub Following";
+                break;
+            case 6:
+                title = "GitHub Repo";
+                break;
+            case 7:
+                title = "GitHub Stars";
+                break;
+            case 8:
+                title = "GitHub Commits";
+                break;
+            case 9:
+                title = "DevTo Posts";
+                break;
+            case 10:
+                title = "DevTo Published Posts";
+                break;
+            case 11:
+                title = "DevTo Views";
+                break;
+            case 12:
+                title = "DevTo Reactions";
+                break;
+            case 13:
+                title = "DevTo Comments";
+                break;
+            default:
+                title = "Unknown";
+                break;
         }
     }
 }
