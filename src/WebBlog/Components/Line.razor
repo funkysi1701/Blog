@@ -9,8 +9,9 @@
 @using ChartJs.Blazor.ChartJS.Common.Axes.Ticks
 @using ChartJs.Blazor.ChartJS.Common.Enums
 
-<ChartJsLineChart @ref="_lineChartJs" Config="@_config" Width="2400" Height="1000" />
-
+<div style="min-width: 600px !important">
+    <ChartJsLineChart @ref="_lineChartJs" Config="@_config" Width="2400" Height="1000" />
+</div>
 @code {
     private LineConfig _config;
     private ChartJsLineChart _lineChartJs;
