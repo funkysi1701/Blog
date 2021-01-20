@@ -44,7 +44,9 @@ public class MyStack: Stack
             Name = name,
             SiteConfig = new AppServiceSiteConfigArgs()
             {
-                DotnetFrameworkVersion = "v5.0"
+                AlwaysOn = false,
+                DotnetFrameworkVersion = "v5.0",
+                Use32BitWorkerProcess = true
             }
         });
     }
