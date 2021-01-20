@@ -42,6 +42,10 @@ public class MyStack: Stack
             AppServicePlanId = appServicePlan.Id,
             Location = Region,
             Name = name,
+            SiteConfig = new AppServiceSiteConfigArgs()
+            {
+                DotnetFrameworkVersion = "v5.0"
+            }
         });
     }
 
