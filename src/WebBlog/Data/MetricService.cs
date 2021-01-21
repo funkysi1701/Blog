@@ -151,9 +151,9 @@ namespace WebBlog.Data
             var tokenAuth = new Credentials(Configuration.GetValue<string>("GitHubToken"));
             github.Credentials = tokenAuth;
             var events = await github.Activity.Events.GetAllUserPerformed(Configuration.GetValue<string>("Username1"));
-            var today = events.Where(x => x.Type == "PushEvent" && x.CreatedAt > DateTime.Now.Date).ToList();
+            var today = events.Where(x => x.Type == "PushEvent" && x.CreatedAt > DateTime.Now.AddDays(-1).Date).ToList();
             var sofar = _context.Metrics.OrderBy(y => y.Date).ToList();
-            sofar = sofar.Where(x => x.Date != null && x.Type == 8 && x.Date < DateTime.Now.Date).OrderBy(y => y.Date).ToList();
+            sofar = sofar.Where(x => x.Date != null && x.Type == 8 && x.Date < DateTime.Now.AddDays(-1).Date).OrderBy(y => y.Date).ToList();
             await SaveData(today.Count + sofar.Last().Value.Value, 8);
         }
 
