@@ -2,11 +2,14 @@
 @inject BlogService BlogService
 @inject MetricService MetricService
 @inject IJSRuntime JS
-
+@inject NavigationManager UriHelper
 
 @if (chart != null && chart.Any())
 {
     <h2>Chart of @title</h2>
+    <a @onclick="@Prev" @onclick:preventDefault href="#">Prev Chart</a>
+    <a @onclick="@Next" @onclick:preventDefault href="#">Next Chart</a>
+
     <Line Labels="@label" Data="@data" Title="@title"></Line>
 
 }
@@ -23,6 +26,27 @@
     protected override async Task OnInitializedAsync()
     {
         await Load();
+    }
+
+    protected void Prev()
+    {
+        type = type - 1;
+        if (type < 0)
+        {
+            type = 13;
+        }
+        UriHelper.NavigateTo("/metrics/chart/" + type, true);
+
+    }
+    protected void Next()
+    {
+        type = type + 1;
+        if (type > 13)
+        {
+            type = 0;
+        }
+        UriHelper.NavigateTo("/metrics/chart/" + type, true);
+
     }
 
     private async Task Load()
