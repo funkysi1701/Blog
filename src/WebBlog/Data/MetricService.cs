@@ -78,6 +78,7 @@ namespace WebBlog.Data
         public async Task<List<ChartView>> GetChart(int type)
         {
             var res = await _context.Metrics.Where(x => x.Type == type).ToListAsync();
+            res = res.Where(x => x.Date > DateTime.Now.AddDays(-14)).ToList();
             var result = new List<ChartView>();
             foreach (var item in res.Where(x => x.Date != null))
             {
