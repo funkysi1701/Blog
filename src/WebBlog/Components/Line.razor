@@ -27,9 +27,8 @@
 
     protected override void OnInitialized()
     {
-
-
-        if (Day) {
+        if (Day)
+        {
             _config = new LineConfig
             {
                 Options = new LineOptions
@@ -48,19 +47,19 @@
                     Scales = new Scales
                     {
                         xAxes = new List<CartesianAxis>
-                        {
+                    {
                             new TimeAxis
                             {
                                 Distribution = TimeDistribution.Linear,
                                 Ticks = new TimeTicks
                                 {
-                                    Source = TickSource.Data
+                                    Source = TickSource.Auto
                                 },
                                 Time = new TimeOptions
                                 {
 
                                     Unit = TimeMeasurement.Hour,
-                                    Round = TimeMeasurement.Hour,
+                                    Round = TimeMeasurement.Second,
                                     TooltipFormat = "DD.MM.YYYY HH:mm:ss",
                                     DisplayFormats = TimeDisplayFormats.DE_CH
                                 },
@@ -95,19 +94,19 @@
                     Scales = new Scales
                     {
                         xAxes = new List<CartesianAxis>
-                        {
+                    {
                             new TimeAxis
                             {
                                 Distribution = TimeDistribution.Linear,
                                 Ticks = new TimeTicks
                                 {
-                                    Source = TickSource.Data
+                                    Source = TickSource.Auto
                                 },
                                 Time = new TimeOptions
                                 {
 
                                     Unit = TimeMeasurement.Day,
-                                    Round = TimeMeasurement.Day,
+                                    Round = TimeMeasurement.Hour,
                                     TooltipFormat = "DD.MM.YYYY",
                                     DisplayFormats = TimeDisplayFormats.DE_CH
                                 },
@@ -122,8 +121,6 @@
                 }
             };
         }
-
-
 
         var Set = new LineDataset<TimeTuple<int>>
         {
