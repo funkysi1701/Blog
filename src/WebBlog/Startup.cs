@@ -32,6 +32,7 @@ namespace WebBlog
                 .AddCircuitOptions(opt => { opt.DetailedErrors = true; });
             services.AddSingleton<BlogService>();
             services.AddScoped<MetricService>();
+            services.AddScoped<GithubService>();
             services.AddDbContext<MetricsContext>
                 (options => options.UseCosmos(
                     Configuration.GetValue<string>("CosmosDBURI"),
