@@ -74,21 +74,40 @@ namespace WebBlog.Data
             }
         }
 
-        public async Task<List<ChartView>> GetChart(int type)
+        public async Task<List<ChartView>> GetChart(int type, bool day)
         {
             var res = await _context.Metrics.Where(x => x.Type == type).ToListAsync();
-            res = res.Where(x => x.Date > DateTime.Now.AddDays(-14)).ToList();
-            var result = new List<ChartView>();
-            foreach (var item in res.Where(x => x.Date != null))
+            if (day)
             {
-                var c = new ChartView
+                res = res.Where(x => x.Date > DateTime.Now.AddHours(-24)).ToList();
+                var result = new List<ChartView>();
+                foreach (var item in res.Where(x => x.Date != null))
                 {
-                    Date = item.Date.Value.Year.ToString("D4") + "-" + item.Date.Value.Month.ToString("D2") + "-" + item.Date.Value.Day.ToString("D2"),
-                    Total = item.Value
-                };
-                result.Add(c);
+                    var c = new ChartView
+                    {
+                        Date = item.Date.Value.Year.ToString("D4") + "-" + item.Date.Value.Month.ToString("D2") + "-" + item.Date.Value.Day.ToString("D2") + " " + item.Date.Value.Hour.ToString("D2") +":00:00",
+                        Total = item.Value
+                    };
+                    result.Add(c);
+                }
+                return result;
             }
-            return result;
+            else
+            {
+                res = res.Where(x => x.Date > DateTime.Now.AddDays(-14)).ToList();
+                var result = new List<ChartView>();
+                foreach (var item in res.Where(x => x.Date != null))
+                {
+                    var c = new ChartView
+                    {
+                        Date = item.Date.Value.Year.ToString("D4") + "-" + item.Date.Value.Month.ToString("D2") + "-" + item.Date.Value.Day.ToString("D2"),
+                        Total = item.Value
+                    };
+                    result.Add(c);
+                }
+                return result;
+            }
+            
         }
 
         public async Task GetTwitterFollowers()

@@ -10,15 +10,19 @@
     <a @onclick="@Prev" @onclick:preventDefault href="#">Prev Chart</a>
     <a @onclick="@Next" @onclick:preventDefault href="#">Next Chart</a>
 
-    <Line Labels="@label" Data="@data" Title="@title"></Line>
+    <Line Labels="@label" Data="@data" Title="@title" Day="false"></Line>
+    <Line Labels="@label2" Data="@data2" Title="@title" Day="true"></Line>
 
 }
 
 @code {
     private IList<ChartView> chart;
+    private IList<ChartView> chart2;
     private string title;
     private List<string> label = new List<string>();
     private List<decimal> data = new List<decimal>();
+    private List<string> label2 = new List<string>();
+    private List<decimal> data2 = new List<decimal>();
 
     [Parameter]
     public int type { get; set; } = 0;
@@ -51,13 +55,22 @@
 
     private async Task Load()
     {
-        chart = await MetricService.GetChart(type);
+        chart = await MetricService.GetChart(type, false);
         foreach (var item in chart.OrderBy(x => x.Date))
         {
             if (item.Total.HasValue)
             {
                 label.Add(item.Date);
                 data.Add(item.Total.Value);
+            }
+        }
+        chart2 = await MetricService.GetChart(type, true);
+        foreach (var item in chart2.OrderBy(x => x.Date))
+        {
+            if (item.Total.HasValue)
+            {
+                label2.Add(item.Date);
+                data2.Add(item.Total.Value);
             }
         }
         switch (type)
