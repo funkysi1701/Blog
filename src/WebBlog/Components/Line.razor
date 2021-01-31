@@ -9,8 +9,8 @@
 @using ChartJs.Blazor.ChartJS.Common.Axes.Ticks
 @using ChartJs.Blazor.ChartJS.Common.Enums
 
-<div style="min-width: 600px !important">
-    <ChartJsLineChart @ref="_lineChartJs" Config="@_config" Width="2400" Height="1000" />
+<div>
+    <ChartJsLineChart @ref="_lineChartJs" Config="@_config" Width="2400" Height="2000" />
 </div>
 @code {
     private LineConfig _config;
@@ -47,13 +47,14 @@
                     Scales = new Scales
                     {
                         xAxes = new List<CartesianAxis>
-                    {
+                        {
                             new TimeAxis
                             {
                                 Distribution = TimeDistribution.Linear,
                                 Ticks = new TimeTicks
                                 {
-                                    Source = TickSource.Auto
+                                    Source = TickSource.Auto,
+                                    Reverse = true
                                 },
                                 Time = new TimeOptions
                                 {
@@ -100,7 +101,8 @@
                                 Distribution = TimeDistribution.Linear,
                                 Ticks = new TimeTicks
                                 {
-                                    Source = TickSource.Auto
+                                    Source = TickSource.Auto,
+                                    Reverse = true
                                 },
                                 Time = new TimeOptions
                                 {
