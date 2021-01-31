@@ -9,7 +9,7 @@
 @using ChartJs.Blazor.ChartJS.Common.Axes.Ticks
 @using ChartJs.Blazor.ChartJS.Common.Enums
 
-<div>
+<div style="max-width: 600px !important;float:left;padding:30px">
     <ChartJsLineChart @ref="_lineChartJs" Config="@_config" Width="2400" Height="2000" />
 </div>
 @code {
@@ -36,7 +36,7 @@
                     Title = new OptionsTitle
                     {
                         Display = true,
-                        Text = Title
+                        Text = Title + " Last Day"
                     },
                     Responsive = true,
                     Animation = new ArcAnimation
@@ -84,7 +84,7 @@
                     Title = new OptionsTitle
                     {
                         Display = true,
-                        Text = Title
+                        Text = Title + " Last 2 Weeks"
                     },
                     Responsive = true,
                     Animation = new ArcAnimation

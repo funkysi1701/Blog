@@ -7,9 +7,10 @@
 @if (chart != null && chart.Any())
 {
     <h2>Chart of @title</h2>
-    <a @onclick="@Prev" @onclick:preventDefault href="#">Prev Chart</a>
-    <a @onclick="@Next" @onclick:preventDefault href="#">Next Chart</a>
-
+    <div>
+        <a @onclick="@Prev" @onclick:preventDefault href="#">Prev Chart</a>
+        <a @onclick="@Next" @onclick:preventDefault href="#">Next Chart</a>
+    </div>
     <Line Labels="@label" Data="@data" Title="@title" Day="false"></Line>
     <Line Labels="@label2" Data="@data2" Title="@title" Day="true"></Line>
 
