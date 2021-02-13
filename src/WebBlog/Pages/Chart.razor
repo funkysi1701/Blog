@@ -7,7 +7,7 @@
 @if (chart != null && chart.Any())
 {
     <h2>Chart of @title</h2>
-    <div>
+    <div class="text-center">
         <a @onclick="@Prev" @onclick:preventDefault href="#">Prev Chart</a>
         <a @onclick="@Next" @onclick:preventDefault href="#">Next Chart</a>
     </div>
