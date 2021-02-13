@@ -74,10 +74,10 @@ namespace WebBlog.Data
             }
         }
 
-        public async Task<List<ChartView>> GetChart(int type, bool day)
+        public async Task<List<ChartView>> GetChart(int type, int day)
         {
             var res = await _context.Metrics.Where(x => x.Type == type).ToListAsync();
-            if (day)
+            if (day == 1)
             {
                 res = res.Where(x => x.Date > DateTime.Now.AddHours(-24)).ToList();
                 var result = new List<ChartView>();
@@ -92,7 +92,7 @@ namespace WebBlog.Data
                 }
                 return result;
             }
-            else
+            else if (day == 0)
             {
                 res = res.Where(x => x.Date > DateTime.Now.AddDays(-14)).ToList();
                 var result = new List<ChartView>();
@@ -101,6 +101,21 @@ namespace WebBlog.Data
                     var c = new ChartView
                     {
                         Date = item.Date.Value.Year.ToString("D4") + "-" + item.Date.Value.Month.ToString("D2") + "-" + item.Date.Value.Day.ToString("D2"),
+                        Total = item.Value
+                    };
+                    result.Add(c);
+                }
+                return result;
+            }
+            else
+            {
+                res = res.ToList();
+                var result = new List<ChartView>();
+                foreach (var item in res.Where(x => x.Date != null))
+                {
+                    var c = new ChartView
+                    {
+                        Date = item.Date.Value.Year.ToString("D4") + "-" + item.Date.Value.Month.ToString("D2") + "-" + item.Date.Value.Day.ToString("D2") + " " + item.Date.Value.Hour.ToString("D2") + ":" + item.Date.Value.Minute.ToString("D2") + ":" + item.Date.Value.Second.ToString("D2"),
                         Total = item.Value
                     };
                     result.Add(c);

@@ -11,19 +11,23 @@
         <a @onclick="@Prev" @onclick:preventDefault href="#">Prev Chart</a>
         <a @onclick="@Next" @onclick:preventDefault href="#">Next Chart</a>
     </div>
-    <Line Labels="@label" Data="@data" Title="@title" Day="false"></Line>
-    <Line Labels="@label2" Data="@data2" Title="@title" Day="true"></Line>
+    <Line Labels="@label3" Data="@data3" Title="@title" Day="2"></Line>
+    <Line Labels="@label" Data="@data" Title="@title" Day="0"></Line>
+    <Line Labels="@label2" Data="@data2" Title="@title" Day="1"></Line>
 
 }
 
 @code {
     private IList<ChartView> chart;
     private IList<ChartView> chart2;
+    private IList<ChartView> chart3;
     private string title;
     private List<string> label = new List<string>();
     private List<decimal> data = new List<decimal>();
     private List<string> label2 = new List<string>();
     private List<decimal> data2 = new List<decimal>();
+    private List<string> label3 = new List<string>();
+    private List<decimal> data3 = new List<decimal>();
 
     [Parameter]
     public int type { get; set; } = 0;
@@ -56,7 +60,7 @@
 
     private async Task Load()
     {
-        chart = await MetricService.GetChart(type, false);
+        chart = await MetricService.GetChart(type, 0);
         foreach (var item in chart.OrderBy(x => x.Date))
         {
             if (item.Total.HasValue)
@@ -65,13 +69,22 @@
                 data.Add(item.Total.Value);
             }
         }
-        chart2 = await MetricService.GetChart(type, true);
+        chart2 = await MetricService.GetChart(type, 1);
         foreach (var item in chart2.OrderBy(x => x.Date))
         {
             if (item.Total.HasValue)
             {
                 label2.Add(item.Date);
                 data2.Add(item.Total.Value);
+            }
+        }
+        chart3 = await MetricService.GetChart(type, 2);
+        foreach (var item in chart3.OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).DayOfWeek == DayOfWeek.Friday && DateTime.Parse(y.Date).Hour == 0))
+        {
+            if (item.Total.HasValue)
+            {
+                label3.Add(item.Date);
+                data3.Add(item.Total.Value);
             }
         }
         switch (type)

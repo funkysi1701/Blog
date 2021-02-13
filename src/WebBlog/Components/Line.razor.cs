@@ -19,16 +19,19 @@ namespace WebBlog.Components
 
         [Parameter]
         public List<string> Labels { get; set; }
+
         [Parameter]
         public List<decimal> Data { get; set; }
+        
         [Parameter]
         public string Title { get; set; }
+        
         [Parameter]
-        public bool Day { get; set; }
+        public int Day { get; set; }
 
         protected override void OnInitialized()
         {
-            if (Day)
+            if (Day == 1)
             {
                 _config = new LineConfig
                 {
@@ -76,7 +79,7 @@ namespace WebBlog.Components
                     }
                 };
             }
-            else
+            else if(Day == 0)
             {
                 _config = new LineConfig
                 {
@@ -96,30 +99,78 @@ namespace WebBlog.Components
                         Scales = new Scales
                         {
                             xAxes = new List<CartesianAxis>
-                    {
-                            new TimeAxis
                             {
-                                Distribution = TimeDistribution.Linear,
-                                Ticks = new TimeTicks
+                                new TimeAxis
                                 {
-                                    Source = TickSource.Auto,
-                                    Reverse = true
-                                },
-                                Time = new TimeOptions
-                                {
+                                    Distribution = TimeDistribution.Linear,
+                                    Ticks = new TimeTicks
+                                    {
+                                        Source = TickSource.Auto,
+                                        Reverse = true
+                                    },
+                                    Time = new TimeOptions
+                                    {
 
-                                    Unit = TimeMeasurement.Day,
-                                    Round = TimeMeasurement.Hour,
-                                    TooltipFormat = "DD.MM.YYYY",
-                                    DisplayFormats = TimeDisplayFormats.DE_CH
-                                },
+                                        Unit = TimeMeasurement.Day,
+                                        Round = TimeMeasurement.Hour,
+                                        TooltipFormat = "DD.MM.YYYY",
+                                        DisplayFormats = TimeDisplayFormats.DE_CH
+                                    },
 
-                                ScaleLabel = new ScaleLabel
-                                {
-                                    LabelString = "Date"
+                                    ScaleLabel = new ScaleLabel
+                                    {
+                                        LabelString = "Date"
+                                    }
                                 }
                             }
                         }
+                    }
+                };
+            }
+            else
+            {
+                _config = new LineConfig
+                {
+                    Options = new LineOptions
+                    {
+                        Title = new OptionsTitle
+                        {
+                            Display = true,
+                            Text = Title + " Weekly"
+                        },
+                        Responsive = true,
+                        Animation = new ArcAnimation
+                        {
+                            AnimateRotate = true,
+                            AnimateScale = true
+                        },
+                        Scales = new Scales
+                        {
+                            xAxes = new List<CartesianAxis>
+                            {
+                                new TimeAxis
+                                {
+                                    Distribution = TimeDistribution.Linear,
+                                    Ticks = new TimeTicks
+                                    {
+                                        Source = TickSource.Auto,
+                                        Reverse = true
+                                    },
+                                    Time = new TimeOptions
+                                    {
+
+                                        Unit = TimeMeasurement.Week,
+                                        Round = TimeMeasurement.Day,
+                                        TooltipFormat = "DD.MM.YYYY",
+                                        DisplayFormats = TimeDisplayFormats.DE_CH
+                                    },
+
+                                    ScaleLabel = new ScaleLabel
+                                    {
+                                        LabelString = "Date"
+                                    }
+                                }
+                            }
                         }
                     }
                 };
