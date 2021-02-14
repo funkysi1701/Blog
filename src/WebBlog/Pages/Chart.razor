@@ -79,7 +79,7 @@
             }
         }
         chart3 = await MetricService.GetChart(type, 2);
-        foreach (var item in chart3.OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).DayOfWeek == DateTime.Now.DayOfWeek && DateTime.Parse(y.Date).Hour == DateTime.Now.Hour))
+        foreach (var item in chart3.OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).DayOfWeek == DateTime.Now.DayOfWeek && DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
         {
             if (item.Total.HasValue)
             {
