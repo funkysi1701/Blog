@@ -19,7 +19,6 @@ namespace WebBlog.Test
 
         public UnitTest()
         {
-            
             var config = Config.GetIConfiguration(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
             var setup = new Setup();
             context = new MetricsContext(setup.Options);
@@ -54,7 +53,7 @@ namespace WebBlog.Test
                 Date = "2020-01-01",
                 Total = 5
             };
-            Assert.Equal(5,view.Total);
+            Assert.Equal(5, view.Total);
             Assert.Equal("2020-01-01", view.Date);
         }
 
@@ -63,14 +62,14 @@ namespace WebBlog.Test
         {
             var view = new Metric
             {
-                Id=1,
-                Value=5,
+                Id = 1,
+                Value = 5,
                 Date = DateTime.Parse("2020-01-01"),
                 Type = 1,
                 PartitionKey = "0"
             };
 
-            Assert.Equal(1, view.Id); 
+            Assert.Equal(1, view.Id);
             Assert.Equal(5, view.Value);
             Assert.Equal(DateTime.Parse("2020-01-01"), view.Date);
             Assert.Equal(1, view.Type);
@@ -97,7 +96,7 @@ namespace WebBlog.Test
         [Fact]
         public async Task CheckSaveData()
         {
-            await MetricService.SaveData(0,0);
+            await MetricService.SaveData(0, 0);
             var res = MetricService.LoadData(0, 0);
             Assert.Equal(0, res.Type);
             Assert.Equal(0, res.Value);

@@ -22,10 +22,10 @@ namespace WebBlog.Components
 
         [Parameter]
         public List<decimal> Data { get; set; }
-        
+
         [Parameter]
         public string Title { get; set; }
-        
+
         [Parameter]
         public int Day { get; set; }
 
@@ -62,7 +62,6 @@ namespace WebBlog.Components
                                 },
                                 Time = new TimeOptions
                                 {
-
                                     Unit = TimeMeasurement.Hour,
                                     Round = TimeMeasurement.Second,
                                     TooltipFormat = "DD.MM.YYYY HH:mm:ss",
@@ -79,7 +78,7 @@ namespace WebBlog.Components
                     }
                 };
             }
-            else if(Day == 0)
+            else if (Day == 0)
             {
                 _config = new LineConfig
                 {
@@ -110,7 +109,6 @@ namespace WebBlog.Components
                                     },
                                     Time = new TimeOptions
                                     {
-
                                         Unit = TimeMeasurement.Day,
                                         Round = TimeMeasurement.Hour,
                                         TooltipFormat = "DD.MM.YYYY",
@@ -158,7 +156,6 @@ namespace WebBlog.Components
                                     },
                                     Time = new TimeOptions
                                     {
-
                                         Unit = TimeMeasurement.Week,
                                         Round = TimeMeasurement.Day,
                                         TooltipFormat = "DD.MM.YYYY",
@@ -186,7 +183,6 @@ namespace WebBlog.Components
                 PointBorderWidth = 1,
                 SteppedLine = SteppedLine.False,
                 ShowLine = true
-
             };
 
             for (int i = 0; i < Data.Count; i++)

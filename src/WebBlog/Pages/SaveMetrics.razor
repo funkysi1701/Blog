@@ -1,27 +1,2 @@
 ﻿@page "/metrics/save"
-@inject MetricService MetricService
-@inject GithubService GithubService
-@inject NavigationManager UriHelper
-
-@code {
-
-    protected override async Task OnInitializedAsync()
-    {
-        await Save();
-    }
-
-    private async Task Save()
-    {
-        await GithubService.GetCommits();
-        await MetricService.GetTwitterFav();
-        await GithubService.GetGitHubStars();
-        await GithubService.GetGitHubRepo();
-        await MetricService.GetTwitterFollowers();
-        await MetricService.GetTwitterFollowing();
-        await MetricService.GetNumberOfTweets();
-        await GithubService.GetGitHubFollowers();
-        await GithubService.GetGitHubFollowing();
-        await MetricService.GetDevTo();
-        UriHelper.NavigateTo("/metrics", true);
-    }
-}
+@inherits SaveMetricsBase

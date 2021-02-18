@@ -4,7 +4,7 @@ using Pulumi.Azure.AppService;
 using Pulumi.Azure.AppService.Inputs;
 using Pulumi.Azure.Core;
 
-public class MyStack: Stack
+public class MyStack : Stack
 {
     public MyStack()
     {
@@ -61,5 +61,4 @@ public class MyStack: Stack
             ApplicationType = "web",
         });
     }
-
 }

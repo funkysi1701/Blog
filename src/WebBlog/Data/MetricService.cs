@@ -100,7 +100,7 @@ namespace WebBlog.Data
                 {
                     var c = new ChartView
                     {
-                        Date = item.Date.Value.Year.ToString("D4") + "-" + item.Date.Value.Month.ToString("D2") + "-" + item.Date.Value.Day.ToString("D2"),
+                        Date = item.Date.Value.Year.ToString("D4") + "-" + item.Date.Value.Month.ToString("D2") + "-" + item.Date.Value.Day.ToString("D2") + " " + item.Date.Value.Hour.ToString("D2") + ":" + item.Date.Value.Minute.ToString("D2") + ":" + item.Date.Value.Second.ToString("D2"),
                         Total = item.Value
                     };
                     result.Add(c);
