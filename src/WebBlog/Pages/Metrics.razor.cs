@@ -5,7 +5,7 @@ namespace WebBlog.Pages
 {
     public class MetricsBase : ComponentBase
     {
-        [Inject] MetricService MetricService { get; set; }
+        [Inject] private MetricService MetricService { get; set; }
         protected Metric followers = new();
         protected Metric following = new();
         protected Metric numtweets = new();

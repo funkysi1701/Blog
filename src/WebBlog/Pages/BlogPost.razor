@@ -1,6 +1,5 @@
 ﻿@page "/posts/{slug}"
-
-@inject BlogService BlogService
+@inherits BlogPostBase
 
 @if (thisblog == null)
 {
@@ -9,7 +8,8 @@
 else
 {
     <h2>@thisblog.Title</h2>
-    <small>@thisblog.Published_At.Value.ToString("dd MMMM yyyy", CultureInfo.CurrentCulture)</small><br />
+    <small>@thisblog.Published_At.Value.ToString("dd MMMM yyyy", CultureInfo.CurrentCulture)</small>
+    <br />
     @foreach (var item in thisblog.Tag_List)
     {
         <span class="badge bg-info">@item</span><span>&nbsp;</span>
@@ -55,26 +55,5 @@ else
                 }
             </span>
         </div>
-    }
-}
-
-@code {
-    private List<BlogPosts> blogs;
-    private BlogPosts thisblog;
-    private BlogPostsSingle thisblogsingle;
-    [Parameter]
-    public string Slug { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        blogs = await BlogService.GetBlogsAsync();
-
-        thisblog = blogs.Where(x => x.Slug == Slug && x.Published).FirstOrDefault();
-        if (thisblog != null)
-        {
-            thisblogsingle = await BlogService.GetBlogPostAsync(thisblog.Id);
-        }
-
-        this.StateHasChanged();
     }
 }

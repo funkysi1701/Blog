@@ -2,36 +2,9 @@
 @page "/{Year}/{Month}/{Day}/"
 @page "/{Year}/{Month}/"
 @page "/{Year}/"
-@inject BlogService BlogService
-@using Microsoft.AspNetCore.Http
-@inject IHttpContextAccessor httpContextAccessor
+@inherits RedirectBase
 
 @if (blogs == null)
 {
     <p><em>Loading...</em></p>
-}
-
-@code {
-    private List<BlogPosts> blogs;
-    [Parameter]
-    public string Year { get; set; }
-    [Parameter]
-    public string Month { get; set; }
-    [Parameter]
-    public string Day { get; set; }
-    [Parameter]
-    public string Title { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        blogs = await BlogService.GetBlogsAsync();
-        var url = httpContextAccessor.HttpContext.Request.Path.Value;
-        foreach (var item in blogs.Where(x => x.Canonical_Url.Contains("https://www.funkysi1701.com")))
-        {
-            if (item.Canonical_Url.Contains(url))
-            {
-                httpContextAccessor.HttpContext.Response.Redirect("/posts/" + item.Slug);
-            }
-        }
-    }
 }

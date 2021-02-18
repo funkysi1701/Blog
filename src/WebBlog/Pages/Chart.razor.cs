@@ -9,8 +9,8 @@ namespace WebBlog.Pages
 {
     public class ChartBase : ComponentBase
     {
-        [Inject] NavigationManager UriHelper { get; set; }
-        [Inject] MetricService MetricService { get; set; }
+        [Inject] private NavigationManager UriHelper { get; set; }
+        [Inject] private MetricService MetricService { get; set; }
         protected IList<ChartView> chart;
         private IList<ChartView> chart2;
         private IList<ChartView> chart3;
@@ -38,8 +38,8 @@ namespace WebBlog.Pages
                 Type = 13;
             }
             UriHelper.NavigateTo("/metrics/chart/" + Type, true);
-
         }
+
         protected void Next()
         {
             Type++;
@@ -48,13 +48,12 @@ namespace WebBlog.Pages
                 Type = 0;
             }
             UriHelper.NavigateTo("/metrics/chart/" + Type, true);
-
         }
 
         private async Task Load()
         {
             chart = await MetricService.GetChart(Type, 0);
-            foreach (var item in chart.OrderBy(x => x.Date))
+            foreach (var item in chart.OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
             {
                 if (item.Total.HasValue)
                 {

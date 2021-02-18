@@ -5,7 +5,6 @@ namespace WebBlog.Data
 {
     public class MetricsContext : DbContext
     {
-        
         private IOptions<ConfigOptions> Config { get; set; }
 
         public MetricsContext(DbContextOptions<MetricsContext> options) : base(options)

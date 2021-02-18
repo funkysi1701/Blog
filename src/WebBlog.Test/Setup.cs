@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.IO;
-using System.Reflection;
 using WebBlog.Data;
 
 namespace WebBlog.Test
