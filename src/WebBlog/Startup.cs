@@ -84,7 +84,10 @@ namespace WebBlog
                         await next(context);
                     };
                 });
-            app.UseHttpsRedirection();
+            if (!env.IsDevelopment())
+            {
+                app.UseHttpsRedirection();
+            }
             app.UseStaticFiles();
 
             app.UseRouting();

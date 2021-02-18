@@ -5,3 +5,5 @@ obj
 NDependOut
 *.user
 *.ndproj
+src/WebBlog/wwwroot/js/bundles.min.js
+src/WebBlog/wwwroot/css/site.min.css
