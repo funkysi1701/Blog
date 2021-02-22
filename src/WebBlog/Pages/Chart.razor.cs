@@ -35,7 +35,7 @@ namespace WebBlog.Pages
             Type--;
             if (Type < 0)
             {
-                Type = 13;
+                Type = 15;
             }
             UriHelper.NavigateTo("/metrics/chart/" + Type, true);
         }
@@ -43,7 +43,7 @@ namespace WebBlog.Pages
         protected void Next()
         {
             Type++;
-            if (Type > 13)
+            if (Type > 15)
             {
                 Type = 0;
             }
@@ -95,6 +95,8 @@ namespace WebBlog.Pages
                 11 => "DevTo Views",
                 12 => "DevTo Reactions",
                 13 => "DevTo Comments",
+                14 => "Gas",
+                15 => "Elec",
                 _ => "Unknown",
             };
         }

@@ -8,6 +8,7 @@ namespace WebBlog.Pages
     {
         [Inject] private MetricService MetricService { get; set; }
         [Inject] private GithubService GithubService { get; set; }
+        [Inject] private PowerService PowerService { get; set; }
         [Inject] private NavigationManager UriHelper { get; set; }
 
         protected override async Task OnInitializedAsync()
@@ -27,6 +28,8 @@ namespace WebBlog.Pages
             await GithubService.GetGitHubFollowers();
             await GithubService.GetGitHubFollowing();
             await MetricService.GetDevTo();
+            await PowerService.GetGas();
+            await PowerService.GetElec();
             UriHelper.NavigateTo("/metrics", true);
         }
     }

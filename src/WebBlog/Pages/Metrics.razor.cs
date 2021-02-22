@@ -20,7 +20,8 @@ namespace WebBlog.Pages
         protected Metric comments = new();
         protected Metric pubposts = new();
         protected Metric posts = new();
-
+        protected Metric gas = new();
+        protected Metric elec = new();
         protected override void OnInitialized()
         {
             Load();
@@ -42,6 +43,8 @@ namespace WebBlog.Pages
             views = MetricService.LoadData(11, 1);
             reactions = MetricService.LoadData(12, 1);
             comments = MetricService.LoadData(13, 1);
+            gas = MetricService.LoadData(14, 1);
+            elec = MetricService.LoadData(15, 1);
         }
     }
 }

@@ -1,3 +1,4 @@
+using ImpSoft.OctopusEnergy.Api;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -5,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using WebBlog.Data;
 
@@ -27,19 +29,32 @@ namespace WebBlog
             {
                 client.BaseAddress = new Uri(Configuration.GetValue<string>("DEVTOURL"));
             });
+
             services.AddRazorPages();
             services.AddServerSideBlazor()
                 .AddCircuitOptions(opt => { opt.DetailedErrors = true; });
+
             services.AddSingleton<BlogService>();
+            services.AddScoped<PowerService>();
             services.AddScoped<MetricService>();
             services.AddScoped<GithubService>();
+
+            services.AddHttpClient<IOctopusEnergyClient, OctopusEnergyClient>()
+                .ConfigurePrimaryHttpMessageHandler(h => new HttpClientHandler
+                {
+                    AutomaticDecompression = System.Net.DecompressionMethods.All
+                });
+
             services.AddDbContext<MetricsContext>
                 (options => options.UseCosmos(
                     Configuration.GetValue<string>("CosmosDBURI"),
                     Configuration.GetValue<string>("CosmosDBKey"),
                     databaseName: "Metrics"));
+
             services.AddHttpContextAccessor();
+            
             services.AddApplicationInsightsTelemetry(Configuration.GetSection("ApplicationInsights").GetValue<string>("InstrumentationKey"));
+            
             services.AddSingleton<AppVersionInfo>();
         }
 
