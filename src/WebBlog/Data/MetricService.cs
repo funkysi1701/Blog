@@ -93,9 +93,9 @@ namespace WebBlog.Data
             var res = await _context.Metrics.Where(x => x.Type == type).ToListAsync();
             if (day == 1)
             {
-                if(type==14 || type == 15)
+                if (type == 14 || type == 15)
                 {
-                    res = res.Where(x => x.Date > DateTime.Now.AddHours(-48)).ToList();
+                    res = res.Where(x => x.Date > DateTime.Now.AddHours(-72) && x.Date < DateTime.Now.AddHours(-48)).ToList();
                 }
                 else res = res.Where(x => x.Date > DateTime.Now.AddHours(-24)).ToList();
                 var result = new List<ChartView>();
