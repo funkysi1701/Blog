@@ -23,7 +23,21 @@ namespace WebBlog.Data
             UserClient = new TwitterClient(configuration.GetValue<string>("TWConsumerKey"), configuration.GetValue<string>("TWConsumerSecret"), configuration.GetValue<string>("TWAccessToken"), configuration.GetValue<string>("TWAccessSecret"));
         }
 
-        public async Task SaveData(int value, int type)
+        public async Task SaveData(decimal value, int type, DateTime To)
+        {
+            _context.Add(new Metric
+            {
+                Id = DateTime.UtcNow.Ticks,
+                Date = To,
+                Type = type,
+                Value = value,
+                PartitionKey = "1"
+            });
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveData(decimal value, int type)
         {
             _context.Add(new Metric
             {
@@ -79,7 +93,11 @@ namespace WebBlog.Data
             var res = await _context.Metrics.Where(x => x.Type == type).ToListAsync();
             if (day == 1)
             {
-                res = res.Where(x => x.Date > DateTime.Now.AddHours(-24)).ToList();
+                if(type==14 || type == 15)
+                {
+                    res = res.Where(x => x.Date > DateTime.Now.AddHours(-48)).ToList();
+                }
+                else res = res.Where(x => x.Date > DateTime.Now.AddHours(-24)).ToList();
                 var result = new List<ChartView>();
                 foreach (var item in res.Where(x => x.Date != null))
                 {
