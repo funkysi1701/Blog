@@ -7,6 +7,8 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using WebBlog.Data;
+using WebBlog.Data.Context;
+using WebBlog.Data.Services;
 using Xunit;
 
 namespace WebBlog.Test
@@ -29,7 +31,7 @@ namespace WebBlog.Test
             };
             mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
             BlogService = new BlogService(mockFactory.Object, config);
-            MetricService = new MetricService(context, config, BlogService);
+            MetricService = new MetricService(context);
         }
 
         [Fact]
