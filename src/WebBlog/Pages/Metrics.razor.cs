@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using WebBlog.Data;
+using WebBlog.Data.Services;
 
 namespace WebBlog.Pages
 {

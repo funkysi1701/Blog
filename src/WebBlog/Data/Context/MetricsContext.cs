@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace WebBlog.Data
+namespace WebBlog.Data.Context
 {
     public class MetricsContext : DbContext
     {

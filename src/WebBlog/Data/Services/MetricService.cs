@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebBlog.Data.Context;
 
-namespace WebBlog.Data
+namespace WebBlog.Data.Services
 {
     public class MetricService : IMetric
     {

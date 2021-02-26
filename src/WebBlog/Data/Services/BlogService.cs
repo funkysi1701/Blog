@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace WebBlog.Data
+namespace WebBlog.Data.Services
 {
     public class BlogService
     {

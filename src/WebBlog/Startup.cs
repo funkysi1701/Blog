@@ -9,6 +9,8 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WebBlog.Data;
+using WebBlog.Data.Context;
+using WebBlog.Data.Services;
 
 namespace WebBlog
 {
