@@ -1,26 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tweetinvi;
 
 namespace WebBlog.Data
 {
     public class MetricService : IMetric
     {
         private readonly MetricsContext _context;
-        private TwitterClient UserClient { get; set; }
-        private IConfiguration Configuration { get; set; }
-        private BlogService BlogService { get; set; }
 
-        public MetricService(MetricsContext context, IConfiguration configuration, BlogService blogService)
+        public MetricService(MetricsContext context)
         {
-            BlogService = blogService;
-            Configuration = configuration;
             _context = context;
-            UserClient = new TwitterClient(configuration.GetValue<string>("TWConsumerKey"), configuration.GetValue<string>("TWConsumerSecret"), configuration.GetValue<string>("TWAccessToken"), configuration.GetValue<string>("TWAccessSecret"));
         }
 
         public async Task SaveData(decimal value, int type, DateTime To)
@@ -139,47 +131,6 @@ namespace WebBlog.Data
             }
         }
 
-        public async Task GetTwitterFollowers()
-        {
-            var followers = (await UserClient.Users.GetFollowerIdsAsync(Configuration.GetValue<string>("Username1"))).Length;
-            await SaveData(followers, 0);
-        }
-
-        public async Task GetTwitterFollowing()
-        {
-            var friends = (await UserClient.Users.GetFriendIdsAsync(Configuration.GetValue<string>("Username1"))).Length;
-            await SaveData(friends, 1);
-        }
-
-        public async Task GetNumberOfTweets()
-        {
-            var friends = await UserClient.Users.GetUserAsync(Configuration.GetValue<string>("Username1"));
-            await SaveData(friends.StatusesCount, 2);
-        }
-
-        public async Task GetTwitterFav()
-        {
-            var friends = await UserClient.Users.GetUserAsync(Configuration.GetValue<string>("Username1"));
-            await SaveData(friends.FavoritesCount, 3);
-        }
-
-        public async Task GetDevTo()
-        {
-            var blogs = await BlogService.GetBlogsAsync();
-            await SaveData(blogs.Count, 9);
-            await SaveData(blogs.Where(x => x.Published).Count(), 10);
-            int views = 0;
-            int reactions = 0;
-            int comments = 0;
-            foreach (var item in blogs)
-            {
-                views += item.Page_Views_Count;
-                reactions += item.Positive_Reactions_Count;
-                comments += item.Comments_Count;
-            }
-            await SaveData(views, 11);
-            await SaveData(reactions, 12);
-            await SaveData(comments, 13);
-        }
+        
     }
 }
