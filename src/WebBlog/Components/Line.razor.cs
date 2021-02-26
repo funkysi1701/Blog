@@ -51,29 +51,29 @@ namespace WebBlog.Components
                         Scales = new Scales
                         {
                             xAxes = new List<CartesianAxis>
-                        {
-                            new TimeAxis
                             {
-                                Distribution = TimeDistribution.Linear,
-                                Ticks = new TimeTicks
+                                new TimeAxis
                                 {
-                                    Source = TickSource.Auto,
-                                    Reverse = true
-                                },
-                                Time = new TimeOptions
-                                {
-                                    Unit = TimeMeasurement.Hour,
-                                    Round = TimeMeasurement.Second,
-                                    TooltipFormat = "DD.MM.YYYY HH:mm:ss",
-                                    DisplayFormats = TimeDisplayFormats.DE_CH
-                                },
+                                    Distribution = TimeDistribution.Linear,
+                                    Ticks = new TimeTicks
+                                    {
+                                        Source = TickSource.Auto,
+                                        Reverse = true
+                                    },
+                                    Time = new TimeOptions
+                                    {
+                                        Unit = TimeMeasurement.Hour,
+                                        Round = TimeMeasurement.Second,
+                                        TooltipFormat = "DD.MM.YYYY HH:mm:ss",
+                                        DisplayFormats = TimeDisplayFormats.DE_CH
+                                    },
 
-                                ScaleLabel = new ScaleLabel
-                                {
-                                    LabelString = "Time"
+                                    ScaleLabel = new ScaleLabel
+                                    {
+                                        LabelString = "Time"
+                                    }
                                 }
                             }
-                        }
                         }
                     }
                 };
@@ -173,7 +173,7 @@ namespace WebBlog.Components
                 };
             }
 
-            var Set = new LineDataset<TimeTuple<int>>
+            var Set = new LineDataset<TimeTuple<decimal>>
             {
                 BackgroundColor = ColorUtil.RandomColorString(),
                 BorderColor = ColorUtil.RandomColorString(),
@@ -188,7 +188,7 @@ namespace WebBlog.Components
             for (int i = 0; i < Data.Count; i++)
             {
                 var s = Labels[i];
-                var points = new TimeTuple<int>(new Moment(DateTime.Parse(s)), Convert.ToInt32(Data[i]));
+                var points = new TimeTuple<decimal>(new Moment(DateTime.Parse(s)), Convert.ToDecimal(Data[i]));
                 Set.Add(points);
             }
 

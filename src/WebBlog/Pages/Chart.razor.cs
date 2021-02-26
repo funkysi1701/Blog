@@ -53,14 +53,34 @@ namespace WebBlog.Pages
         private async Task Load()
         {
             chart = await MetricService.GetChart(Type, 0);
-            foreach (var item in chart.OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
+            if (Type == 14 || Type == 15)
             {
-                if (item.Total.HasValue)
+                var result =
+                    from s in chart.OrderBy(x => x.Date)
+                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, DateTime.Parse(s.Date).Day) } into g
+                    select new
+                    {
+                        g.Key.Date,
+                        Value = g.Sum(x => x.Total),
+                    };
+                foreach (var item in result)
                 {
-                    label.Add(item.Date);
-                    data.Add(item.Total.Value);
+                        label.Add(item.Date.ToString());
+                        data.Add(item.Value.Value);
                 }
             }
+            else
+            {
+                foreach (var item in chart.OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
+                {
+                    if (item.Total.HasValue)
+                    {
+                        label.Add(item.Date);
+                        data.Add(item.Total.Value);
+                    }
+                }
+            }
+
             chart2 = await MetricService.GetChart(Type, 1);
             foreach (var item in chart2.OrderBy(x => x.Date))
             {
