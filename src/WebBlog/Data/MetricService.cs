@@ -54,11 +54,8 @@ namespace WebBlog.Data
         public async Task Delete()
         {
             var m = _context.Metrics.Where(x => x.Value == 0).ToList();
-            foreach (var item in m)
-            {
-                _context.Metrics.Remove(item);
-                await _context.SaveChangesAsync();
-            }
+            _context.Metrics.RemoveRange(m);
+            await _context.SaveChangesAsync();
         }
 
         public Metric LoadData(int type, int maxmin)
