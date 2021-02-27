@@ -44,7 +44,7 @@ namespace WebBlog.Data.Context
                 .ToContainer("Metrics");
 
             modelBuilder.Entity<Metric>()
-                .HasNoDiscriminator();
+                .HasDiscriminator<string>("Metric");
 
             modelBuilder.Entity<Metric>()
                 .HasPartitionKey(o => o.PartitionKey);
@@ -56,7 +56,7 @@ namespace WebBlog.Data.Context
                 .ToContainer("Metrics");
 
             modelBuilder.Entity<Profile>()
-                .HasNoDiscriminator();
+                .HasDiscriminator<string>("Profile");
 
             modelBuilder.Entity<Profile>()
                 .HasPartitionKey(o => o.PartitionKey);
