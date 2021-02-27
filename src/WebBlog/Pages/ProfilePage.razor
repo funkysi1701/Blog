@@ -1,0 +1,11 @@
+﻿@page "/Profile"
+@inherits ProfileBase
+
+<button @onclick="@Do">Do Something</button>
+
+<ul>
+    @foreach (var item in Profiles)
+    {
+        <li>@item.UserName</li>
+    }
+</ul>

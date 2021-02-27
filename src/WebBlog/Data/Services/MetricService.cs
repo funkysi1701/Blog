@@ -16,6 +16,11 @@ namespace WebBlog.Data.Services
             _context = context;
         }
 
+        public async Task<List<Profile>> GetProfiles()
+        {
+            return await Task.FromResult(_context.Profiles.ToList());
+        }
+
         public async Task SaveProfileData(string Value)
         {
             _context.Add(new Profile
