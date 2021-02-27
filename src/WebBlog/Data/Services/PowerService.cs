@@ -22,8 +22,8 @@ namespace WebBlog.Data.Services
             _service = MetricService;
             Client = client;
             Key = Configuration.GetValue<string>("OctopusKey");
-            From = new DateTimeOffset(DateTime.Now.AddDays(-2).AddHours(-1), TimeSpan.FromHours(0));
-            To = new DateTimeOffset(DateTime.Now.AddDays(-2), TimeSpan.FromHours(0));
+            From = new DateTimeOffset(DateTime.Now.AddDays(-2).AddHours(-1).AddMinutes(-1 * DateTime.Now.AddMinutes(-30).Minute), TimeSpan.FromHours(0));
+            To = new DateTimeOffset(DateTime.Now.AddDays(-2).AddMinutes(-1 * DateTime.Now.AddMinutes(-30).Minute), TimeSpan.FromHours(0));
         }
 
         public async Task GetGas()
