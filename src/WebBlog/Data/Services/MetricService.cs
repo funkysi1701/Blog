@@ -16,6 +16,17 @@ namespace WebBlog.Data.Services
             _context = context;
         }
 
+        public async Task SaveProfileData(string Value)
+        {
+            _context.Add(new Profile
+            {
+                UserName = Value,
+                Id = DateTime.UtcNow.Ticks,
+                PartitionKey = "1"
+            });
+            await _context.SaveChangesAsync();
+        }
+
         public async Task SaveData(decimal value, int type, DateTime To)
         {
             _context.Add(new Metric
@@ -131,7 +142,5 @@ namespace WebBlog.Data.Services
                 return result;
             }
         }
-
-        
     }
 }

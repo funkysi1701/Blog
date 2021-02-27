@@ -39,7 +39,9 @@ namespace WebBlog
             services.AddSingleton<BlogService>();
             services.AddScoped<PowerService>();
             services.AddScoped<MetricService>();
-            services.AddScoped<GithubService>();
+            services.AddScoped<TwitterService>();
+            services.AddScoped<GithubService>(); 
+            services.AddScoped<DevToService>();
 
             services.AddHttpClient<IOctopusEnergyClient, OctopusEnergyClient>()
                 .ConfigurePrimaryHttpMessageHandler(h => new HttpClientHandler
