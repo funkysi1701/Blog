@@ -53,7 +53,7 @@ namespace WebBlog.Data.Context
                 .UseETagConcurrency();
 
             modelBuilder.Entity<Profile>()
-                .ToContainer("Profiles");
+                .ToContainer("Metrics");
 
             modelBuilder.Entity<Profile>()
                 .HasNoDiscriminator();
