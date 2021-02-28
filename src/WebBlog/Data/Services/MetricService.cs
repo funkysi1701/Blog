@@ -94,57 +94,66 @@ namespace WebBlog.Data.Services
             }
         }
 
-        public async Task<List<ChartView>> GetChart(int type, int day)
+        private static IList<IList<ChartView>> GetResult(List<Metric> metrics, List<Metric> Prevmetrics)
         {
-            var res = await _context.Metrics.Where(x => x.Type == type).ToListAsync();
-            if (day == 1)
+            var result = new List<ChartView>();
+            foreach (var item in metrics.Where(x => x.Date != null))
+            {
+                var c = new ChartView
+                {
+                    Date = item.Date.Value.Year.ToString("D4") + "-" + item.Date.Value.Month.ToString("D2") + "-" + item.Date.Value.Day.ToString("D2") + " " + item.Date.Value.Hour.ToString("D2") + ":" + item.Date.Value.Minute.ToString("D2") + ":" + item.Date.Value.Second.ToString("D2"),
+                    Total = item.Value
+                };
+                result.Add(c);
+            }
+            var prevresult = new List<ChartView>();
+            foreach (var previtem in Prevmetrics.Where(x => x.Date != null))
+            {
+                var c = new ChartView
+                {
+                    Date = previtem.Date.Value.Year.ToString("D4") + "-" + previtem.Date.Value.Month.ToString("D2") + "-" + previtem.Date.Value.Day.ToString("D2") + " " + previtem.Date.Value.Hour.ToString("D2") + ":" + previtem.Date.Value.Minute.ToString("D2") + ":" + previtem.Date.Value.Second.ToString("D2"),
+                    Total = previtem.Value
+                };
+                prevresult.Add(c);
+            }
+            var final = new List<IList<ChartView>>
+            {
+                result,
+                prevresult
+            };
+            return final;
+        }
+
+        public async Task<IList<IList<ChartView>>> GetChart(int type, MyChartType day)
+        {
+            var metrics = await _context.Metrics.Where(x => x.Type == type).ToListAsync();
+            List<Metric> LiveMetrics;
+            List<Metric> PrevMetrics;
+            if (day == MyChartType.Hourly)
             {
                 if (type == 14 || type == 15)
                 {
-                    res = res.Where(x => x.Date > DateTime.Now.AddHours(-72) && x.Date < DateTime.Now.AddHours(-48)).ToList();
+                    LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-72) && x.Date < DateTime.Now.AddHours(-48)).ToList();
+                    PrevMetrics = metrics.Where(x => x.Date <= DateTime.Now.AddHours(-72) && x.Date > DateTime.Now.AddHours(-96)).ToList();
                 }
-                else res = res.Where(x => x.Date > DateTime.Now.AddHours(-24)).ToList();
-                var result = new List<ChartView>();
-                foreach (var item in res.Where(x => x.Date != null))
+                else
                 {
-                    var c = new ChartView
-                    {
-                        Date = item.Date.Value.Year.ToString("D4") + "-" + item.Date.Value.Month.ToString("D2") + "-" + item.Date.Value.Day.ToString("D2") + " " + item.Date.Value.Hour.ToString("D2") + ":" + item.Date.Value.Minute.ToString("D2") + ":" + item.Date.Value.Second.ToString("D2"),
-                        Total = item.Value
-                    };
-                    result.Add(c);
+                    LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24)).ToList();
+                    PrevMetrics = metrics.Where(x => x.Date <= DateTime.Now.AddHours(-24) && x.Date > DateTime.Now.AddHours(-48)).ToList();
                 }
-                return result;
+                return GetResult(LiveMetrics, PrevMetrics);
             }
-            else if (day == 0)
+            else if (day == MyChartType.Daily)
             {
-                res = res.Where(x => x.Date > DateTime.Now.AddDays(-14)).ToList();
-                var result = new List<ChartView>();
-                foreach (var item in res.Where(x => x.Date != null))
-                {
-                    var c = new ChartView
-                    {
-                        Date = item.Date.Value.Year.ToString("D4") + "-" + item.Date.Value.Month.ToString("D2") + "-" + item.Date.Value.Day.ToString("D2") + " " + item.Date.Value.Hour.ToString("D2") + ":" + item.Date.Value.Minute.ToString("D2") + ":" + item.Date.Value.Second.ToString("D2"),
-                        Total = item.Value
-                    };
-                    result.Add(c);
-                }
-                return result;
+                LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddDays(-14)).ToList();
+                PrevMetrics = metrics.Where(x => x.Date <= DateTime.Now.AddDays(-14) && x.Date > DateTime.Now.AddDays(-28)).ToList();
+                return GetResult(LiveMetrics, PrevMetrics);
             }
             else
             {
-                res = res.ToList();
-                var result = new List<ChartView>();
-                foreach (var item in res.Where(x => x.Date != null))
-                {
-                    var c = new ChartView
-                    {
-                        Date = item.Date.Value.Year.ToString("D4") + "-" + item.Date.Value.Month.ToString("D2") + "-" + item.Date.Value.Day.ToString("D2") + " " + item.Date.Value.Hour.ToString("D2") + ":" + item.Date.Value.Minute.ToString("D2") + ":" + item.Date.Value.Second.ToString("D2"),
-                        Total = item.Value
-                    };
-                    result.Add(c);
-                }
-                return result;
+                LiveMetrics = metrics.ToList();
+                PrevMetrics = metrics.ToList();
+                return GetResult(LiveMetrics, PrevMetrics);
             }
         }
     }

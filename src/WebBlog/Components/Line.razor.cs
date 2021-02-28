@@ -9,6 +9,8 @@ using ChartJs.Blazor.Util;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using WebBlog.Data;
 
 namespace WebBlog.Components
 {
@@ -24,14 +26,17 @@ namespace WebBlog.Components
         public List<decimal> Data { get; set; }
 
         [Parameter]
+        public List<decimal> PrevData { get; set; }
+
+        [Parameter]
         public string Title { get; set; }
 
         [Parameter]
-        public int Day { get; set; }
+        public MyChartType Day { get; set; }
 
         protected override void OnInitialized()
         {
-            if (Day == 1)
+            if (Day == MyChartType.Hourly)
             {
                 _config = new LineConfig
                 {
@@ -78,7 +83,7 @@ namespace WebBlog.Components
                     }
                 };
             }
-            else if (Day == 0)
+            else if (Day == MyChartType.Daily)
             {
                 _config = new LineConfig
                 {
@@ -175,14 +180,27 @@ namespace WebBlog.Components
 
             var Set = new LineDataset<TimeTuple<decimal>>
             {
-                BackgroundColor = ColorUtil.RandomColorString(),
-                BorderColor = ColorUtil.RandomColorString(),
+                BackgroundColor = ColorUtil.FromDrawingColor(Color.Blue),
+                BorderColor = ColorUtil.FromDrawingColor(Color.Blue),
                 Fill = false,
                 BorderWidth = 1,
                 PointRadius = 5,
                 PointBorderWidth = 1,
                 SteppedLine = SteppedLine.False,
                 ShowLine = true
+            };
+
+            var PrevSet = new LineDataset<TimeTuple<decimal>>
+            {
+                BackgroundColor = ColorUtil.FromDrawingColor(Color.LightBlue),
+                BorderDash = new int[] { 10, 5 },
+                BorderColor = ColorUtil.FromDrawingColor(Color.LightBlue),
+                Fill = false,
+                BorderWidth = 1,
+                PointRadius = 3,
+                PointBorderWidth = 1,
+                SteppedLine = SteppedLine.False,
+                ShowLine = true,
             };
 
             for (int i = 0; i < Data.Count; i++)
@@ -192,7 +210,15 @@ namespace WebBlog.Components
                 Set.Add(points);
             }
 
+            for (int i = 0; i < PrevData.Count; i++)
+            {
+                var s = Labels[i];
+                var points = new TimeTuple<decimal>(new Moment(DateTime.Parse(s)), Convert.ToDecimal(PrevData[i]));
+                PrevSet.Add(points);
+            }
+
             _config.Data.Datasets.Add(Set);
+            _config.Data.Datasets.Add(PrevSet);
         }
     }
 }

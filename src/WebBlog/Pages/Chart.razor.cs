@@ -12,16 +12,22 @@ namespace WebBlog.Pages
     {
         [Inject] private NavigationManager UriHelper { get; set; }
         [Inject] private MetricService MetricService { get; set; }
-        protected IList<ChartView> chart;
-        private IList<ChartView> chart2;
-        private IList<ChartView> chart3;
         protected string title;
-        protected List<string> label = new();
-        protected List<decimal> data = new();
-        protected List<string> label2 = new();
-        protected List<decimal> data2 = new();
-        protected List<string> label3 = new();
-        protected List<decimal> data3 = new();
+        private IList<IList<ChartView>> hourlyChart;
+        protected IList<IList<ChartView>> dailyChart;
+        private IList<IList<ChartView>> weeklyChart;
+
+        protected List<string> hourlyLabel = new();
+        protected List<string> dailyLabel = new();
+        protected List<string> weeklyLabel = new();
+
+        protected List<decimal> hourlyData = new();
+        protected List<decimal> dailyData = new();
+        protected List<decimal> weeklyData = new();
+
+        protected List<decimal> hourlyPrevData = new();
+        protected List<decimal> dailyPrevData = new();
+        protected List<decimal> weeklyPrevData = new();
 
         [Parameter]
         public int Type { get; set; } = 0;
@@ -53,53 +59,80 @@ namespace WebBlog.Pages
 
         private async Task Load()
         {
-            chart = await MetricService.GetChart(Type, 0);
+            dailyChart = await MetricService.GetChart(Type, MyChartType.Daily);
             if (Type == 14 || Type == 15)
             {
-                var result =
-                    from s in chart.OrderBy(x => x.Date)
-                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, DateTime.Parse(s.Date).Day) } into g
-                    select new
-                    {
-                        g.Key.Date,
-                        Value = g.Sum(x => x.Total),
-                    };
-                foreach (var item in result)
-                {
-                        label.Add(item.Date.ToString());
-                        data.Add(item.Value.Value);
-                }
+                //var result =
+                //    from s in dailyChart.OrderBy(x => x.Date)
+                //    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, DateTime.Parse(s.Date).Day) } into g
+                //    select new
+                //    {
+                //        g.Key.Date,
+                //        Value = g.Sum(x => x.Total),
+                //    };
+                //foreach (var item in result)
+                //{
+                //    dailyLabel.Add(item.Date.ToString());
+                //    dailyData.Add(item.Value.Value);
+                //    dailyPrevData.Add(item.Value.Value);// need to fix later
+                //}
             }
             else
             {
-                foreach (var item in chart.OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
+                foreach (var subitem in dailyChart[0].OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
                 {
-                    if (item.Total.HasValue)
+                    if (subitem.Total.HasValue)
                     {
-                        label.Add(item.Date);
-                        data.Add(item.Total.Value);
+                        dailyLabel.Add(subitem.Date);
+                        dailyData.Add(subitem.Total.Value);
+                    }
+                }
+                foreach (var subitem in dailyChart[1].OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
+                {
+                    if (subitem.Total.HasValue)
+                    {
+                        dailyLabel.Add(subitem.Date);
+                        dailyPrevData.Add(subitem.Total.Value);
                     }
                 }
             }
 
-            chart2 = await MetricService.GetChart(Type, 1);
-            foreach (var item in chart2.OrderBy(x => x.Date))
+            hourlyChart = await MetricService.GetChart(Type, MyChartType.Hourly);
+            foreach (var subitem in hourlyChart[0].OrderBy(x => x.Date))
             {
-                if (item.Total.HasValue)
+                if (subitem.Total.HasValue)
                 {
-                    label2.Add(item.Date);
-                    data2.Add(item.Total.Value);
+                    hourlyLabel.Add(subitem.Date);
+                    hourlyData.Add(subitem.Total.Value);
                 }
             }
-            chart3 = await MetricService.GetChart(Type, 2);
-            foreach (var item in chart3.OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).DayOfWeek == DateTime.Now.DayOfWeek && DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
+            foreach (var subitem in hourlyChart[1].OrderBy(x => x.Date))
             {
-                if (item.Total.HasValue)
+                if (subitem.Total.HasValue)
                 {
-                    label3.Add(item.Date);
-                    data3.Add(item.Total.Value);
+                    hourlyLabel.Add(subitem.Date);
+                    hourlyPrevData.Add(subitem.Total.Value);
                 }
             }
+
+            weeklyChart = await MetricService.GetChart(Type, MyChartType.Weekly);
+            foreach (var subitem in weeklyChart[0].OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).DayOfWeek == DateTime.Now.DayOfWeek && DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
+            {
+                if (subitem.Total.HasValue)
+                {
+                    weeklyLabel.Add(subitem.Date);
+                    weeklyData.Add(subitem.Total.Value);
+                }
+            }
+            foreach (var subitem in weeklyChart[1].OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).DayOfWeek == DateTime.Now.DayOfWeek && DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
+            {
+                if (subitem.Total.HasValue)
+                {
+                    weeklyLabel.Add(subitem.Date);
+                    weeklyPrevData.Add(subitem.Total.Value);
+                }
+            }
+
             title = Type switch
             {
                 0 => "Twitter Followers",
