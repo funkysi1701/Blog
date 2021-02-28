@@ -62,20 +62,33 @@ namespace WebBlog.Pages
             dailyChart = await MetricService.GetChart(Type, MyChartType.Daily);
             if (Type == 14 || Type == 15)
             {
-                //var result =
-                //    from s in dailyChart.OrderBy(x => x.Date)
-                //    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, DateTime.Parse(s.Date).Day) } into g
-                //    select new
-                //    {
-                //        g.Key.Date,
-                //        Value = g.Sum(x => x.Total),
-                //    };
-                //foreach (var item in result)
-                //{
-                //    dailyLabel.Add(item.Date.ToString());
-                //    dailyData.Add(item.Value.Value);
-                //    dailyPrevData.Add(item.Value.Value);// need to fix later
-                //}
+                var result =
+                    from s in dailyChart[0].OrderBy(x => x.Date)
+                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, DateTime.Parse(s.Date).Day) } into g
+                    select new
+                    {
+                        g.Key.Date,
+                        Value = g.Sum(x => x.Total),
+                    };
+                foreach (var item in result)
+                {
+                    dailyLabel.Add(item.Date.ToString());
+                    dailyData.Add(item.Value.Value);
+                }
+
+                result =
+                    from s in dailyChart[1].OrderBy(x => x.Date)
+                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, DateTime.Parse(s.Date).Day) } into g
+                    select new
+                    {
+                        g.Key.Date,
+                        Value = g.Sum(x => x.Total),
+                    };
+                foreach (var item in result)
+                {
+                    dailyLabel.Add(item.Date.ToString());
+                    dailyPrevData.Add(item.Value.Value);
+                }
             }
             else
             {
