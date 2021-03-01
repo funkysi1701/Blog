@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,12 @@ namespace WebBlog.Data.Services
     public class MetricService : IMetric
     {
         private readonly MetricsContext _context;
+        private readonly IConfiguration config;
 
-        public MetricService(MetricsContext context)
+        public MetricService(MetricsContext context, IConfiguration configuration)
         {
             _context = context;
+            config = configuration;
         }
 
         public async Task<List<Profile>> GetProfiles()
@@ -129,17 +132,18 @@ namespace WebBlog.Data.Services
             var metrics = await _context.Metrics.Where(x => x.Type == type).ToListAsync();
             List<Metric> LiveMetrics;
             List<Metric> PrevMetrics;
+            var DayOffset = config.GetValue<int>("DayOffset");
             if (day == MyChartType.Hourly)
             {
                 if (type == 14 || type == 15)
                 {
-                    LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-72) && x.Date < DateTime.Now.AddHours(-48)).ToList();
-                    PrevMetrics = metrics.Where(x => x.Date <= DateTime.Now.AddHours(-72) && x.Date > DateTime.Now.AddHours(-96)).ToList();
+                    LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (DayOffset + 1)) && x.Date <= DateTime.Now.AddHours(-24 * DayOffset)).ToList();
+                    PrevMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (DayOffset + 2)) && x.Date <= DateTime.Now.AddHours(-24 * (DayOffset + 1))).ToList();
                 }
                 else
                 {
-                    LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24)).ToList();
-                    PrevMetrics = metrics.Where(x => x.Date <= DateTime.Now.AddHours(-24) && x.Date > DateTime.Now.AddHours(-48)).ToList();
+                    LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24) && x.Date <= DateTime.Now).ToList();
+                    PrevMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-48) && x.Date <= DateTime.Now.AddHours(-24)).ToList();
                 }
                 return GetResult(LiveMetrics, PrevMetrics);
             }
