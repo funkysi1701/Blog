@@ -210,23 +210,11 @@ namespace WebBlog.Components
                 Set.Add(points);
             }
 
-            if (Data.Count < PrevData.Count)
+            for (int i = 0; i < (Data.Count < PrevData.Count ? Data.Count : PrevData.Count); i++)
             {
-                for (int i = 0; i < Data.Count; i++)
-                {
-                    var s = Labels[i];
-                    var points = new TimeTuple<decimal>(new Moment(DateTime.Parse(s)), Convert.ToDecimal(PrevData[i]));
-                    PrevSet.Add(points);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < PrevData.Count; i++)
-                {
-                    var s = Labels[i];
-                    var points = new TimeTuple<decimal>(new Moment(DateTime.Parse(s)), Convert.ToDecimal(PrevData[i]));
-                    PrevSet.Add(points);
-                }
+                var s = Labels[i];
+                var points = new TimeTuple<decimal>(new Moment(DateTime.Parse(s)), Convert.ToDecimal(PrevData[i]));
+                PrevSet.Add(points);
             }
 
             _config.Data.Datasets.Add(Set);
