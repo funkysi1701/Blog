@@ -187,7 +187,8 @@ namespace WebBlog.Components
                 PointRadius = 5,
                 PointBorderWidth = 1,
                 SteppedLine = SteppedLine.False,
-                ShowLine = true
+                ShowLine = true,
+                Label = "Current"
             };
 
             var PrevSet = new LineDataset<TimeTuple<decimal>>
@@ -201,6 +202,7 @@ namespace WebBlog.Components
                 PointBorderWidth = 1,
                 SteppedLine = SteppedLine.False,
                 ShowLine = true,
+                Label ="Previous"
             };
 
             for (int i = 0; i < Data.Count; i++)
