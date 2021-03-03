@@ -70,6 +70,13 @@ namespace WebBlog.Data.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task Delete(int type, DateTime dt)
+        {
+            var m = _context.Metrics.Where(x => x.Type == type && x.Date == dt).ToList();
+            _context.Metrics.RemoveRange(m);
+            await _context.SaveChangesAsync();
+        }
+
         public Metric LoadData(int type, int maxmin)
         {
             try
@@ -95,6 +102,11 @@ namespace WebBlog.Data.Services
             {
                 return new Metric();
             }
+        }
+
+        public async Task<List<Metric>> Get(int type)
+        {
+            return await _context.Metrics.Where(x => x.Type == type).OrderByDescending(x => x.Date).ToListAsync();
         }
 
         private static IList<IList<ChartView>> GetResult(List<Metric> metrics, List<Metric> Prevmetrics)
