@@ -46,14 +46,11 @@ namespace WebBlog.Data.Services
             var exist = await _service.Get(Id);
             foreach (var item in consumption)
             {
-                if (item.Quantity > 0)
+                if (exist.Where(x => x.Date.Value == item.Start.UtcDateTime.Date).Any())
                 {
-                    if (exist.Where(x => x.Date.Value == item.Start.UtcDateTime.Date).Any())
-                    {
-                        await _service.Delete(Id, item.Start.UtcDateTime);
-                    }
-                    await _service.SaveData(item.Quantity, Id, item.Start.UtcDateTime);
+                    await _service.Delete(Id, item.Start.UtcDateTime);
                 }
+                await _service.SaveData(item.Quantity, Id, item.Start.UtcDateTime);
             }
         }
     }
