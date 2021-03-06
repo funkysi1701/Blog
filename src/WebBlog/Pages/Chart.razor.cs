@@ -59,6 +59,24 @@ namespace WebBlog.Pages
 
         private async Task Load()
         {
+            hourlyChart = await MetricService.GetChart(Type, MyChartType.Hourly);
+            foreach (var subitem in hourlyChart[0].OrderBy(x => x.Date))
+            {
+                if (subitem.Total.HasValue)
+                {
+                    hourlyLabel.Add(subitem.Date);
+                    hourlyData.Add(subitem.Total.Value);
+                }
+            }
+            foreach (var subitem in hourlyChart[1].OrderBy(x => x.Date))
+            {
+                if (subitem.Total.HasValue)
+                {
+                    hourlyLabel.Add(subitem.Date);
+                    hourlyPrevData.Add(subitem.Total.Value);
+                }
+            }
+
             dailyChart = await MetricService.GetChart(Type, MyChartType.Daily);
             if (Type == 14 || Type == 15)
             {
@@ -110,39 +128,54 @@ namespace WebBlog.Pages
                 }
             }
 
-            hourlyChart = await MetricService.GetChart(Type, MyChartType.Hourly);
-            foreach (var subitem in hourlyChart[0].OrderBy(x => x.Date))
-            {
-                if (subitem.Total.HasValue)
-                {
-                    hourlyLabel.Add(subitem.Date);
-                    hourlyData.Add(subitem.Total.Value);
-                }
-            }
-            foreach (var subitem in hourlyChart[1].OrderBy(x => x.Date))
-            {
-                if (subitem.Total.HasValue)
-                {
-                    hourlyLabel.Add(subitem.Date);
-                    hourlyPrevData.Add(subitem.Total.Value);
-                }
-            }
-
             weeklyChart = await MetricService.GetChart(Type, MyChartType.Weekly);
-            foreach (var subitem in weeklyChart[0].OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).DayOfWeek == DateTime.Now.DayOfWeek && DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
+            if (Type == 14 || Type == 15)
             {
-                if (subitem.Total.HasValue)
+                var result =
+                    from s in weeklyChart[0].OrderBy(x => x.Date)
+                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, 1) } into g
+                    select new
+                    {
+                        g.Key.Date,
+                        Value = g.Sum(x => x.Total),
+                    };
+                foreach (var item in result)
                 {
-                    weeklyLabel.Add(subitem.Date);
-                    weeklyData.Add(subitem.Total.Value);
+                    weeklyLabel.Add(item.Date.ToString());
+                    weeklyData.Add(item.Value.Value);
+                }
+
+                result =
+                    from s in weeklyChart[1].OrderBy(x => x.Date)
+                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, 1) } into g
+                    select new
+                    {
+                        g.Key.Date,
+                        Value = g.Sum(x => x.Total),
+                    };
+                foreach (var item in result)
+                {
+                    weeklyLabel.Add(item.Date.ToString());
+                    weeklyPrevData.Add(item.Value.Value);
                 }
             }
-            foreach (var subitem in weeklyChart[1].OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).DayOfWeek == DateTime.Now.DayOfWeek && DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
+            else
             {
-                if (subitem.Total.HasValue)
+                foreach (var subitem in weeklyChart[0].OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).DayOfWeek == DateTime.Now.DayOfWeek && DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
                 {
-                    weeklyLabel.Add(subitem.Date);
-                    weeklyPrevData.Add(subitem.Total.Value);
+                    if (subitem.Total.HasValue)
+                    {
+                        weeklyLabel.Add(subitem.Date);
+                        weeklyData.Add(subitem.Total.Value);
+                    }
+                }
+                foreach (var subitem in weeklyChart[1].OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).DayOfWeek == DateTime.Now.DayOfWeek && DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
+                {
+                    if (subitem.Total.HasValue)
+                    {
+                        weeklyLabel.Add(subitem.Date);
+                        weeklyPrevData.Add(subitem.Total.Value);
+                    }
                 }
             }
 
@@ -162,8 +195,8 @@ namespace WebBlog.Pages
                 11 => "DevTo Views",
                 12 => "DevTo Reactions",
                 13 => "DevTo Comments",
-                14 => "Gas",
-                15 => "Elec",
+                14 => "Gas (m^3)",
+                15 => "Electricity (kW/h)",
                 _ => "Unknown",
             };
         }

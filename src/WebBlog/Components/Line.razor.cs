@@ -140,7 +140,7 @@ namespace WebBlog.Components
                         Title = new OptionsTitle
                         {
                             Display = true,
-                            Text = Title + " Weekly"
+                            Text = Title + " Monthly"
                         },
                         Responsive = true,
                         Animation = new ArcAnimation
@@ -162,7 +162,7 @@ namespace WebBlog.Components
                                     },
                                     Time = new TimeOptions
                                     {
-                                        Unit = TimeMeasurement.Week,
+                                        Unit = TimeMeasurement.Month,
                                         Round = TimeMeasurement.Day,
                                         TooltipFormat = "DD.MM.YYYY",
                                         DisplayFormats = TimeDisplayFormats.DE_CH
