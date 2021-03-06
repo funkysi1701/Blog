@@ -225,13 +225,26 @@ namespace WebBlog.Components
                 Set.Label = Labels.OrderByDescending(s => s.ToString()).First().Substring(0, 10);
                 if (Day == MyChartType.Hourly)
                 {
-                    var dt = DateTime.Parse(Set.Label);
-                    PrevSet.Label = dt.AddDays(-1).ToString("yyyy-MM-dd");
+                    if (DateTime.TryParse(Set.Label, out DateTime dt))
+                    {
+                        PrevSet.Label = dt.AddDays(-1).ToString("yyyy-MM-dd");
+                    }
                 }
                 else if (Day == MyChartType.Daily)
                 {
-                    var dt = DateTime.Parse(Set.Label);
-                    PrevSet.Label = dt.AddDays(-14).ToString("yyyy-MM-dd");
+                    if (DateTime.TryParse(Set.Label, out DateTime dt))
+                    {
+                        PrevSet.Label = dt.AddDays(-14).ToString("yyyy-MM-dd");
+                    }
+                    else
+                    {
+                        var dtparts = Set.Label.Split('/');
+                        var newdt = dtparts[2].Substring(0, 4) + "-" + dtparts[1] + "-" + dtparts[0];
+                        if (DateTime.TryParse(newdt, out DateTime dt2))
+                        {
+                            PrevSet.Label = dt2.AddDays(-14).ToString("yyyy-MM-dd");
+                        }
+                    }
                 }
                 else
                 {
