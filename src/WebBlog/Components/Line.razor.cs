@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using WebBlog.Data;
 
 namespace WebBlog.Components
@@ -202,7 +203,7 @@ namespace WebBlog.Components
                 PointBorderWidth = 1,
                 SteppedLine = SteppedLine.False,
                 ShowLine = true,
-                Label ="Previous"
+                Label = "Previous"
             };
 
             for (int i = 0; i < Data.Count; i++)
@@ -217,6 +218,26 @@ namespace WebBlog.Components
                 var s = Labels[i];
                 var points = new TimeTuple<decimal>(new Moment(DateTime.Parse(s)), Convert.ToDecimal(PrevData[i]));
                 PrevSet.Add(points);
+            }
+
+            if (Labels.Count > 0)
+            {
+                Set.Label = Labels.OrderByDescending(s => s.ToString()).First().Substring(0, 10);
+                if (Day == MyChartType.Hourly)
+                {
+                    var dt = DateTime.Parse(Set.Label);
+                    PrevSet.Label = dt.AddDays(-1).ToString("yyyy-MM-dd");
+                }
+                else if (Day == MyChartType.Daily)
+                {
+                    var dt = DateTime.Parse(Set.Label);
+                    PrevSet.Label = dt.AddDays(-14).ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    PrevSet.Label = "N/A";
+                    PrevSet.Hidden = true;
+                }
             }
 
             _config.Data.Datasets.Add(Set);
