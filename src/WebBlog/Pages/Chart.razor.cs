@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,9 @@ namespace WebBlog.Pages
         protected List<decimal> weeklyPrevData = new();
 
         [Parameter]
+        public int OffSet { get; set; }
+
+        [Parameter]
         public int Type { get; set; } = 0;
 
         protected override async Task OnInitializedAsync()
@@ -57,9 +61,14 @@ namespace WebBlog.Pages
             UriHelper.NavigateTo("/metrics/chart/" + Type, true);
         }
 
-        private async Task Load()
+        protected void ReLoad(int val)
         {
-            hourlyChart = await MetricService.GetChart(Type, MyChartType.Hourly);
+            UriHelper.NavigateTo("/metrics/chart/" + Type + "/" + val, true);
+        }
+
+        protected async Task Load()
+        {
+            hourlyChart = await MetricService.GetChart(Type, MyChartType.Hourly, OffSet);
             foreach (var subitem in hourlyChart[0].OrderBy(x => x.Date))
             {
                 if (subitem.Total.HasValue)
@@ -77,7 +86,7 @@ namespace WebBlog.Pages
                 }
             }
 
-            dailyChart = await MetricService.GetChart(Type, MyChartType.Daily);
+            dailyChart = await MetricService.GetChart(Type, MyChartType.Daily, OffSet);
             if (Type == 14 || Type == 15)
             {
                 var result =
@@ -128,7 +137,7 @@ namespace WebBlog.Pages
                 }
             }
 
-            weeklyChart = await MetricService.GetChart(Type, MyChartType.Weekly);
+            weeklyChart = await MetricService.GetChart(Type, MyChartType.Weekly, OffSet);
             if (Type == 14 || Type == 15)
             {
                 var result =

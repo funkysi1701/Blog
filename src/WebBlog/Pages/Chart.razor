@@ -1,4 +1,5 @@
 ﻿@page "/metrics/chart/{Type:int}"
+@page "/metrics/chart/{Type:int}/{OffSet:int}"
 @inherits ChartBase
 
 @if (dailyChart != null && dailyChart.Any())
@@ -11,4 +12,8 @@
     <Line Labels="@hourlyLabel" Data="@hourlyData" PrevData="@hourlyPrevData" Title="@title" Day="MyChartType.Hourly"></Line>
     <Line Labels="@dailyLabel" Data="@dailyData" PrevData="@dailyPrevData" Title="@title" Day="MyChartType.Daily"></Line>
     <Line Labels="@weeklyLabel" Data="@weeklyData" PrevData="@weeklyPrevData" Title="@title" Day="MyChartType.Weekly"></Line>
+    @if (Type == 14 || Type == 15)
+    {
+        <MatSlider Value="@OffSet" Discrete="true" Pin="true" TValue="int" ValueMin="1" ValueMax="50" ValueChanged="@ReLoad"></MatSlider>
+    }
 }

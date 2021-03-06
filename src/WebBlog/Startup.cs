@@ -40,7 +40,7 @@ namespace WebBlog
             services.AddScoped<PowerService>();
             services.AddScoped<MetricService>();
             services.AddScoped<TwitterService>();
-            services.AddScoped<GithubService>(); 
+            services.AddScoped<GithubService>();
             services.AddScoped<DevToService>();
 
             services.AddHttpClient<IOctopusEnergyClient, OctopusEnergyClient>()
@@ -56,9 +56,9 @@ namespace WebBlog
                     databaseName: "Metrics"));
 
             services.AddHttpContextAccessor();
-            
+
             services.AddApplicationInsightsTelemetry(Configuration.GetSection("ApplicationInsights").GetValue<string>("InstrumentationKey"));
-            
+
             services.AddSingleton<AppVersionInfo>();
         }
 

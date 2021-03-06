@@ -139,24 +139,22 @@ namespace WebBlog.Data.Services
             return final;
         }
 
-        public async Task<IList<IList<ChartView>>> GetChart(int type, MyChartType day)
+        public async Task<IList<IList<ChartView>>> GetChart(int type, MyChartType day, int OffSet)
         {
             var metrics = await _context.Metrics.Where(x => x.Type == type).ToListAsync();
             List<Metric> LiveMetrics;
             List<Metric> PrevMetrics;
-            var GasDayOffset = config.GetValue<int>("GasDayOffset");
-            var ElecDayOffset = config.GetValue<int>("ElecDayOffset");
             if (day == MyChartType.Hourly)
             {
                 if (type == 14)
                 {
-                    LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (GasDayOffset + 1)) && x.Date <= DateTime.Now.AddHours(-24 * GasDayOffset)).ToList();
-                    PrevMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (GasDayOffset + 2)) && x.Date <= DateTime.Now.AddHours(-24 * (GasDayOffset + 1))).ToList();
+                    LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 1)) && x.Date <= DateTime.Now.AddHours(-24 * OffSet)).ToList();
+                    PrevMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 2)) && x.Date <= DateTime.Now.AddHours(-24 * (OffSet + 1))).ToList();
                 }
                 else if (type == 15)
                 {
-                    LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (ElecDayOffset + 1)) && x.Date <= DateTime.Now.AddHours(-24 * ElecDayOffset)).ToList();
-                    PrevMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (ElecDayOffset + 2)) && x.Date <= DateTime.Now.AddHours(-24 * (ElecDayOffset + 1))).ToList();
+                    LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 1)) && x.Date <= DateTime.Now.AddHours(-24 * OffSet)).ToList();
+                    PrevMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 2)) && x.Date <= DateTime.Now.AddHours(-24 * (OffSet + 1))).ToList();
                 }
                 else
                 {
