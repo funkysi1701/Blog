@@ -12,7 +12,7 @@
     <Line Labels="@hourlyLabel" Data="@hourlyData" PrevData="@hourlyPrevData" Title="@title" Day="MyChartType.Hourly"></Line>
     <Line Labels="@dailyLabel" Data="@dailyData" PrevData="@dailyPrevData" Title="@title" Day="MyChartType.Daily"></Line>
     <Line Labels="@weeklyLabel" Data="@weeklyData" PrevData="@weeklyPrevData" Title="@title" Day="MyChartType.Weekly"></Line>
-    @if (Type == 14 || Type == 15)
+    @if (Type == MetricType.Gas || Type == MetricType.Electricity)
     {
         <MatSlider Value="@OffSet" Discrete="true" Pin="true" TValue="int" ValueMin="1" ValueMax="20" ValueChanged="@ReLoad"></MatSlider>
     }

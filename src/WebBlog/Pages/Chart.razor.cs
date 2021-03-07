@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using WebBlog.Data;
 using WebBlog.Data.Services;
@@ -34,7 +35,7 @@ namespace WebBlog.Pages
         public int OffSet { get; set; }
 
         [Parameter]
-        public int Type { get; set; } = 0;
+        public MetricType Type { get; set; } = 0;
 
         protected override async Task OnInitializedAsync()
         {
@@ -44,40 +45,40 @@ namespace WebBlog.Pages
         protected void Prev()
         {
             Type--;
-            if (Type < 0)
+            if (Type < MetricType.TwitterFollowers)
             {
-                Type = 15;
+                Type = MetricType.Electricity;
             }
-            if (Type > 13)
+            if (Type > MetricType.DevToComments)
             {
-                UriHelper.NavigateTo("/metrics/chart/" + Type + "/1", true);
+                UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/1", true);
             }
             else
             {
-                UriHelper.NavigateTo("/metrics/chart/" + Type, true);
+                UriHelper.NavigateTo("/metrics/chart/" + (int)Type, true);
             }
         }
 
         protected void Next()
         {
             Type++;
-            if (Type > 15)
+            if (Type > MetricType.Electricity)
             {
-                Type = 0;
+                Type = MetricType.TwitterFollowers;
             }
-            if (Type > 13)
+            if (Type > MetricType.DevToComments)
             {
-                UriHelper.NavigateTo("/metrics/chart/" + Type + "/1", true);
+                UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/1", true);
             }
             else
             {
-                UriHelper.NavigateTo("/metrics/chart/" + Type, true);
+                UriHelper.NavigateTo("/metrics/chart/" + (int)Type, true);
             }
         }
 
         protected void ReLoad(int val)
         {
-            UriHelper.NavigateTo("/metrics/chart/" + Type + "/" + val, true);
+            UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/" + val, true);
         }
 
         protected async Task Load()
@@ -101,7 +102,7 @@ namespace WebBlog.Pages
             }
 
             dailyChart = await MetricService.GetChart(Type, MyChartType.Daily, OffSet);
-            if (Type == 14 || Type == 15)
+            if (Type == MetricType.Gas || Type == MetricType.Electricity)
             {
                 var result =
                     from s in dailyChart[0].OrderBy(x => x.Date)
@@ -152,7 +153,7 @@ namespace WebBlog.Pages
             }
 
             weeklyChart = await MetricService.GetChart(Type, MyChartType.Weekly, OffSet);
-            if (Type == 14 || Type == 15)
+            if (Type == MetricType.Gas || Type == MetricType.Electricity)
             {
                 var result =
                     from s in weeklyChart[0].OrderBy(x => x.Date)
@@ -202,26 +203,19 @@ namespace WebBlog.Pages
                 }
             }
 
-            title = Type switch
+            title = GetEnumDescription(Type);
+        }
+
+        public static string GetEnumDescription(Enum value)
+        {
+            FieldInfo fi = value.GetType().GetField(value.ToString());
+
+            if (fi.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] attributes && attributes.Any())
             {
-                0 => "Twitter Followers",
-                1 => "Twitter Following",
-                2 => "Number Of Tweets",
-                3 => "Twitter Favourites",
-                4 => "GitHub Followers",
-                5 => "GitHub Following",
-                6 => "GitHub Repo",
-                7 => "GitHub Stars",
-                8 => "GitHub Commits",
-                9 => "DevTo Posts",
-                10 => "DevTo Published Posts",
-                11 => "DevTo Views",
-                12 => "DevTo Reactions",
-                13 => "DevTo Comments",
-                14 => "Gas (m^3)",
-                15 => "Electricity (kW/h)",
-                _ => "Unknown",
-            };
+                return attributes.First().Description;
+            }
+
+            return value.ToString();
         }
     }
 }

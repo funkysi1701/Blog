@@ -139,19 +139,19 @@ namespace WebBlog.Data.Services
             return final;
         }
 
-        public async Task<IList<IList<ChartView>>> GetChart(int type, MyChartType day, int OffSet)
+        public async Task<IList<IList<ChartView>>> GetChart(MetricType type, MyChartType day, int OffSet)
         {
-            var metrics = await _context.Metrics.Where(x => x.Type == type).ToListAsync();
+            var metrics = await _context.Metrics.Where(x => x.Type == (int)type).ToListAsync();
             List<Metric> LiveMetrics;
             List<Metric> PrevMetrics;
             if (day == MyChartType.Hourly)
             {
-                if (type == 14)
+                if (type == MetricType.Gas)
                 {
                     LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 1)) && x.Date <= DateTime.Now.AddHours(-24 * OffSet)).ToList();
                     PrevMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 2)) && x.Date <= DateTime.Now.AddHours(-24 * (OffSet + 1))).ToList();
                 }
-                else if (type == 15)
+                else if (type == MetricType.Electricity)
                 {
                     LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 1)) && x.Date <= DateTime.Now.AddHours(-24 * OffSet)).ToList();
                     PrevMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 2)) && x.Date <= DateTime.Now.AddHours(-24 * (OffSet + 1))).ToList();
