@@ -48,7 +48,14 @@ namespace WebBlog.Pages
             {
                 Type = 15;
             }
-            UriHelper.NavigateTo("/metrics/chart/" + Type, true);
+            if (Type > 13)
+            {
+                UriHelper.NavigateTo("/metrics/chart/" + Type + "/1", true);
+            }
+            else
+            {
+                UriHelper.NavigateTo("/metrics/chart/" + Type, true);
+            }
         }
 
         protected void Next()
@@ -58,7 +65,14 @@ namespace WebBlog.Pages
             {
                 Type = 0;
             }
-            UriHelper.NavigateTo("/metrics/chart/" + Type, true);
+            if (Type > 13)
+            {
+                UriHelper.NavigateTo("/metrics/chart/" + Type + "/1", true);
+            }
+            else
+            {
+                UriHelper.NavigateTo("/metrics/chart/" + Type, true);
+            }
         }
 
         protected void ReLoad(int val)
