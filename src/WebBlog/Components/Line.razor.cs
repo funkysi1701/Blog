@@ -249,6 +249,15 @@ namespace WebBlog.Components
                 }
                 else
                 {
+                    if (!DateTime.TryParse(Set.Label, out DateTime dt))
+                    {
+                        var dtparts = Set.Label.Split('/');
+                        var newdt = dtparts[2].Substring(0, 4) + "-" + dtparts[0] + "-" + dtparts[1];
+                        if (DateTime.TryParse(newdt, out DateTime dt2))
+                        {
+                            Set.Label = dt2.ToString("yyyy-MM-dd");
+                        }
+                    }
                     PrevSet.Label = "N/A";
                     PrevSet.Hidden = true;
                 }
