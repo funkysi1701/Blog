@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +10,10 @@ namespace WebBlog.Data.Services
     public class MetricService : IMetric
     {
         private readonly MetricsContext _context;
-        private readonly IConfiguration config;
 
-        public MetricService(MetricsContext context, IConfiguration configuration)
+        public MetricService(MetricsContext context)
         {
             _context = context;
-            config = configuration;
         }
 
         public async Task<List<Profile>> GetProfiles()
@@ -146,21 +143,8 @@ namespace WebBlog.Data.Services
             List<Metric> PrevMetrics;
             if (day == MyChartType.Hourly)
             {
-                if (type == MetricType.Gas)
-                {
-                    LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 1)) && x.Date <= DateTime.Now.AddHours(-24 * OffSet)).ToList();
-                    PrevMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 2)) && x.Date <= DateTime.Now.AddHours(-24 * (OffSet + 1))).ToList();
-                }
-                else if (type == MetricType.Electricity)
-                {
-                    LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 1)) && x.Date <= DateTime.Now.AddHours(-24 * OffSet)).ToList();
-                    PrevMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 2)) && x.Date <= DateTime.Now.AddHours(-24 * (OffSet + 1))).ToList();
-                }
-                else
-                {
-                    LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24) && x.Date <= DateTime.Now).ToList();
-                    PrevMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-48) && x.Date <= DateTime.Now.AddHours(-24)).ToList();
-                }
+                LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 1)) && x.Date <= DateTime.Now.AddHours(-24 * OffSet)).ToList();
+                PrevMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 2)) && x.Date <= DateTime.Now.AddHours(-24 * (OffSet + 1))).ToList();
                 return GetResult(LiveMetrics, PrevMetrics);
             }
             else if (day == MyChartType.Daily)

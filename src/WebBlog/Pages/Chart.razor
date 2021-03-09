@@ -4,16 +4,19 @@
 
 @if (dailyChart != null && dailyChart.Any())
 {
-    <h2>Chart of @title</h2>
+    <h2>Chart of @Title</h2>
+
     <div class="text-center">
         <a @onclick="@Prev" @onclick:preventDefault href="#">Prev Chart</a>
         <a @onclick="@Next" @onclick:preventDefault href="#">Next Chart</a>
     </div>
-    <Line Labels="@hourlyLabel" Data="@hourlyData" PrevData="@hourlyPrevData" Title="@title" Day="MyChartType.Hourly"></Line>
-    <Line Labels="@dailyLabel" Data="@dailyData" PrevData="@dailyPrevData" Title="@title" Day="MyChartType.Daily"></Line>
-    <Line Labels="@weeklyLabel" Data="@weeklyData" PrevData="@weeklyPrevData" Title="@title" Day="MyChartType.Weekly"></Line>
-    @if (Type == MetricType.Gas || Type == MetricType.Electricity)
-    {
-        <MatSlider Value="@OffSet" Discrete="true" Pin="true" TValue="int" ValueMin="1" ValueMax="20" ValueChanged="@ReLoad"></MatSlider>
-    }
+
+    <div class="text-center">
+        <a @onclick="@PrevDay" @onclick:preventDefault href="#">Prev Day</a>
+        <a @onclick="@NextDay" @onclick:preventDefault href="#">Next Day</a>
+    </div>
+
+    <Line Labels="@hourlyLabel" Data="@hourlyData" PrevData="@hourlyPrevData" Title="@Title" Day="MyChartType.Hourly"></Line>
+    <Line Labels="@dailyLabel" Data="@dailyData" PrevData="@dailyPrevData" Title="@Title" Day="MyChartType.Daily"></Line>
+    <Line Labels="@monthlyLabel" Data="@monthlyData" PrevData="@monthlyPrevData" Title="@Title" Day="MyChartType.Monthly"></Line>
 }

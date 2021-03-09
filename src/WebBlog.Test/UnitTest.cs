@@ -31,7 +31,7 @@ namespace WebBlog.Test
             };
             mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
             BlogService = new BlogService(mockFactory.Object, config);
-            MetricService = new MetricService(context, config);
+            MetricService = new MetricService(context);
         }
 
         [Fact]

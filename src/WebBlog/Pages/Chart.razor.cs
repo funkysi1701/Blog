@@ -14,28 +14,30 @@ namespace WebBlog.Pages
     {
         [Inject] private NavigationManager UriHelper { get; set; }
         [Inject] private MetricService MetricService { get; set; }
-        protected string title;
-        private IList<IList<ChartView>> hourlyChart;
-        protected IList<IList<ChartView>> dailyChart;
-        private IList<IList<ChartView>> weeklyChart;
-
-        protected List<string> hourlyLabel = new();
-        protected List<string> dailyLabel = new();
-        protected List<string> weeklyLabel = new();
-
-        protected List<decimal> hourlyData = new();
-        protected List<decimal> dailyData = new();
-        protected List<decimal> weeklyData = new();
-
-        protected List<decimal> hourlyPrevData = new();
-        protected List<decimal> dailyPrevData = new();
-        protected List<decimal> weeklyPrevData = new();
 
         [Parameter]
         public int OffSet { get; set; }
 
         [Parameter]
         public MetricType Type { get; set; } = 0;
+
+        protected string Title;
+
+        private IList<IList<ChartView>> hourlyChart;
+        protected IList<IList<ChartView>> dailyChart;
+        private IList<IList<ChartView>> monthlyChart;
+
+        protected List<string> hourlyLabel = new();
+        protected List<string> dailyLabel = new();
+        protected List<string> monthlyLabel = new();
+
+        protected List<decimal> hourlyData = new();
+        protected List<decimal> dailyData = new();
+        protected List<decimal> monthlyData = new();
+
+        protected List<decimal> hourlyPrevData = new();
+        protected List<decimal> dailyPrevData = new();
+        protected List<decimal> monthlyPrevData = new();
 
         protected override async Task OnInitializedAsync()
         {
@@ -49,14 +51,30 @@ namespace WebBlog.Pages
             {
                 Type = MetricType.Electricity;
             }
-            if (Type > MetricType.DevToComments)
+
+            UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/1", true);
+        }
+
+        protected void PrevDay()
+        {
+            OffSet--;
+            if (OffSet < 1)
             {
-                UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/1", true);
+                OffSet = 30;
             }
-            else
+
+            UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/" + OffSet, true);
+        }
+
+        protected void NextDay()
+        {
+            OffSet++;
+            if (OffSet > 30)
             {
-                UriHelper.NavigateTo("/metrics/chart/" + (int)Type, true);
+                OffSet = 1;
             }
+
+            UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/" + OffSet, true);
         }
 
         protected void Next()
@@ -66,22 +84,11 @@ namespace WebBlog.Pages
             {
                 Type = MetricType.TwitterFollowers;
             }
-            if (Type > MetricType.DevToComments)
-            {
-                UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/1", true);
-            }
-            else
-            {
-                UriHelper.NavigateTo("/metrics/chart/" + (int)Type, true);
-            }
+
+            UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/1", true);
         }
 
-        protected void ReLoad(int val)
-        {
-            UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/" + val, true);
-        }
-
-        protected async Task Load()
+        protected async Task LoadHourly()
         {
             hourlyChart = await MetricService.GetChart(Type, MyChartType.Hourly, OffSet);
             foreach (var subitem in hourlyChart[0].OrderBy(x => x.Date))
@@ -92,6 +99,7 @@ namespace WebBlog.Pages
                     hourlyData.Add(subitem.Total.Value);
                 }
             }
+
             foreach (var subitem in hourlyChart[1].OrderBy(x => x.Date))
             {
                 if (subitem.Total.HasValue)
@@ -100,7 +108,10 @@ namespace WebBlog.Pages
                     hourlyPrevData.Add(subitem.Total.Value);
                 }
             }
+        }
 
+        protected async Task LoadDaily()
+        {
             dailyChart = await MetricService.GetChart(Type, MyChartType.Daily, OffSet);
             if (Type == MetricType.Gas || Type == MetricType.Electricity)
             {
@@ -112,6 +123,7 @@ namespace WebBlog.Pages
                         g.Key.Date,
                         Value = g.Sum(x => x.Total),
                     };
+
                 foreach (var item in result)
                 {
                     dailyLabel.Add(item.Date.ToString());
@@ -126,6 +138,7 @@ namespace WebBlog.Pages
                         g.Key.Date,
                         Value = g.Sum(x => x.Total),
                     };
+
                 foreach (var item in result)
                 {
                     dailyLabel.Add(item.Date.ToString());
@@ -134,76 +147,86 @@ namespace WebBlog.Pages
             }
             else
             {
-                foreach (var subitem in dailyChart[0].OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
-                {
-                    if (subitem.Total.HasValue)
-                    {
-                        dailyLabel.Add(subitem.Date);
-                        dailyData.Add(subitem.Total.Value);
-                    }
-                }
-                foreach (var subitem in dailyChart[1].OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
-                {
-                    if (subitem.Total.HasValue)
-                    {
-                        dailyLabel.Add(subitem.Date);
-                        dailyPrevData.Add(subitem.Total.Value);
-                    }
-                }
-            }
-
-            weeklyChart = await MetricService.GetChart(Type, MyChartType.Weekly, OffSet);
-            if (Type == MetricType.Gas || Type == MetricType.Electricity)
-            {
                 var result =
-                    from s in weeklyChart[0].OrderBy(x => x.Date)
-                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, 1) } into g
+                    from s in dailyChart[0].OrderBy(x => x.Date)
+                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, DateTime.Parse(s.Date).Day) } into g
                     select new
                     {
                         g.Key.Date,
-                        Value = g.Sum(x => x.Total),
+                        Value = g.Max(x => x.Total),
                     };
+
                 foreach (var item in result)
                 {
-                    weeklyLabel.Add(item.Date.ToString());
-                    weeklyData.Add(item.Value.Value);
+                    dailyLabel.Add(item.Date.ToString());
+                    dailyData.Add(item.Value.Value);
                 }
 
                 result =
-                    from s in weeklyChart[1].OrderBy(x => x.Date)
+                    from s in dailyChart[1].OrderBy(x => x.Date)
+                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, DateTime.Parse(s.Date).Day) } into g
+                    select new
+                    {
+                        g.Key.Date,
+                        Value = g.Max(x => x.Total),
+                    };
+
+                foreach (var item in result)
+                {
+                    dailyLabel.Add(item.Date.ToString());
+                    dailyPrevData.Add(item.Value.Value);
+                }
+            }
+        }
+
+        protected async Task LoadMonthly()
+        {
+            monthlyChart = await MetricService.GetChart(Type, MyChartType.Monthly, OffSet);
+            if (Type == MetricType.Gas || Type == MetricType.Electricity)
+            {
+                var result =
+                    from s in monthlyChart[0].OrderBy(x => x.Date)
                     group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, 1) } into g
                     select new
                     {
                         g.Key.Date,
                         Value = g.Sum(x => x.Total),
                     };
+
                 foreach (var item in result)
                 {
-                    weeklyLabel.Add(item.Date.ToString());
-                    weeklyPrevData.Add(item.Value.Value);
+                    monthlyLabel.Add(item.Date.ToString());
+                    monthlyData.Add(item.Value.Value);
                 }
             }
             else
             {
-                foreach (var subitem in weeklyChart[0].OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).DayOfWeek == DateTime.Now.DayOfWeek && DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
-                {
-                    if (subitem.Total.HasValue)
+                var result =
+                    from s in monthlyChart[0].OrderBy(x => x.Date)
+                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, 1) } into g
+                    select new
                     {
-                        weeklyLabel.Add(subitem.Date);
-                        weeklyData.Add(subitem.Total.Value);
-                    }
-                }
-                foreach (var subitem in weeklyChart[1].OrderBy(x => x.Date).Where(y => DateTime.Parse(y.Date).DayOfWeek == DateTime.Now.DayOfWeek && DateTime.Parse(y.Date).Hour == DateTime.Now.AddHours(-1).Hour))
+                        g.Key.Date,
+                        Value = g.Max(x => x.Total),
+                    };
+
+                foreach (var item in result)
                 {
-                    if (subitem.Total.HasValue)
-                    {
-                        weeklyLabel.Add(subitem.Date);
-                        weeklyPrevData.Add(subitem.Total.Value);
-                    }
+                    monthlyLabel.Add(item.Date.ToString());
+                    monthlyData.Add(item.Value.Value);
                 }
             }
+        }
 
-            title = GetEnumDescription(Type);
+        protected async Task Load()
+        {
+            await LoadHourly();
+
+            await LoadDaily();
+
+            await LoadMonthly();
+
+            Title = GetEnumDescription(Type);
         }
 
         public static string GetEnumDescription(Enum value)
