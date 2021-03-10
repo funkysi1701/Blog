@@ -58,7 +58,7 @@ namespace WebBlog.Pages
         protected void PrevDay()
         {
             OffSet--;
-            if (OffSet < 1)
+            if (OffSet < 0)
             {
                 OffSet = 30;
             }
@@ -71,7 +71,7 @@ namespace WebBlog.Pages
             OffSet++;
             if (OffSet > 30)
             {
-                OffSet = 1;
+                OffSet = 0;
             }
 
             UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/" + OffSet, true);

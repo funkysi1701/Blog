@@ -141,6 +141,11 @@ namespace WebBlog.Data.Services
             var metrics = await _context.Metrics.Where(x => x.Type == (int)type).ToListAsync();
             List<Metric> LiveMetrics;
             List<Metric> PrevMetrics;
+            if (type >= MetricType.Gas)
+            {
+                OffSet++;
+            }
+
             if (day == MyChartType.Hourly)
             {
                 LiveMetrics = metrics.Where(x => x.Date > DateTime.Now.AddHours(-24 * (OffSet + 1)) && x.Date <= DateTime.Now.AddHours(-24 * OffSet)).ToList();
