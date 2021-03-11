@@ -52,7 +52,7 @@ namespace WebBlog.Pages
                 Type = MetricType.Electricity;
             }
 
-            UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/1", true);
+            UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/" + OffSet, true);
         }
 
         protected void PrevDay()
@@ -85,7 +85,7 @@ namespace WebBlog.Pages
                 Type = MetricType.TwitterFollowers;
             }
 
-            UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/1", true);
+            UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/" + OffSet, true);
         }
 
         protected async Task LoadHourly()
