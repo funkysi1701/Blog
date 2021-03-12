@@ -3,8 +3,9 @@ using Octokit;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using WebBlog.Data.Context;
 
-namespace WebBlog.Data
+namespace WebBlog.Data.Services
 {
     public class GithubService
     {
@@ -54,7 +55,11 @@ namespace WebBlog.Data
             var today = events.Where(x => x.Type == "PushEvent" && x.CreatedAt > DateTime.Now.Date).ToList();
             var sofar = _context.Metrics.OrderBy(y => y.Date).ToList();
             sofar = sofar.Where(x => x.Date != null && x.Type == 8 && x.Date < DateTime.Now.Date).OrderBy(y => y.Date).ToList();
-            await _service.SaveData(today.Count + sofar.Last().Value.Value, 8);
+            if (sofar.Count == 0)
+            {
+                await _service.SaveData(today.Count, 8);
+            }
+            else await _service.SaveData(today.Count + sofar.Last().Value.Value, 8);
         }
 
         public GitHubClient GitHub()

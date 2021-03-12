@@ -9,6 +9,9 @@ using ChartJs.Blazor.Util;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using WebBlog.Data;
 
 namespace WebBlog.Components
 {
@@ -24,14 +27,17 @@ namespace WebBlog.Components
         public List<decimal> Data { get; set; }
 
         [Parameter]
+        public List<decimal> PrevData { get; set; }
+
+        [Parameter]
         public string Title { get; set; }
 
         [Parameter]
-        public int Day { get; set; }
+        public MyChartType Day { get; set; }
 
         protected override void OnInitialized()
         {
-            if (Day == 1)
+            if (Day == MyChartType.Hourly)
             {
                 _config = new LineConfig
                 {
@@ -78,7 +84,7 @@ namespace WebBlog.Components
                     }
                 };
             }
-            else if (Day == 0)
+            else if (Day == MyChartType.Daily)
             {
                 _config = new LineConfig
                 {
@@ -134,7 +140,7 @@ namespace WebBlog.Components
                         Title = new OptionsTitle
                         {
                             Display = true,
-                            Text = Title + " Weekly"
+                            Text = Title + " Monthly"
                         },
                         Responsive = true,
                         Animation = new ArcAnimation
@@ -156,7 +162,7 @@ namespace WebBlog.Components
                                     },
                                     Time = new TimeOptions
                                     {
-                                        Unit = TimeMeasurement.Week,
+                                        Unit = TimeMeasurement.Month,
                                         Round = TimeMeasurement.Day,
                                         TooltipFormat = "DD.MM.YYYY",
                                         DisplayFormats = TimeDisplayFormats.DE_CH
@@ -175,14 +181,29 @@ namespace WebBlog.Components
 
             var Set = new LineDataset<TimeTuple<decimal>>
             {
-                BackgroundColor = ColorUtil.RandomColorString(),
-                BorderColor = ColorUtil.RandomColorString(),
+                BackgroundColor = ColorUtil.FromDrawingColor(Color.Blue),
+                BorderColor = ColorUtil.FromDrawingColor(Color.Blue),
                 Fill = false,
                 BorderWidth = 1,
                 PointRadius = 5,
                 PointBorderWidth = 1,
                 SteppedLine = SteppedLine.False,
-                ShowLine = true
+                ShowLine = true,
+                Label = "Current"
+            };
+
+            var PrevSet = new LineDataset<TimeTuple<decimal>>
+            {
+                BackgroundColor = ColorUtil.FromDrawingColor(Color.LightBlue),
+                BorderDash = new int[] { 10, 5 },
+                BorderColor = ColorUtil.FromDrawingColor(Color.LightBlue),
+                Fill = false,
+                BorderWidth = 1,
+                PointRadius = 3,
+                PointBorderWidth = 1,
+                SteppedLine = SteppedLine.False,
+                ShowLine = true,
+                Label = "Previous"
             };
 
             for (int i = 0; i < Data.Count; i++)
@@ -192,7 +213,58 @@ namespace WebBlog.Components
                 Set.Add(points);
             }
 
+            for (int i = 0; i < (Data.Count < PrevData.Count ? Data.Count : PrevData.Count); i++)
+            {
+                var s = Labels[i];
+                var points = new TimeTuple<decimal>(new Moment(DateTime.Parse(s)), Convert.ToDecimal(PrevData[i]));
+                PrevSet.Add(points);
+            }
+
+            if (Labels.Count > 0)
+            {
+                Set.Label = Labels.OrderByDescending(s => s.ToString()).First().Substring(0, 10);
+                if (Day == MyChartType.Hourly)
+                {
+                    if (DateTime.TryParse(Set.Label, out DateTime dt))
+                    {
+                        PrevSet.Label = dt.AddDays(-1).ToString("yyyy-MM-dd");
+                    }
+                }
+                else if (Day == MyChartType.Daily)
+                {
+                    if (DateTime.TryParse(Set.Label, out DateTime dt))
+                    {
+                        PrevSet.Label = dt.AddDays(-14).ToString("yyyy-MM-dd");
+                    }
+                    else
+                    {
+                        var dtparts = Set.Label.Split('/');
+                        var newdt = dtparts[2].Substring(0, 4) + "-" + dtparts[0] + "-" + dtparts[1];
+                        if (DateTime.TryParse(newdt, out DateTime dt2))
+                        {
+                            Set.Label = dt2.ToString("yyyy-MM-dd");
+                            PrevSet.Label = dt2.AddDays(-14).ToString("yyyy-MM-dd");
+                        }
+                    }
+                }
+                else
+                {
+                    if (!DateTime.TryParse(Set.Label, out DateTime dt))
+                    {
+                        var dtparts = Set.Label.Split('/');
+                        var newdt = dtparts[2].Substring(0, 4) + "-" + dtparts[0] + "-" + dtparts[1];
+                        if (DateTime.TryParse(newdt, out DateTime dt2))
+                        {
+                            Set.Label = dt2.ToString("yyyy-MM-dd");
+                        }
+                    }
+                    PrevSet.Label = "N/A";
+                    PrevSet.Hidden = true;
+                }
+            }
+
             _config.Data.Datasets.Add(Set);
+            _config.Data.Datasets.Add(PrevSet);
         }
     }
 }

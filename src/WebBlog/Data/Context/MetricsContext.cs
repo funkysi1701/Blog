@@ -1,27 +1,29 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace WebBlog.Data
+namespace WebBlog.Data.Context
 {
     public class MetricsContext : DbContext
     {
-        private IOptions<ConfigOptions> Config { get; set; }
+        private IOptions<CosmosOptions> Config { get; set; }
 
         public MetricsContext(DbContextOptions<MetricsContext> options) : base(options)
         {
         }
 
-        public MetricsContext(IOptions<ConfigOptions> Configuration)
+        public MetricsContext(IOptions<CosmosOptions> Configuration)
         {
             Config = Configuration;
         }
 
-        public MetricsContext(DbContextOptions<MetricsContext> options, IOptions<ConfigOptions> Configuration) : base(options)
+        public MetricsContext(DbContextOptions<MetricsContext> options, IOptions<CosmosOptions> Configuration) : base(options)
         {
             Config = Configuration;
         }
 
         public virtual DbSet<Metric> Metrics { get; set; }
+
+        public virtual DbSet<Profile> Profiles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -42,12 +44,24 @@ namespace WebBlog.Data
                 .ToContainer("Metrics");
 
             modelBuilder.Entity<Metric>()
-                .HasNoDiscriminator();
+                .HasDiscriminator<string>("Metric");
 
             modelBuilder.Entity<Metric>()
                 .HasPartitionKey(o => o.PartitionKey);
 
             modelBuilder.Entity<Metric>()
+                .UseETagConcurrency();
+
+            modelBuilder.Entity<Profile>()
+                .ToContainer("Metrics");
+
+            modelBuilder.Entity<Profile>()
+                .HasDiscriminator<string>("Profile");
+
+            modelBuilder.Entity<Profile>()
+                .HasPartitionKey(o => o.PartitionKey);
+
+            modelBuilder.Entity<Profile>()
                 .UseETagConcurrency();
         }
     }

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Tweetinvi;
 
-namespace WebBlog.Data
+namespace WebBlog.Data.Services
 {
     public class TwitterService
     {

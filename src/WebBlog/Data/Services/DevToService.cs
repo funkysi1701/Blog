@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebBlog.Data
+namespace WebBlog.Data.Services
 {
     public class DevToService
     {

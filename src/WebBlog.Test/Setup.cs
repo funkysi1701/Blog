@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using WebBlog.Data;
+using WebBlog.Data.Context;
 
 namespace WebBlog.Test
 {

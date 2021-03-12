@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 using WebBlog.Data;
+using WebBlog.Data.Services;
 
 namespace WebBlog.Pages
 {
