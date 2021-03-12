@@ -11326,10 +11326,6 @@
     box-sizing: border-box
 }
 
-ul[class], ol[class] {
-    padding: 0
-}
-
 html {
     line-height: 1.5;
     -webkit-text-size-adjust: 100%
@@ -11346,7 +11342,8 @@ main {
 }
 
 ul[class], ol[class] {
-    list-style: none
+    list-style: none;
+    padding: 0
 }
 
 pre, code, kbd, samp {
@@ -12400,7 +12397,8 @@ body.open-dyslexic-article-body {
 }
 
     .crayons-banner a {
-        color: var(--body-color-inverted)
+        color: var(--body-color-inverted);
+        text-decoration: underline
     }
 
 .crayons-banner--brand {
@@ -12442,10 +12440,6 @@ body.open-dyslexic-article-body {
         color: var(--body-color-inverted)
     }
 
-.crayons-banner a {
-    text-decoration: underline
-}
-
 .crayons-btn {
     --brand-apple-bg: #000;
     --brand-apple-color: #fff;
@@ -12461,11 +12455,7 @@ body.open-dyslexic-article-body {
     --brand-facebook-bg-hover: #476fbf;
     --brand-email-bg: #24292e;
     --brand-email-color: #fff;
-    --brand-email-bg-hover: #000
-}
-
-.crayons-btn {
-    --border-width: 0px;
+    --brand-email-bg-hover: #000 --border-width: 0px;
     --shadow-color: rgba(0, 0, 0, 0.05);
     --vertical-padding: var(--su-2);
     --horizontal-padding: var(--su-4);
