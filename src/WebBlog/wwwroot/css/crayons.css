@@ -1,50 +1,4 @@
 ﻿:root {
-    --header-height: 56px;
-    --site-width: 1280px;
-    --su-1: 0.25rem;
-    --su-2: 0.5rem;
-    --su-3: 0.75rem;
-    --su-4: 1rem;
-    --su-5: 1.25rem;
-    --su-6: 1.5rem;
-    --su-7: 2rem;
-    --su-8: 3rem;
-    --su-9: 4rem;
-    --su-10: 8rem;
-    --radius: 5px;
-    --transition-func: cubic-bezier(0.17, 0.67, 0.5, 0.71);
-    --transition-time: 100ms;
-    --transition-props: var(--transition-func) var(--transition-time);
-    --ff-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-    --ff-monospace: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-    --ff-serif: Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', Georgia, serif;
-    --ff-comic: 'Comic Sans MS', cursive, sans-serif;
-    --ff-dyslexic: OpenDyslexic, sans-serif;
-    --fs-xs: 0.75rem;
-    --fs-s: 0.875rem;
-    --fs-base: 1rem;
-    --fs-l: 1.125rem;
-    --fs-xl: 1.25rem;
-    --fs-2xl: 1.5rem;
-    --fs-3xl: 1.875rem;
-    --fs-4xl: 2.25rem;
-    --fs-5xl: 3rem;
-    --fw-normal: 400;
-    --fw-medium: 500;
-    --fw-bold: 700;
-    --fw-heavy: 800;
-    --lh-tight: 1.25;
-    --lh-base: 1.5;
-    --z-negative: -1;
-    --z-elevate: 1;
-    --z-sticky: 100;
-    --z-drawer: 200;
-    --z-modal: 300;
-    --z-dropdown: 400;
-    --z-popover: 500
-}
-
-:root {
     --base: #08090a;
     --base-a90: rgba(8, 9, 10, 0.9);
     --base-a80: rgba(8, 9, 10, 0.8);
@@ -101,6 +55,7 @@
     --header-bg: var(--base-inverted);
     --header-bg-hover: var(--base-10);
     --header-bg-current: var(--base-20);
+    --header-height: 56px;
     --header-shadow: rgba(0, 0, 0, 0.1);
     --header-icons-color: var(--base-70);
     --header-icons-color-hover: var(--base-100);
@@ -178,6 +133,7 @@
     --indicator-critical-color: var(--body-color-inverted);
     --indicator-default-bg: var(--button-secondary-bg);
     --indicator-default-color: var(--button-secondary-color);
+    --site-width: 1280px;
     --tab-color: var(--base-80);
     --tab-color-hover: var(--accent-brand);
     --tab-color-current: var(--base-100);
@@ -200,7 +156,72 @@
     --reaction-save-color: var(--accent-brand);
     --reaction-save-bg: var(--accent-brand-a10);
     --reaction-comment-color: var(--accent-warning);
-    --reaction-comment-bg: var(--accent-warning-a10)
+    --reaction-comment-bg: var(--accent-warning-a10);
+    --su-1: 0.25rem;
+    --su-2: 0.5rem;
+    --su-3: 0.75rem;
+    --su-4: 1rem;
+    --su-5: 1.25rem;
+    --su-6: 1.5rem;
+    --su-7: 2rem;
+    --su-8: 3rem;
+    --su-9: 4rem;
+    --su-10: 8rem;
+    --radius: 5px;
+    --transition-func: cubic-bezier(0.17, 0.67, 0.5, 0.71);
+    --transition-time: 100ms;
+    --transition-props: var(--transition-func) var(--transition-time);
+    --ff-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    --ff-monospace: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    --ff-serif: Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', Georgia, serif;
+    --ff-comic: 'Comic Sans MS', cursive, sans-serif;
+    --ff-dyslexic: OpenDyslexic, sans-serif;
+    --fs-xs: 0.75rem;
+    --fs-s: 0.875rem;
+    --fs-base: 1rem;
+    --fs-l: 1.125rem;
+    --fs-xl: 1.25rem;
+    --fs-2xl: 1.5rem;
+    --fs-3xl: 1.875rem;
+    --fs-4xl: 2.25rem;
+    --fs-5xl: 3rem;
+    --fw-normal: 400;
+    --fw-medium: 500;
+    --fw-bold: 700;
+    --fw-heavy: 800;
+    --lh-tight: 1.25;
+    --lh-base: 1.5;
+    --z-negative: -1;
+    --z-elevate: 1;
+    --z-sticky: 100;
+    --z-drawer: 200;
+    --z-modal: 300;
+    --z-dropdown: 400;
+    --z-popover: 500;
+    --layout-sidebar-left-display: block;
+    --layout-sidebar-right-display: block;
+    --layout-sidebar-left-width: 100%;
+    --layout-sidebar-right-width: 100%;
+    --layout-sidebar-left-row-end: initial;
+    --layout-content-width: 100%;
+    --layout-drawer-width: 300px;
+    --layout-gap: var(--su-2);
+    --layout-padding: 0;
+    --layout: 100%;
+    --content-padding-x: var(--su-3);
+    --content-padding-y: var(--su-3);
+    --content-rythm: var(--su-2);
+    --content-font-size: var(--fs-l);
+    --content-secondary-font-size: var(--fs-base);
+    --content-tertiary-font-size: var(--fs-base);
+    --syntax-background-color: #08090a;
+    --syntax-text-color: #f8f8f2;
+    --syntax-comment-color: #808080;
+    --syntax-declaration-color: #f39c12;
+    --syntax-literal-color: #dda0dd;
+    --syntax-error-color: #f9690e;
+    --syntax-name-color: #7ed07e;
+    --syntax-string-color: #f2ca27
 }
 
 .color-transparent {
@@ -11543,19 +11564,6 @@ a {
         fill: currentColor
     }
 
-:root {
-    --layout-sidebar-left-display: block;
-    --layout-sidebar-right-display: block;
-    --layout-sidebar-left-width: 100%;
-    --layout-sidebar-right-width: 100%;
-    --layout-sidebar-left-row-end: initial;
-    --layout-content-width: 100%;
-    --layout-drawer-width: 300px;
-    --layout-gap: var(--su-2);
-    --layout-padding: 0;
-    --layout: 100%
-}
-
 @media (min-width: 768px) {
     :root {
         --layout-sidebar-left-width: 2fr;
@@ -11801,11 +11809,6 @@ a {
     display: none
 }
 
-:root {
-    --content-padding-x: var(--su-3);
-    --content-padding-y: var(--su-3)
-}
-
 @media (min-width: 640px) {
     :root {
         --content-padding-x: var(--su-5);
@@ -11828,13 +11831,6 @@ a {
 
 .text-padding {
     padding: var(--content-padding-y) var(--content-padding-x)
-}
-
-:root {
-    --content-rythm: var(--su-2);
-    --content-font-size: var(--fs-l);
-    --content-secondary-font-size: var(--fs-base);
-    --content-tertiary-font-size: var(--fs-base)
 }
 
 @media (min-width: 640px) {
@@ -14229,17 +14225,6 @@ textarea.crayons-textfield.crayons-textfield--ghost {
 
 .crayons-story .crayons-btn.selected .bm-success {
     display: inline-flex
-}
-
-:root {
-    --syntax-background-color: #08090a;
-    --syntax-text-color: #f8f8f2;
-    --syntax-comment-color: #808080;
-    --syntax-declaration-color: #f39c12;
-    --syntax-literal-color: #dda0dd;
-    --syntax-error-color: #f9690e;
-    --syntax-name-color: #7ed07e;
-    --syntax-string-color: #f2ca27
 }
 
 pre:not(.highlight), div.highlight, li pre.highlight, blockquote pre.highlight {
