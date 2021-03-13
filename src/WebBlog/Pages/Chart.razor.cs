@@ -23,7 +23,6 @@ namespace WebBlog.Pages
 
         protected string Title;
 
-        private IList<IList<ChartView>> hourlyChart;
         protected IList<IList<ChartView>> dailyChart;
         private IList<IList<ChartView>> monthlyChart;
 
@@ -52,7 +51,7 @@ namespace WebBlog.Pages
                 Type = MetricType.Electricity;
             }
 
-            UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/" + OffSet, true);
+            UriHelper.NavigateTo($"/metrics/chart/{(int)Type}/{OffSet}", true);
         }
 
         protected void PrevDay()
@@ -63,7 +62,7 @@ namespace WebBlog.Pages
                 OffSet = 30;
             }
 
-            UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/" + OffSet, true);
+            UriHelper.NavigateTo($"/metrics/chart/{(int)Type}/{OffSet}", true);
         }
 
         protected void NextDay()
@@ -74,7 +73,7 @@ namespace WebBlog.Pages
                 OffSet = 0;
             }
 
-            UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/" + OffSet, true);
+            UriHelper.NavigateTo($"/metrics/chart/{(int)Type}/{OffSet}", true);
         }
 
         protected void Next()
@@ -85,12 +84,12 @@ namespace WebBlog.Pages
                 Type = MetricType.TwitterFollowers;
             }
 
-            UriHelper.NavigateTo("/metrics/chart/" + (int)Type + "/" + OffSet, true);
+            UriHelper.NavigateTo($"/metrics/chart/{(int)Type}/{OffSet}", true);
         }
 
         protected async Task LoadHourly()
         {
-            hourlyChart = await MetricService.GetChart(Type, MyChartType.Hourly, OffSet);
+            IList<IList<ChartView>> hourlyChart = await MetricService.GetChart(Type, MyChartType.Hourly, OffSet);
             foreach (var subitem in hourlyChart[0].OrderBy(x => x.Date))
             {
                 if (subitem.Total.HasValue)
