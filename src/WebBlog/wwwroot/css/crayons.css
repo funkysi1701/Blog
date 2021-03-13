@@ -12927,7 +12927,7 @@ body.open-dyslexic-article-body {
         box-shadow: 1px 1px 0 var(--form-border-focus)
     }
 
-    .crayons-select--disabled, .crayons-select[disabled], .crayons-checkbox--checked--disabled, .crayons-checkbox--checked[disabled], .crayons-checkbox--checked--disabled, .crayons-radio--checked--disabled, .crayons-radio--checked[disabled], .crayons-radio--checked--disabled, .crayons-checkbox--disabled, .crayons-checkbox[disabled], .crayons-radio--disabled, .crayons-radio[disabled], .crayons-textfield--disabled, .crayons-textfield[disabled] {
+    .crayons-select--disabled, .crayons-select[disabled], .crayons-checkbox--checked--disabled, .crayons-checkbox--checked[disabled], .crayons-radio--checked--disabled, .crayons-radio--checked[disabled], .crayons-radio--checked--disabled, .crayons-checkbox--disabled, .crayons-checkbox[disabled], .crayons-radio--disabled, .crayons-radio[disabled], .crayons-textfield--disabled, .crayons-textfield[disabled] {
         opacity: 0.6
     }
 
@@ -12936,7 +12936,8 @@ body.open-dyslexic-article-body {
         border-color: var(--form-border-focus);
         color: var(--form-bg-focus);
         background-position: center center;
-        background-repeat: no-repeat
+        background-repeat: no-repeat;
+        background-image: url("data:image/svg+xml,%3Csvg width='12' height='10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M11.157.933a.75.75 0 01.077 1.058L4.817 9.407a.75.75 0 01-1.134 0L.766 6.037a.75.75 0 011.135-.982L4.25 7.77l5.85-6.76a.75.75 0 011.057-.077z' fill='%23fff'/%3E%3C/svg%3E")
     }
 
 .crayons-textfield {
@@ -12970,10 +12971,6 @@ body.open-dyslexic-article-body {
 
     .crayons-checkbox--disabled, .crayons-checkbox[disabled], .crayons-radio--disabled, .crayons-radio[disabled] {
         cursor: not-allowed
-    }
-
-    .crayons-checkbox--checked, .crayons-checkbox:checked, .crayons-radio--checked, .crayons-radio:checked {
-        background-image: url("data:image/svg+xml,%3Csvg width='12' height='10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M11.157.933a.75.75 0 01.077 1.058L4.817 9.407a.75.75 0 01-1.134 0L.766 6.037a.75.75 0 011.135-.982L4.25 7.77l5.85-6.76a.75.75 0 011.057-.077z' fill='%23fff'/%3E%3C/svg%3E")
     }
 
 .crayons-radio {
