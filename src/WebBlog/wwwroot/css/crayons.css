@@ -12455,7 +12455,8 @@ body.open-dyslexic-article-body {
     --brand-facebook-bg-hover: #476fbf;
     --brand-email-bg: #24292e;
     --brand-email-color: #fff;
-    --brand-email-bg-hover: #000 --border-width: 0px;
+    --brand-email-bg-hover: #000;
+    --border-width: 0px;
     --shadow-color: rgba(0, 0, 0, 0.05);
     --vertical-padding: var(--su-2);
     --horizontal-padding: var(--su-4);
