@@ -15,50 +15,68 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+
 - script: '(echo $(Build.BuildNumber) && echo $(Build.BuildId)) > .buildinfo.json'
   displayName: "Emit build number"
   workingDirectory: '$(Build.SourcesDirectory)/src/WebBlog'
   failOnStderr: true
+
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
     version: '5.x'
     includePreviewVersions: true
+
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
     version: '3.1.x'
     includePreviewVersions: false
+
 - task: NuGetToolInstaller@1
+
 - task: DotNetCoreCLI@2
   displayName: 'Restore'
   inputs:
     command: 'restore'
     projects: '$(solution)'
     feedsToUse: 'select'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonaClouds'
+    organization: 'funkysi1701'
+    scannerMode: 'MSBuild'
+    projectKey: 'funkysi1701_Blog'
+    projectName: 'Blog'    
+
 - task: DotNetCoreCLI@2
   displayName: 'Build Web'
   inputs:
     command: 'build'
     projects: 'src/WebBlog/WebBlog.csproj'
     arguments: '--configuration $(BuildConfiguration)'
+
 - task: DotNetCoreCLI@2
   displayName: 'Publish'
   inputs:
     command: 'publish'
     publishWebProjects: true
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) /p:SourceRevisionId=$(Build.SourceVersion)'    
+
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Pipeline.Workspace)/a/WebBlog.zip'
     artifact: 'web'
     publishLocation: 'pipeline'    
+
 - task: DotNetCoreCLI@2
   displayName: 'Build Func'
   inputs:
     command: 'build'
     projects: 'src/WebBlog.Func/WebBlog.Func.csproj'
     arguments: '--configuration $(BuildConfiguration)'
+
 - task: DotNetCoreCLI@2
   displayName: 'Publish'
   inputs:
@@ -66,11 +84,13 @@ steps:
     publishWebProjects: false
     projects: 'src/WebBlog.Func/WebBlog.Func.csproj'
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) /p:SourceRevisionId=$(Build.SourceVersion)'
+
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Pipeline.Workspace)/a/WebBlog.Func.zip'
     artifact: 'func'
     publishLocation: 'pipeline'    
+
 - task: dependency-checker@1
   inputs:
     path: '$(Build.SourcesDirectory)'
@@ -83,3 +103,9 @@ steps:
     reportPath: '$(Build.ArtifactStagingDirectory)\dependencies.html'
   env:
     SYSTEM_ACCESSTOKEN: $(system.accesstoken)
+
+- task: SonarCloudAnalyze@1
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'

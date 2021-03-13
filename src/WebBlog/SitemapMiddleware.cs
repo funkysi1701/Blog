@@ -29,13 +29,15 @@ namespace WebBlog
                 string sitemapContent = "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
 
                 var blogs = await _blogService.GetBlogsAsync();
+                StringBuilder bld = new();
                 foreach (var blog in blogs.Where(x => x.Published))
                 {
-                    sitemapContent += "<url>";
-                    sitemapContent += string.Format("<loc>{0}</loc>", blog.Canonical_Url);
-                    sitemapContent += string.Format("<lastmod>{0}</lastmod>", blog.Published_At.Value.ToString("yyyy-MM-dd"));
-                    sitemapContent += "</url>";
+                    bld.Append("<url>");
+                    bld.Append(string.Format("<loc>{0}</loc>", blog.Canonical_Url));
+                    bld.Append(string.Format("<lastmod>{0}</lastmod>", blog.Published_At.Value.ToString("yyyy-MM-dd")));
+                    bld.Append("</url>");
                 }
+                sitemapContent += bld.ToString();
                 sitemapContent += "<url>";
                 sitemapContent += string.Format("<loc>{0}</loc>", "https://www.funkysi1701.com");
                 sitemapContent += string.Format("<lastmod>{0}</lastmod>", DateTime.UtcNow.ToString("yyyy-MM-dd"));
