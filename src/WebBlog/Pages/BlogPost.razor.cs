@@ -10,7 +10,7 @@ namespace WebBlog.Pages
     public class BlogPostBase : ComponentBase
     {
         [Inject] private BlogService BlogService { get; set; }
-        private List<BlogPosts> blogs;
+
         protected BlogPosts thisblog;
         protected BlogPostsSingle thisblogsingle;
 
@@ -19,9 +19,9 @@ namespace WebBlog.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            blogs = await BlogService.GetBlogsAsync();
+            List<BlogPosts> blogs = await BlogService.GetBlogsAsync();
 
-            thisblog = blogs.Where(x => x.Slug == Slug && x.Published).FirstOrDefault();
+            thisblog = blogs.FirstOrDefault(x => x.Slug == Slug && x.Published);
             if (thisblog != null)
             {
                 thisblogsingle = await BlogService.GetBlogPostAsync(thisblog.Id);
