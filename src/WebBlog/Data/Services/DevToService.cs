@@ -18,7 +18,7 @@ namespace WebBlog.Data.Services
         {
             var blogs = await BlogService.GetBlogsAsync();
             await _service.SaveData(blogs.Count, 9);
-            await _service.SaveData(blogs.Where(x => x.Published).Count(), 10);
+            await _service.SaveData(blogs.Count(x => x.Published), 10);
             int views = 0;
             int reactions = 0;
             int comments = 0;

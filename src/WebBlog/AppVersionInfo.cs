@@ -69,9 +69,9 @@ namespace WebBlog
         {
             get
             {
-                if (string.IsNullOrEmpty(_buildId))
+                if (!string.IsNullOrEmpty(_buildId))
                 {
-                    var _ = BuildNumber;
+                    _buildId = "123456";
                 }
 
                 return _buildId;
