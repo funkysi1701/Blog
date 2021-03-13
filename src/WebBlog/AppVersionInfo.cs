@@ -69,7 +69,7 @@ namespace WebBlog
         {
             get
             {
-                if (!string.IsNullOrEmpty(_buildId))
+                if (string.IsNullOrEmpty(_buildId))
                 {
                     _buildId = "123456";
                 }
