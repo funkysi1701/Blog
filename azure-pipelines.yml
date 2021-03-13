@@ -49,7 +49,7 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'funkysi1701_Blog'
     projectName: 'Blog'
-    projectVersion: 'Build.BuildId'
+    projectVersion: '$(Build.BuildId)'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build Web'
