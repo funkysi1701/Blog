@@ -48,7 +48,8 @@ steps:
     organization: 'funkysi1701'
     scannerMode: 'MSBuild'
     projectKey: 'funkysi1701_Blog'
-    projectName: 'Blog'    
+    projectName: 'Blog'
+    projectVersion: '$(Build.BuildId)'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build Web'
@@ -56,6 +57,25 @@ steps:
     command: 'build'
     projects: 'src/WebBlog/WebBlog.csproj'
     arguments: '--configuration $(BuildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Running Tests'
+  inputs:
+    command: 'test'
+    arguments: '--no-restore --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+    projects: 'src/WebBlog.Test/WebBlog.Test.csproj'
+    nobuild: true
+
+- task: reportgenerator@4
+  inputs:
+    reports: '$(Build.SourcesDirectory)\src\WebBlog.Test\coverage.opencover.xml'
+    targetdir: '$(Build.SourcesDirectory)\CodeCoverage'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)\CodeCoverage\Cobertura.xml'  
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish'
