@@ -113,7 +113,7 @@ namespace WebBlog.Data.Services
             {
                 var c = new ChartView
                 {
-                    Date = item.Date.Value.Year.ToString("D4") + "-" + item.Date.Value.Month.ToString("D2") + "-" + item.Date.Value.Day.ToString("D2") + " " + item.Date.Value.Hour.ToString("D2") + ":" + item.Date.Value.Minute.ToString("D2") + ":" + item.Date.Value.Second.ToString("D2"),
+                    Date = item.Date.Value,
                     Total = item.Value
                 };
                 result.Add(c);
@@ -123,7 +123,7 @@ namespace WebBlog.Data.Services
             {
                 var c = new ChartView
                 {
-                    Date = previtem.Date.Value.Year.ToString("D4") + "-" + previtem.Date.Value.Month.ToString("D2") + "-" + previtem.Date.Value.Day.ToString("D2") + " " + previtem.Date.Value.Hour.ToString("D2") + ":" + previtem.Date.Value.Minute.ToString("D2") + ":" + previtem.Date.Value.Second.ToString("D2"),
+                    Date = previtem.Date.Value,
                     Total = previtem.Value
                 };
                 prevresult.Add(c);

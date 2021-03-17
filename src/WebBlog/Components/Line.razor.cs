@@ -21,7 +21,7 @@ namespace WebBlog.Components
         protected ChartJsLineChart _lineChartJs;
 
         [Parameter]
-        public List<string> Labels { get; set; }
+        public List<DateTime> Labels { get; set; }
 
         [Parameter]
         public List<decimal> Data { get; set; }
@@ -209,55 +209,31 @@ namespace WebBlog.Components
             for (int i = 0; i < Data.Count; i++)
             {
                 var s = Labels[i];
-                var points = new TimeTuple<decimal>(new Moment(DateTime.Parse(s)), Convert.ToDecimal(Data[i]));
+                var points = new TimeTuple<decimal>(new Moment(s), Convert.ToDecimal(Data[i]));
                 Set.Add(points);
             }
 
             for (int i = 0; i < (Data.Count < PrevData.Count ? Data.Count : PrevData.Count); i++)
             {
                 var s = Labels[i];
-                var points = new TimeTuple<decimal>(new Moment(DateTime.Parse(s)), Convert.ToDecimal(PrevData[i]));
+                var points = new TimeTuple<decimal>(new Moment(s), Convert.ToDecimal(PrevData[i]));
                 PrevSet.Add(points);
             }
 
             if (Labels.Count > 0)
             {
-                Set.Label = Labels.OrderByDescending(s => s.ToString()).First().Substring(0, 10);
+                DateTime dt = Labels.OrderByDescending(s => s.Date).FirstOrDefault();
+                Set.Label = dt.ToString("yyyy-MM-dd");
                 if (Day == MyChartType.Hourly)
                 {
-                    if (DateTime.TryParse(Set.Label, out DateTime dt))
-                    {
-                        PrevSet.Label = dt.AddDays(-1).ToString("yyyy-MM-dd");
-                    }
+                    PrevSet.Label = dt.AddDays(-1).ToString("yyyy-MM-dd");
                 }
                 else if (Day == MyChartType.Daily)
                 {
-                    if (DateTime.TryParse(Set.Label, out DateTime dt))
-                    {
-                        PrevSet.Label = dt.AddDays(-14).ToString("yyyy-MM-dd");
-                    }
-                    else
-                    {
-                        var dtparts = Set.Label.Split('/');
-                        var newdt = dtparts[2].Substring(0, 4) + "-" + dtparts[0] + "-" + dtparts[1];
-                        if (DateTime.TryParse(newdt, out DateTime dt2))
-                        {
-                            Set.Label = dt2.ToString("yyyy-MM-dd");
-                            PrevSet.Label = dt2.AddDays(-14).ToString("yyyy-MM-dd");
-                        }
-                    }
+                    PrevSet.Label = dt.AddDays(-14).ToString("yyyy-MM-dd");
                 }
                 else
                 {
-                    if (!DateTime.TryParse(Set.Label, out DateTime dt))
-                    {
-                        var dtparts = Set.Label.Split('/');
-                        var newdt = dtparts[2].Substring(0, 4) + "-" + dtparts[0] + "-" + dtparts[1];
-                        if (DateTime.TryParse(newdt, out DateTime dt2))
-                        {
-                            Set.Label = dt2.ToString("yyyy-MM-dd");
-                        }
-                    }
                     PrevSet.Label = "N/A";
                     PrevSet.Hidden = true;
                 }

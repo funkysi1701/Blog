@@ -52,11 +52,11 @@ namespace WebBlog.Test
         {
             var view = new ChartView
             {
-                Date = "2020-01-01",
+                Date = DateTime.Parse("2020-01-01"),
                 Total = 5
             };
             Assert.Equal(5, view.Total);
-            Assert.Equal("2020-01-01", view.Date);
+            Assert.Equal(DateTime.Parse("2020-01-01"), view.Date);
         }
 
         [Fact]

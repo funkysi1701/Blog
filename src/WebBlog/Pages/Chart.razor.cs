@@ -26,9 +26,9 @@ namespace WebBlog.Pages
         protected IList<IList<ChartView>> dailyChart;
         private IList<IList<ChartView>> monthlyChart;
 
-        protected List<string> hourlyLabel = new();
-        protected List<string> dailyLabel = new();
-        protected List<string> monthlyLabel = new();
+        protected List<DateTime> hourlyLabel = new();
+        protected List<DateTime> dailyLabel = new();
+        protected List<DateTime> monthlyLabel = new();
 
         protected List<decimal> hourlyData = new();
         protected List<decimal> dailyData = new();
@@ -116,7 +116,10 @@ namespace WebBlog.Pages
             {
                 var result =
                     from s in dailyChart[0].OrderBy(x => x.Date)
-                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, DateTime.Parse(s.Date).Day) } into g
+                    group s by new
+                    {
+                        Date = s.Date
+                    } into g
                     select new
                     {
                         g.Key.Date,
@@ -125,13 +128,16 @@ namespace WebBlog.Pages
 
                 foreach (var item in result)
                 {
-                    dailyLabel.Add(item.Date.ToString());
+                    dailyLabel.Add(item.Date);
                     dailyData.Add(item.Value.Value);
                 }
 
                 result =
                     from s in dailyChart[1].OrderBy(x => x.Date)
-                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, DateTime.Parse(s.Date).Day) } into g
+                    group s by new
+                    {
+                        s.Date
+                    } into g
                     select new
                     {
                         g.Key.Date,
@@ -140,7 +146,7 @@ namespace WebBlog.Pages
 
                 foreach (var item in result)
                 {
-                    dailyLabel.Add(item.Date.ToString());
+                    dailyLabel.Add(item.Date);
                     dailyPrevData.Add(item.Value.Value);
                 }
             }
@@ -148,7 +154,10 @@ namespace WebBlog.Pages
             {
                 var result =
                     from s in dailyChart[0].OrderBy(x => x.Date)
-                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, DateTime.Parse(s.Date).Day) } into g
+                    group s by new
+                    {
+                        s.Date
+                    } into g
                     select new
                     {
                         g.Key.Date,
@@ -157,13 +166,16 @@ namespace WebBlog.Pages
 
                 foreach (var item in result)
                 {
-                    dailyLabel.Add(item.Date.ToString());
+                    dailyLabel.Add(item.Date);
                     dailyData.Add(item.Value.Value);
                 }
 
                 result =
                     from s in dailyChart[1].OrderBy(x => x.Date)
-                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, DateTime.Parse(s.Date).Day) } into g
+                    group s by new
+                    {
+                        s.Date
+                    } into g
                     select new
                     {
                         g.Key.Date,
@@ -172,7 +184,7 @@ namespace WebBlog.Pages
 
                 foreach (var item in result)
                 {
-                    dailyLabel.Add(item.Date.ToString());
+                    dailyLabel.Add(item.Date);
                     dailyPrevData.Add(item.Value.Value);
                 }
             }
@@ -185,7 +197,10 @@ namespace WebBlog.Pages
             {
                 var result =
                     from s in monthlyChart[0].OrderBy(x => x.Date)
-                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, 1) } into g
+                    group s by new
+                    {
+                        s.Date
+                    } into g
                     select new
                     {
                         g.Key.Date,
@@ -194,7 +209,7 @@ namespace WebBlog.Pages
 
                 foreach (var item in result)
                 {
-                    monthlyLabel.Add(item.Date.ToString());
+                    monthlyLabel.Add(item.Date);
                     monthlyData.Add(item.Value.Value);
                 }
             }
@@ -202,7 +217,10 @@ namespace WebBlog.Pages
             {
                 var result =
                     from s in monthlyChart[0].OrderBy(x => x.Date)
-                    group s by new { Date = new DateTime(DateTime.Parse(s.Date).Year, DateTime.Parse(s.Date).Month, 1) } into g
+                    group s by new
+                    {
+                        s.Date
+                    } into g
                     select new
                     {
                         g.Key.Date,
@@ -211,7 +229,7 @@ namespace WebBlog.Pages
 
                 foreach (var item in result)
                 {
-                    monthlyLabel.Add(item.Date.ToString());
+                    monthlyLabel.Add(item.Date);
                     monthlyData.Add(item.Value.Value);
                 }
             }
