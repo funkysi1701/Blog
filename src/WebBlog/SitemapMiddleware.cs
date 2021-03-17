@@ -10,12 +10,10 @@ namespace WebBlog
 {
     public class SitemapMiddleware
     {
-        private readonly RequestDelegate _next;
         private readonly BlogService _blogService;
 
         public SitemapMiddleware(RequestDelegate next, BlogService BlogService)
         {
-            _next = next;
             _blogService = BlogService;
         }
 

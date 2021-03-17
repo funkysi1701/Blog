@@ -118,7 +118,7 @@ namespace WebBlog.Pages
                     from s in dailyChart[0].OrderBy(x => x.Date)
                     group s by new
                     {
-                        Date = s.Date
+                        Date = new DateTime(s.Date.Year, s.Date.Month, s.Date.Day)
                     } into g
                     select new
                     {
@@ -136,7 +136,7 @@ namespace WebBlog.Pages
                     from s in dailyChart[1].OrderBy(x => x.Date)
                     group s by new
                     {
-                        s.Date
+                        Date = new DateTime(s.Date.Year, s.Date.Month, s.Date.Day)
                     } into g
                     select new
                     {
@@ -156,7 +156,7 @@ namespace WebBlog.Pages
                     from s in dailyChart[0].OrderBy(x => x.Date)
                     group s by new
                     {
-                        s.Date
+                        Date = new DateTime(s.Date.Year, s.Date.Month, s.Date.Day)
                     } into g
                     select new
                     {
@@ -174,7 +174,7 @@ namespace WebBlog.Pages
                     from s in dailyChart[1].OrderBy(x => x.Date)
                     group s by new
                     {
-                        s.Date
+                        Date = new DateTime(s.Date.Year, s.Date.Month, s.Date.Day)
                     } into g
                     select new
                     {
@@ -199,7 +199,7 @@ namespace WebBlog.Pages
                     from s in monthlyChart[0].OrderBy(x => x.Date)
                     group s by new
                     {
-                        s.Date
+                        Date = new DateTime(s.Date.Year, s.Date.Month, 1)
                     } into g
                     select new
                     {
@@ -219,7 +219,7 @@ namespace WebBlog.Pages
                     from s in monthlyChart[0].OrderBy(x => x.Date)
                     group s by new
                     {
-                        s.Date
+                        Date = new DateTime(s.Date.Year, s.Date.Month, 1)
                     } into g
                     select new
                     {
