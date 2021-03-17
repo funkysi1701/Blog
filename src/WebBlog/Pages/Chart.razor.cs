@@ -199,7 +199,7 @@ namespace WebBlog.Pages
                     from s in monthlyChart[0].OrderBy(x => x.Date)
                     group s by new
                     {
-                        Date = new DateTime(s.Date.Year, s.Date.Month, s.Date.Day)
+                        Date = new DateTime(s.Date.Year, s.Date.Month, 1)
                     } into g
                     select new
                     {
@@ -219,7 +219,7 @@ namespace WebBlog.Pages
                     from s in monthlyChart[0].OrderBy(x => x.Date)
                     group s by new
                     {
-                        Date = new DateTime(s.Date.Year, s.Date.Month, s.Date.Day)
+                        Date = new DateTime(s.Date.Year, s.Date.Month, 1)
                     } into g
                     select new
                     {
