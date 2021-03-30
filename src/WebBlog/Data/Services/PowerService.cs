@@ -34,7 +34,7 @@ namespace WebBlog.Data.Services
         public async Task GetElec()
         {
             DateTimeOffset From = new(DateTime.Now.AddDays(-30).AddHours(-1).AddMinutes(-1 * DateTime.Now.AddMinutes(-30).Minute), TimeSpan.FromHours(0));
-            DateTimeOffset To = new DateTimeOffset(DateTime.Now.AddMinutes(-1 * DateTime.Now.AddMinutes(-30).Minute), TimeSpan.FromHours(0));
+            DateTimeOffset To = new(DateTime.Now.AddMinutes(-1 * DateTime.Now.AddMinutes(-30).Minute), TimeSpan.FromHours(0));
             var consumption = await Client.GetElectricityConsumptionAsync(Key, Configuration.GetValue<string>("OctopusElecMPAN"), Configuration.GetValue<string>("OctopusElecSerial"), From, To, Interval.Hour);
             await CheckConsumption(15, consumption);
         }
