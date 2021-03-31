@@ -50,6 +50,12 @@ steps:
     projectKey: 'funkysi1701_Blog'
     projectName: 'Blog'
     projectVersion: '$(Build.BuildId)'
+    extraProperties: |
+      # Additional properties that will be passed to the scanner, 
+      # Put one key=value per line, example:
+      # sonar.exclusions=**/*.bin
+      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)\src\*\coverage.opencover.xml
+      sonar.coverage.jacoco.xmlReportPaths=$(Build.SourcesDirectory)\src\*\coverage.opencover.xml
 
 - task: DotNetCoreCLI@2
   displayName: 'Build Web'
