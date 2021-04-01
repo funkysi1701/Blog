@@ -1,137 +1,19 @@
 ﻿@page "/metrics"
+@page "/metrics/{Offset:int}"
 @inherits MetricsBase
 
 <h2>Metrics</h2>
 
 <p>A page of metrics about me from various services.</p>
 
+<div class="text-center">
+    <a @onclick="@PrevDay" @onclick:preventDefault href="#">Prev Day</a>
+    <a @onclick="@NextDay" @onclick:preventDefault href="#">Next Day</a>
+</div>
+
 <div class="post-content">
-    <table width="100%">
-        <tr>
-            <td>
-                <span class="fab fa-dev" aria-hidden="true"></span> Total post views
-            </td>
-            <td>
-                <a href="/metrics/chart/11"> @views.Value</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="fab fa-dev" aria-hidden="true"></span> Total post reactions
-            </td>
-            <td>
-                <a href="/metrics/chart/12"> @reactions.Value</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="fab fa-dev" aria-hidden="true"></span> Total post comments
-            </td>
-            <td>
-                <a href="/metrics/chart/13"> @comments.Value</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="fab fa-dev" aria-hidden="true"></span> Published Posts / Total Posts
-            </td>
-            <td>
-                <a href="/metrics/chart/10">@pubposts.Value</a> / <a href="/metrics/chart/9">@posts.Value</a>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-        </tr>
-        <tr>
-            <td>
-                <span class="fab fa-twitter" aria-hidden="true"></span> Number of Followers
-            </td>
-            <td>
-                <a href="/metrics/chart/0"> @followers.Value</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="fab fa-twitter" aria-hidden="true"></span> Number Following
-            </td>
-            <td>
-                <a href="/metrics/chart/1"> @following.Value</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="fab fa-twitter" aria-hidden="true"></span> Number of Favourites
-            </td>
-            <td>
-                <a href="/metrics/chart/3"> @fav.Value</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="fab fa-twitter" aria-hidden="true"></span> Number of Tweets
-            </td>
-            <td>
-                <a href="/metrics/chart/2"> @numtweets.Value</a>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-        </tr>
-        <tr>
-            <td>
-                <span class="fab fa-github" aria-hidden="true"></span> Number Following
-            </td>
-            <td>
-                <a href="/metrics/chart/5"> @ghfollowing.Value</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="fab fa-github" aria-hidden="true"></span> Number of Followers
-            </td>
-            <td>
-                <a href="/metrics/chart/4">@ghfollowers.Value</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="fab fa-github" aria-hidden="true"></span> Number of Repos
-            </td>
-            <td>
-                <a href="/metrics/chart/6">@ghrepo.Value</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="fab fa-github" aria-hidden="true"></span> Number of Stars
-            </td>
-            <td>
-                <a href="/metrics/chart/7">@ghstars.Value</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="fab fa-github" aria-hidden="true"></span> Number of Commits
-            </td>
-            <td>
-                <a href="/metrics/chart/8">@commits.Value</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="fab" aria-hidden="true"></span> Gas
-            </td>
-            <td>
-                <a href="/metrics/chart/14/1">@gas.Value</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="fab" aria-hidden="true"></span> Elec
-            </td>
-            <td>
-                <a href="/metrics/chart/15/1">@elec.Value</a>
-            </td>
-        </tr>
-    </table>
+    @for (int i = 0; i < (int)MetricType.Electricity + 1; i++)
+    {
+        <Chart Type="@((MetricType)i)" OffSet="@OffSet"></Chart>
+    }
 </div>
