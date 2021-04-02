@@ -136,9 +136,9 @@ namespace WebBlog.Data.Services
             return final;
         }
 
-        public async Task<IList<IList<ChartView>>> GetChart(MetricType type, MyChartType day, int OffSet)
+        public IList<IList<ChartView>> GetChart(MetricType type, MyChartType day, int OffSet)
         {
-            var metrics = await _context.Metrics.Where(x => x.Type == (int)type).ToListAsync();
+            var metrics = _context.Metrics.Where(x => x.Type == (int)type).ToList();
             List<Metric> LiveMetrics;
             List<Metric> PrevMetrics;
             if (type >= MetricType.Gas)

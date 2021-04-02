@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using WebBlog.Data;
 using WebBlog.Data.Services;
 
@@ -12,7 +11,6 @@ namespace WebBlog.Pages
 {
     public class ChartBase : ComponentBase
     {
-        [Inject] private NavigationManager UriHelper { get; set; }
         [Inject] private MetricService MetricService { get; set; }
 
         [Parameter]
@@ -22,9 +20,7 @@ namespace WebBlog.Pages
         public MetricType Type { get; set; } = 0;
 
         protected string Title;
-
-        protected IList<IList<ChartView>> dailyChart;
-        private IList<IList<ChartView>> monthlyChart;
+        protected bool LoadComplete = false;
 
         protected List<DateTime> hourlyLabel = new();
         protected List<DateTime> dailyLabel = new();
@@ -38,58 +34,19 @@ namespace WebBlog.Pages
         protected List<decimal> dailyPrevData = new();
         protected List<decimal> monthlyPrevData = new();
 
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
-            await Load();
+            Load();
         }
 
-        protected void Prev()
+        public void RefreshMe()
         {
-            Type--;
-            if (Type < MetricType.TwitterFollowers)
-            {
-                Type = MetricType.Electricity;
-            }
-
-            UriHelper.NavigateTo($"/metrics/chart/{(int)Type}/{OffSet}", true);
+            StateHasChanged();
         }
 
-        protected void PrevDay()
+        protected void LoadHourly()
         {
-            OffSet--;
-            if (OffSet < 0)
-            {
-                OffSet = 30;
-            }
-
-            UriHelper.NavigateTo($"/metrics/chart/{(int)Type}/{OffSet}", true);
-        }
-
-        protected void NextDay()
-        {
-            OffSet++;
-            if (OffSet > 30)
-            {
-                OffSet = 0;
-            }
-
-            UriHelper.NavigateTo($"/metrics/chart/{(int)Type}/{OffSet}", true);
-        }
-
-        protected void Next()
-        {
-            Type++;
-            if (Type > MetricType.Electricity)
-            {
-                Type = MetricType.TwitterFollowers;
-            }
-
-            UriHelper.NavigateTo($"/metrics/chart/{(int)Type}/{OffSet}", true);
-        }
-
-        protected async Task LoadHourly()
-        {
-            IList<IList<ChartView>> hourlyChart = await MetricService.GetChart(Type, MyChartType.Hourly, OffSet);
+            IList<IList<ChartView>> hourlyChart = MetricService.GetChart(Type, MyChartType.Hourly, OffSet);
             foreach (var subitem in hourlyChart[0].OrderBy(x => x.Date))
             {
                 if (subitem.Total.HasValue)
@@ -109,9 +66,9 @@ namespace WebBlog.Pages
             }
         }
 
-        protected async Task LoadDaily()
+        protected void LoadDaily()
         {
-            dailyChart = await MetricService.GetChart(Type, MyChartType.Daily, OffSet);
+            IList<IList<ChartView>> dailyChart = MetricService.GetChart(Type, MyChartType.Daily, OffSet);
             if (Type == MetricType.Gas || Type == MetricType.Electricity)
             {
                 var result =
@@ -190,9 +147,9 @@ namespace WebBlog.Pages
             }
         }
 
-        protected async Task LoadMonthly()
+        protected void LoadMonthly()
         {
-            monthlyChart = await MetricService.GetChart(Type, MyChartType.Monthly, OffSet);
+            IList<IList<ChartView>> monthlyChart = MetricService.GetChart(Type, MyChartType.Monthly, OffSet);
             if (Type == MetricType.Gas || Type == MetricType.Electricity)
             {
                 var result =
@@ -235,15 +192,16 @@ namespace WebBlog.Pages
             }
         }
 
-        protected async Task Load()
+        protected void Load()
         {
-            await LoadHourly();
+            LoadHourly();
 
-            await LoadDaily();
+            LoadDaily();
 
-            await LoadMonthly();
+            LoadMonthly();
 
             Title = GetEnumDescription(Type);
+            LoadComplete = true;
         }
 
         public static string GetEnumDescription(Enum value)

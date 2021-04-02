@@ -2,20 +2,8 @@
 @page "/metrics/chart/{Type:int}/{OffSet:int}"
 @inherits ChartBase
 
-@if (dailyChart != null && dailyChart.Any())
+@if (LoadComplete)
 {
-    <h2>Chart of @Title</h2>
-
-    <div class="text-center">
-        <a @onclick="@Prev" @onclick:preventDefault href="#">Prev Chart</a>
-        <a @onclick="@Next" @onclick:preventDefault href="#">Next Chart</a>
-    </div>
-
-    <div class="text-center">
-        <a @onclick="@PrevDay" @onclick:preventDefault href="#">Prev Day</a>
-        <a @onclick="@NextDay" @onclick:preventDefault href="#">Next Day</a>
-    </div>
-
     <Line Labels="@hourlyLabel" Data="@hourlyData" PrevData="@hourlyPrevData" Title="@Title" Day="MyChartType.Hourly"></Line>
     <Line Labels="@dailyLabel" Data="@dailyData" PrevData="@dailyPrevData" Title="@Title" Day="MyChartType.Daily"></Line>
     <Line Labels="@monthlyLabel" Data="@monthlyData" PrevData="@monthlyPrevData" Title="@Title" Day="MyChartType.Monthly"></Line>
