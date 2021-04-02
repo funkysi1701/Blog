@@ -16,7 +16,7 @@ namespace WebBlog.Pages
             {
                 OffSet = 30;
             }
-            UriHelper.NavigateTo($"/metrics/chart/{OffSet}", true);
+            UriHelper.NavigateTo($"/metrics/{OffSet}", true);
         }
 
         protected void NextDay()
