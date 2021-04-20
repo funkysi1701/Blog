@@ -13,7 +13,7 @@
                 {
                     @item.Name
                     <div class="carousel-item active">
-                        <img src="@item.Uri.AbsoluteUri" class="d-block w-100">
+                        <img src="@item.Uri.AbsoluteUri" class="d-block w-100" style="transform:rotate(180)">
                         <div class="carousel-caption d-none d-md-block">
                             <h5>@item.Name</h5>
                         </div>
@@ -22,7 +22,7 @@
                 else
                 {
                     <div class="carousel-item">
-                        <img src="@item.Uri.AbsoluteUri" class="d-block w-100">
+                        <img src="@item.Uri.AbsoluteUri" class="d-block w-100" style="transform:rotate(180)">
                         <div class="carousel-caption d-none d-md-block">
                             <h5>@item.Name</h5>
                         </div>
