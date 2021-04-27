@@ -30,8 +30,8 @@ namespace WebBlog.Pages
             await GithubService.GetGitHubFollowers();
             await GithubService.GetGitHubFollowing();
             await DevToService.GetDevTo();
-            await PowerService.GetGas();
             await PowerService.GetElec();
+            await PowerService.GetGas();
             UriHelper.NavigateTo("/metrics", true);
         }
     }
