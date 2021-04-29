@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System;
 using System.Threading.Tasks;
-using WebBlog.Data;
 using WebBlog.Data.Services;
 
 namespace WebBlog.Pages
@@ -30,8 +30,17 @@ namespace WebBlog.Pages
             await GithubService.GetGitHubFollowers();
             await GithubService.GetGitHubFollowing();
             await DevToService.GetDevTo();
-            await PowerService.GetElec();
-            await PowerService.GetGas();
+            var r = new Random();
+            var rnd = r.Next(2);
+            if (rnd == 1)
+            {
+                await PowerService.GetElec();
+            }
+            else
+            {
+                await PowerService.GetGas();
+            }
+
             UriHelper.NavigateTo("/metrics", true);
         }
     }

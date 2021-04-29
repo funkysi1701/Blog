@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using WebBlog.Data;
 using WebBlog.Data.Context;
 
 namespace WebBlog.Test
 {
     public class Setup
     {
-        private readonly MetricsContext context;
         public readonly DbContextOptions<MetricsContext> Options;
 
         public Setup()
@@ -15,7 +13,6 @@ namespace WebBlog.Test
             var builder = new DbContextOptionsBuilder<MetricsContext>();
             builder.UseInMemoryDatabase(Guid.NewGuid().ToString());
             Options = builder.Options;
-            context = new MetricsContext(Options);
         }
     }
 }
