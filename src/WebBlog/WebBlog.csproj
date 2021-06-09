@@ -16,7 +16,7 @@
     <PackageReference Include="ChartJs.Blazor" Version="1.1.0" />
     <PackageReference Include="ImpSoft.OctopusEnergy.Api" Version="3.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.17.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="5.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="5.0.7" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Octokit" Version="0.50.0" />
     <PackageReference Include="TweetinviAPI" Version="5.0.4" />
