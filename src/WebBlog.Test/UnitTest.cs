@@ -40,13 +40,6 @@ namespace WebBlog.Test
             Assert.True(true);
         }
 
-        [Fact(Skip = "Skip for now")]
-        public async Task GetBlogsAsync()
-        {
-            var blogs = await BlogService.GetBlogsAsync();
-            Assert.NotEmpty(blogs);
-        }
-
         [Fact]
         public void ChartView()
         {
@@ -102,15 +95,6 @@ namespace WebBlog.Test
             var res = MetricService.LoadData(0, 0);
             Assert.Equal(0, res.Type);
             Assert.Equal(0, res.Value);
-        }
-
-        [Fact(Skip = "Skip for now")]
-        public async Task GetBlogPostAsync()
-        {
-            var blogs = await BlogService.GetBlogsAsync();
-            var post = await BlogService.GetBlogPostAsync(blogs[0].Id);
-            Assert.NotEmpty(blogs);
-            Assert.NotNull(post);
         }
 
         [Fact]
