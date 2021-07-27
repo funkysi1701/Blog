@@ -1,14 +1,16 @@
 using ImpSoft.OctopusEnergy.Api;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using WebBlog.Data;
 using WebBlog.Data.Context;
 using WebBlog.Data.Services;
 
@@ -32,7 +34,12 @@ namespace WebBlog
                 client.BaseAddress = new Uri(Configuration.GetValue<string>("DEVTOURL"));
             });
 
-            services.AddRazorPages();
+            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
+            services.AddControllersWithViews(options =>
+            {
+            }).AddMicrosoftIdentityUI();
+            services.AddRazorPages().AddMicrosoftIdentityUI();
             services.AddServerSideBlazor()
                 .AddCircuitOptions(opt => { opt.DetailedErrors = true; });
 
@@ -111,8 +118,12 @@ namespace WebBlog
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });

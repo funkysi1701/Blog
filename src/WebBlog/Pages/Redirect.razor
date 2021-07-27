@@ -1,7 +1,7 @@
-﻿@page "/{Year}/{Month}/{Day}/{Title}/"
-@page "/{Year}/{Month}/{Day}/"
-@page "/{Year}/{Month}/"
-@page "/{Year}/"
+﻿@page "/{Year:int}/{Month}/{Day}/{Title}/"
+@page "/{Year:int}/{Month}/{Day}/"
+@page "/{Year:int}/{Month}/"
+@page "/{Year:int}/"
 @inherits RedirectBase
 
 @if (blogs == null)
