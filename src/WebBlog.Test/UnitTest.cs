@@ -153,5 +153,18 @@ namespace WebBlog.Test
             Assert.Equal("LOCALBUILD", t.GitHash);
             Assert.Equal("LBUILD", t.ShortGitHash);
         }
+
+        [Fact]
+        public void BuildReleaseTest()
+        {
+            var br = new BuildRelease();
+            Assert.IsType<BuildRelease>(br);
+            br.Name = "Test";
+            br.Status = "Complete";
+            br.URL = "http://www.google.com";
+            Assert.Equal("Test", br.Name);
+            Assert.Equal("Complete", br.Status);
+            Assert.Equal("http://www.google.com", br.URL);
+        }
     }
 }
