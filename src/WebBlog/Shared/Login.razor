@@ -1,0 +1,13 @@
+﻿<AuthorizeView>
+    <Authorized>
+        <span class="navbar-brand" style="color:white">
+            @context.User.Identity?.Name |
+            <a style="color:white" href="MicrosoftIdentity/Account/SignOut">Logout</a>
+        </span>
+    </Authorized>
+    <NotAuthorized>
+        <span class="navbar-brand" style="color:white">
+            <a style="color:white" href="MicrosoftIdentity/Account/SignIn?redirectUri=/AzureDevOps">Login</a>
+        </span>
+    </NotAuthorized>
+</AuthorizeView>
