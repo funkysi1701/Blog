@@ -18,6 +18,7 @@ namespace WebBlog.Func
                 .Build();
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             var client = new HttpClient();
+            log.LogInformation($"URL: {config.GetValue<string>("URL")}");
             client.GetAsync(config.GetValue<string>("URL"));
         }
     }
