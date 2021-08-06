@@ -64,7 +64,6 @@ namespace WebBlog.Pages
 
         protected async Task LoadData()
         {
-            await GetLocalTime();
             TestString = $"Last Updated {DateTime.UtcNow.AddHours(offset).ToLongTimeString()}";
 
             await BuildLoad();
@@ -240,6 +239,7 @@ namespace WebBlog.Pages
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            await GetLocalTime();
             await JSRuntime.InvokeAsync<object>("TestDataTablesRemove", "#results");
             await JSRuntime.InvokeAsync<object>("TestDataTablesAdd", "#results");
             if (firstRender)
