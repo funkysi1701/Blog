@@ -32,23 +32,28 @@ namespace WebBlog.Pages
         protected string NumberWaiting { get; set; }
         private Timer timer;
         protected int offset;
+        protected bool connected { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             var creds = new VssBasicCredential(string.Empty, Config.GetSection("DevOpsPAT").Value);
 
             var connection = new VssConnection(new Uri(Config.GetSection("DevOpsURL").Value), creds);
-            var projectclient = await connection.GetClientAsync<ProjectHttpClient>();
-            projects = await projectclient.GetProjects();
-            buildclient = await connection.GetClientAsync<BuildHttpClient>();
-            relclient = await connection.GetClientAsync<ReleaseHttpClient>();
-            if (Builds == null)
+            if (connection.HasAuthenticated)
             {
-                Builds = new();
+                connected = true;
+                var projectclient = await connection.GetClientAsync<ProjectHttpClient>();
+                projects = await projectclient.GetProjects();
+                buildclient = await connection.GetClientAsync<BuildHttpClient>();
+                relclient = await connection.GetClientAsync<ReleaseHttpClient>();
+                if (Builds == null)
+                {
+                    Builds = new();
+                }
+                if (BuildRelease == null) { BuildRelease = new(); }
+                if (Releases == null) { Releases = new(); }
+                await LoadData();
             }
-            if (BuildRelease == null) { BuildRelease = new(); }
-            if (Releases == null) { Releases = new(); }
-            await LoadData();
         }
 
         protected async Task GetLocalTime()
@@ -257,8 +262,11 @@ namespace WebBlog.Pages
 
         private void OnTimerInterval(object sender, ElapsedEventArgs e)
         {
-            InvokeAsync(() => LoadData());
-            InvokeAsync(() => StateHasChanged());
+            if (connected)
+            {
+                InvokeAsync(() => LoadData());
+                InvokeAsync(() => StateHasChanged());
+            }
         }
 
         public void Dispose()
