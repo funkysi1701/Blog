@@ -32,7 +32,7 @@ namespace WebBlog.Pages
         protected string NumberWaiting { get; set; }
         private Timer timer;
         protected int offset;
-        protected bool Connected { get; set; } = false;
+        protected bool Connected { get; set; } = true;
 
         protected override async Task OnInitializedAsync()
         {
