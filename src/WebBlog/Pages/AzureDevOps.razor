@@ -13,7 +13,11 @@
         @NumberOfAgents
         <br />
         <button @onclick="@(async () => await LoadData())">Reload Data</button>
-        @if (BuildRelease == null)
+        @if (!Connected)
+        {
+            <p><em>Invalid PAT (probably expired!)</em></p>
+        }
+        else if (BuildRelease == null)
         {
             <p><em>Loading...</em></p>
         }

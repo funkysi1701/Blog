@@ -32,16 +32,16 @@ namespace WebBlog.Pages
         protected string NumberWaiting { get; set; }
         private Timer timer;
         protected int offset;
-        protected bool connected { get; set; }
+        protected bool Connected { get; set; } = true;
 
         protected override async Task OnInitializedAsync()
         {
             var creds = new VssBasicCredential(string.Empty, Config.GetSection("DevOpsPAT").Value);
 
             var connection = new VssConnection(new Uri(Config.GetSection("DevOpsURL").Value), creds);
-            if (connection.HasAuthenticated)
+
+            try
             {
-                connected = true;
                 var projectclient = await connection.GetClientAsync<ProjectHttpClient>();
                 projects = await projectclient.GetProjects();
                 buildclient = await connection.GetClientAsync<BuildHttpClient>();
@@ -53,6 +53,11 @@ namespace WebBlog.Pages
                 if (BuildRelease == null) { BuildRelease = new(); }
                 if (Releases == null) { Releases = new(); }
                 await LoadData();
+                Connected = true;
+            }
+            catch
+            {
+                Connected = false;
             }
         }
 
@@ -123,20 +128,23 @@ namespace WebBlog.Pages
 
         protected async Task ReleaseLoad()
         {
-            foreach (var proj in projects)
+            if (projects != null)
             {
-                var rs = await relclient.GetDeploymentsAsync(proj.Name).ConfigureAwait(false);
-                foreach (var release in rs)
+                foreach (var proj in projects)
                 {
-                    var old = Releases.FirstOrDefault(x => x.Id == release.Id);
-                    var oldbr = BuildRelease.FirstOrDefault(x => x.Id == release.Id);
-                    Releases.Remove(old);
-                    BuildRelease.Remove(oldbr);
-                    release.ProjectReference = new();
-                    release.ProjectReference.Name = proj.Name;
-                    Releases.Add(release);
-                    BuildRelease br = GetRelease(proj, release);
-                    BuildRelease.Add(br);
+                    var rs = await relclient.GetDeploymentsAsync(proj.Name).ConfigureAwait(false);
+                    foreach (var release in rs)
+                    {
+                        var old = Releases.FirstOrDefault(x => x.Id == release.Id);
+                        var oldbr = BuildRelease.FirstOrDefault(x => x.Id == release.Id);
+                        Releases.Remove(old);
+                        BuildRelease.Remove(oldbr);
+                        release.ProjectReference = new();
+                        release.ProjectReference.Name = proj.Name;
+                        Releases.Add(release);
+                        BuildRelease br = GetRelease(proj, release);
+                        BuildRelease.Add(br);
+                    }
                 }
             }
         }
@@ -160,18 +168,21 @@ namespace WebBlog.Pages
 
         protected async Task BuildLoad()
         {
-            foreach (var proj in projects)
+            if (projects != null)
             {
-                var bs = await buildclient.GetBuildsAsync(proj.Id);
-                foreach (var b in bs)
+                foreach (var proj in projects)
                 {
-                    RemoveBuilds(b);
+                    var bs = await buildclient.GetBuildsAsync(proj.Id);
+                    foreach (var b in bs)
+                    {
+                        RemoveBuilds(b);
 
-                    RemoveBuildRelease(b);
+                        RemoveBuildRelease(b);
 
-                    Builds.Add(b);
-                    BuildRelease br = GetBuild(proj, b);
-                    BuildRelease.Add(br);
+                        Builds.Add(b);
+                        BuildRelease br = GetBuild(proj, b);
+                        BuildRelease.Add(br);
+                    }
                 }
             }
         }
@@ -262,7 +273,7 @@ namespace WebBlog.Pages
 
         private void OnTimerInterval(object sender, ElapsedEventArgs e)
         {
-            if (connected)
+            if (Connected)
             {
                 InvokeAsync(() => LoadData());
                 InvokeAsync(() => StateHasChanged());
