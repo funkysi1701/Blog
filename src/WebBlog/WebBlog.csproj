@@ -15,7 +15,7 @@
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="ChartJs.Blazor" Version="1.1.0" />
     <PackageReference Include="ImpSoft.OctopusEnergy.Api" Version="3.0.1" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.18.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.19.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="5.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="5.0.10" />
     <PackageReference Include="Microsoft.Identity.Web" Version="1.18.0" />
