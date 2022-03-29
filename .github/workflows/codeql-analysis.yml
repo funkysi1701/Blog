@@ -54,9 +54,9 @@ jobs:
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 5.0.100
+        dotnet-version: 5.0.x
         
     - name: Build
       run: dotnet build -c Release --no-cache ./src/WebBlog.Test/WebBlog.Test.csproj
