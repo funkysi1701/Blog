@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <ApplicationInsightsResourceId>/subscriptions/aa403fbf-410c-4158-9746-9c5f82cfa2dc/resourceGroups/Blog/providers/microsoft.insights/components/FSiBlog</ApplicationInsightsResourceId>
     <UserSecretsId>de9eaf7b-325b-4049-a5dd-3aa877b5c692</UserSecretsId>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
