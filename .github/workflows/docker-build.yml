@@ -30,7 +30,12 @@ jobs:
       
     - name: Run Code Coverage
       run: dotnet test -c Release --no-build /p:CollectCoverage=true /p:CoverletOutput="../" /p:ExcludeByFile=\"**/Migrations/**/*%2c**/Models/**/*%2c**/Views/**/*\" /p:MergeWith="../coverage.json" /maxcpucount:1 /p:CoverletOutputFormat=\"json,opencover\" ./src/WebBlog.Test/WebBlog.Test.csproj
-    
+    - name: Test Summary
+      uses: test-summary/action@v1
+      with:
+        paths: |
+          ./src/coverage.opencover.xml
+      if: always()    
     - name: Upload coverage to Codecov  
       uses: codecov/codecov-action@v3
       with:
