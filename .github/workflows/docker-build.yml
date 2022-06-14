@@ -34,7 +34,7 @@ jobs:
     - name: Test Summary
       uses: test-summary/action@v1
       with:
-        paths: results/**/*.json
+        paths: /**/*.json
       if: always()    
     
     - name: Upload coverage to Codecov  
