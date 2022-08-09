@@ -90,7 +90,7 @@ steps:
     publishWebProjects: true
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) /p:SourceRevisionId=$(Build.SourceVersion)'    
 
-- task: PublishPipelineArtifact@1
+- task: PublishPipelineArtifact@1.199.0
   inputs:
     targetPath: '$(Pipeline.Workspace)/a/WebBlog.zip'
     artifact: 'web'
@@ -111,7 +111,7 @@ steps:
     projects: 'src/WebBlog.Func/WebBlog.Func.csproj'
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) /p:SourceRevisionId=$(Build.SourceVersion)'
 
-- task: PublishPipelineArtifact@1
+- task: PublishPipelineArtifact@1.199.0
   inputs:
     targetPath: '$(Pipeline.Workspace)/a/WebBlog.Func.zip'
     artifact: 'func'
