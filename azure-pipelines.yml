@@ -77,7 +77,7 @@ steps:
     reports: '$(Build.SourcesDirectory)\src\WebBlog.Test\coverage.opencover.xml'
     targetdir: '$(Build.SourcesDirectory)\CodeCoverage'
 
-- task: PublishCodeCoverageResults@1
+- task: PublishCodeCoverageResults@1.200.0
   displayName: 'Publish code coverage'
   inputs:
     codeCoverageTool: Cobertura
