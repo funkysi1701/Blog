@@ -35,7 +35,7 @@ steps:
 
 - task: NuGetToolInstaller@1
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2.208.1
   displayName: 'Restore'
   inputs:
     command: 'restore'
@@ -57,14 +57,14 @@ steps:
       sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)\src\*\coverage.opencover.xml
       sonar.coverage.jacoco.xmlReportPaths=$(Build.SourcesDirectory)\src\*\coverage.opencover.xml
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2.208.1
   displayName: 'Build Web'
   inputs:
     command: 'build'
     projects: 'src/WebBlog/WebBlog.csproj'
     arguments: '--configuration $(BuildConfiguration)'
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2.208.1
   displayName: 'Running Tests'
   inputs:
     command: 'test'
@@ -83,7 +83,7 @@ steps:
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(Build.SourcesDirectory)\CodeCoverage\Cobertura.xml'  
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2.208.1
   displayName: 'Publish'
   inputs:
     command: 'publish'
@@ -96,14 +96,14 @@ steps:
     artifact: 'web'
     publishLocation: 'pipeline'    
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2.208.1
   displayName: 'Build Func'
   inputs:
     command: 'build'
     projects: 'src/WebBlog.Func/WebBlog.Func.csproj'
     arguments: '--configuration $(BuildConfiguration)'
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2.208.1
   displayName: 'Publish'
   inputs:
     command: 'publish'
