@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pulumi.Azure" Version="5.26.1" />
+    <PackageReference Include="Pulumi.Azure" Version="5.27.0" />
   </ItemGroup>
 
 </Project>
