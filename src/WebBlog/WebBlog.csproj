@@ -16,7 +16,7 @@
     <PackageReference Include="ChartJs.Blazor" Version="1.1.0" />
     <PackageReference Include="ImpSoft.OctopusEnergy.Api" Version="3.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="6.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="6.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="5.0.17" />
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.10" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.25.10" />
